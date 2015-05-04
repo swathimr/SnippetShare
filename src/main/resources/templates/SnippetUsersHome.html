@@ -1,11 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1"/>
-<title>SnippetShare Home Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snippet Share Home Page</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"  />
 </head>
 <body>
-<p th:text="'email: ' + ${user.email}"/>
-<h1>This is Snippet users homepage.working on it.</h1>
+<div class="navbar-wrapper">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container-fluid">
+
+	    <div class="navbar-header">
+	       <a class="navbar-brand" href="#" style="color:white;font-family: 'Poller One', cursive;"><strong>SnippetShare</strong></a>
+	    </div>
+    
+     	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav navbar-right">
+			<li><a href="#" data-toggle="modal" data-target="#signupModal" style="color:white"><strong>Home</strong></a></li>
+	       <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
+	      </ul>
+    	</div>   
+	 </div><!-- container-fluid -->
+ </nav>
+ </div><!-- end of navbar wrapper -->
+ 
+ <div class="row ">
+ 
+ 
+ <div class="col-md-8 col-md-offset-1" style="background-color:#f5f5f5;">
+ 	<div class= "container">
+ 	
+ 	<h2><strong><center>Created Boards</center></strong></h2>
+ 	
+ 	<p th:each="entry: ${allBoards}">
+  <span th:text="'Key: ' + ${entry.id} + ', Value: ' + ${entry.boardName}"></span>
+	</p>
+
+ </div>
+ </div>
+ 
+  <div class="col-md-2" style="margin-left:1%;"><button type="button" class="btn btn-warning" style="width:70%;" data-toggle="modal" data-target="#myModal"> + Create Board</button></div>
+ 
+ </div><!-- end of  row -->
+ 
+ <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Create Board</strong></h4>
+        </div>
+        <div class="modal-body">
+          
+		<form method="POST" role="form" action="/SnippetUsersHome/createBoard">
+			<div class="row">
+			<div class="col-xs-7 col-md-offset-2">
+				<label for="boardName">Board Name</label>
+				<input type="text" class="form-control" name="boardName" id="boardName"/>
+			</div>
+			</div><br/>
+			
+				<input type="hidden" class="form-control" name="boardOwner" id="boardOwner" th:value="${user.id}"/>
+			
+			<div class="row">
+			<div class="col-xs-7 col-md-offset-2">
+				<label for="category">Category</label>
+				<select class="form-control" name="category" id="category">
+		        <option>Select One</option>
+     			<option>Java</option>
+      			<option>Scala</option>
+      			<option>C / C++</option>
+      			<option>HTML / JavaScript</option>
+      			<option>PHP / Perl / Python</option>
+      		</select>
+				
+			</div>
+			</div><br/>
+			<div class="row">
+			<div class="col-xs-7 col-md-offset-2">
+				<label for="privacy">Privacy</label>
+				<select class="form-control" name="privacy" id="privacy">
+		        <option>Select Private or Public</option>
+     			<option>Private</option>
+      			<option>Public</option>
+      			</select>
+			</div>
+			</div><br/>
+			<div class="row">
+			<div class="col-xs-7 col-md-offset-2">
+				<label for="privacy">Access users</label>
+				<input type="text" class="form-control" name="accessList" id="accessList"/>
+			</div>
+			</div><br/>
+			
+		<div class="col-xs-7 col-md-offset-2">
+		  <button id="submit" type="submit" class="btn btn-block btn-primary" style="background-color:#ff5a5f;border-color:#ff5a5f;font-weight:bold;">Create Board</button></div><br/>
+		</form>
+		<br/>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+ 
+ 
+ <p th:text="'userid ' + ${user.id}"/>
+ <p th:text="'userid ' + ${allBoards}"/>
+ 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src ="/js/bootstrap.min.js"></script>
 </body>
 </html>

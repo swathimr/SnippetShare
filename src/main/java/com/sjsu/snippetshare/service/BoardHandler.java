@@ -1,6 +1,8 @@
 package com.sjsu.snippetshare.service;
 
+import java.awt.List;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -19,10 +21,10 @@ public class BoardHandler {
 		BasicDBObject createBoard = new BasicDBObject();
 		System.out.println(board.getBoardName());
 		createBoard.put("Name",board.getBoardName());
-		createBoard.put("Owner","swathi6489@gmail.com");
+		createBoard.put("Owner",board.getBoardOwner());
 		createBoard.put("Category",board.getCategory());
 		createBoard.put("Privacy",board.getPrivacy());
-		createBoard.put("AccessList","");
+		createBoard.put("AccessList",board.getAccessList());
 		coll.insert(createBoard);
 		System.out.println("Facebook user inserted into DB::"+createBoard);
 	}
@@ -40,18 +42,21 @@ public class BoardHandler {
 		}
 	}
 	
-	public void getAllBoards() throws UnknownHostException 
+	public HashMap<String, String> getAllBoards(String boardOwn) throws UnknownHostException
 	{
+		HashMap<String,String> boardMap = new HashMap<String,String>();
 		coll = MongoFactory.getConnection().getCollection("Board");
-		BasicDBObject query = new BasicDBObject("Owner","swathi6489@gmail.com");
+		BasicDBObject query = new BasicDBObject("Owner",boardOwn);
 		DBCursor cursor = coll.find(query);
-		try {
-		    while (cursor.hasNext()) {
-		        System.out.println(cursor.next());
+		DBObject curObj;
+		    while (cursor.hasNext()) 
+		    {
+		    	curObj = cursor.next();
+		    	 boardMap.put(curObj.get("_id").toString(),curObj.get("Name").toString());
 		    }
-		} finally {
-		    cursor.close();
-		}
+		cursor.close();
+		System.out.println("map from handler"+boardMap);
+		return boardMap;
 	}
 	
 	public void deleteBoard(String boardName) throws UnknownHostException
