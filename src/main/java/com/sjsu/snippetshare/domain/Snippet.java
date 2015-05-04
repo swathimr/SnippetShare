@@ -1,5 +1,6 @@
 package com.sjsu.snippetshare.domain;
 
+import com.mongodb.DBObject;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
@@ -67,4 +68,13 @@ public class Snippet {
     public void setSnippetId(String snippetId) {
         this.snippetId = snippetId;
     }
+
+    public Snippet makePOJOFromBSON(DBObject dbo) {
+        this.snippetId = (String) dbo.get("snippetId");
+        this.snippetName = (String) dbo.get("snippetName");
+        this.snippetText = (String) dbo.get("snippetText");
+        this.comments = (List<Comment>) dbo.get("comments");
+        return this;
+    }
+
 }

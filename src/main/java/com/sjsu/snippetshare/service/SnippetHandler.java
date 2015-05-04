@@ -1,13 +1,13 @@
 package com.sjsu.snippetshare.service;
 
 import com.mongodb.*;
-import com.sjsu.snippetshare.db.SnippetDAO;
 import com.sjsu.snippetshare.domain.Board;
 import com.sjsu.snippetshare.domain.Comment;
 import com.sjsu.snippetshare.domain.Snippet;
 import org.bson.types.ObjectId;
 
 import java.net.UnknownHostException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,7 +18,7 @@ public class SnippetHandler {
     DBCollection coll;
     BasicDBObject doc;
 
-    public Snippet createSnippet(Snippet snippet, String boardId) {
+    public String createSnippet(Snippet snippet, String boardId) {
         try {
             coll = MongoFactory.getConnection().getCollection("Snippet");
         } catch (UnknownHostException uhe) {
@@ -33,7 +33,7 @@ public class SnippetHandler {
         if(collDB.getN() == 0) {
             throw new MongoException(updateQuery);
         }
-        return snippet;
+        return dbSnippet.toString();
     }
 
     private BasicDBObject createSnippetDBObject(Snippet snippet, BasicDBObject dbSnippet) {
@@ -52,16 +52,16 @@ public class SnippetHandler {
             return null;
         }
         DBObject findQuery = new BasicDBObject("boardId", boardId);
-        
-
-        DBObject dbSnippet = coll.findOne(findQuery);
-        Snippet snippet = new Snippet();
-        snippet.setSnippetId((String) dbSnippet.get("snippetId"));
-        snippet.setSnippetName((String) dbSnippet.get("snippetName"));
-        snippet.setSnippetText((String) dbSnippet.get("snippetText"));
-        snippet.setOwnerId((String) dbSnippet.get("ownerId"));
-        BasicDBList dbComments = new BasicDBList();
-
+        DBObject dbBoard = coll.findOne(findQuery);
+        BasicDBList snippets = (BasicDBList) dbBoard.get("snippets");
+        Snippet snippet = null;
+        for (Iterator<Object> iterator = snippets.iterator(); iterator.hasNext(); ) {
+            BasicDBObject dbSnippet = (BasicDBObject) iterator.next();
+            if (dbSnippet.get("snippetId") == snippetId) {
+                snippet = snippet.makePOJOFromBSON(dbSnippet);
+            }
+        }
+        return snippet;
     }
 
     private String convertObjectIdToString(ObjectId id) {
