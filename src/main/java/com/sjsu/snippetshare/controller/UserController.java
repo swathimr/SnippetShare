@@ -25,14 +25,15 @@ public class UserController {
 	UserHandler userHndlr;
 
 	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public String loginUser(@ModelAttribute User user,Model model) throws UnknownHostException
+	public String loginUser(@ModelAttribute User user,RedirectAttributes redirectAttribute) throws UnknownHostException
 	{
 		System.out.println("yup in here"+user.getEmail());
 		userHndlr= new UserHandler();
 		boolean userVal=userHndlr.checkIfUserExists(user);
 		if(userVal)
 		{
-		return "redirect:/SnippetUsersHome";
+			redirectAttribute.addFlashAttribute("user",user);
+		return "redirect:/SnippetUsersHome/"+user.id;
 		}
 		else
 		{
@@ -51,18 +52,20 @@ public class UserController {
 		if(userVal)
 		{
 			//model.addAttribute("user",user);
+			System.out.println(user.getId());
 			redirectAttribute.addFlashAttribute("user",user);
-			return "redirect:/SnippetUsersHome";
+			return "redirect:/SnippetUsersHome/"+user.id;
 		}
 		else
 		{
 			userHndlr.SignUpUser(user);
-			return "redirect:/SnippetUsersHome";
+			redirectAttribute.addFlashAttribute("user",user);
+			return "redirect:/SnippetUsersHome/"+user.id;
 		}
 	}
 	
 	@RequestMapping(value="/signup",method=RequestMethod.POST)
-	public String createUser(@ModelAttribute User user,Model model) throws UnknownHostException
+	public String createUser(@ModelAttribute User user,RedirectAttributes redirectAttribute) throws UnknownHostException
 	{
 		userHndlr= new UserHandler();
 		boolean userVal=userHndlr.checkIfUserExists(user);
@@ -71,7 +74,8 @@ public class UserController {
 			System.out.println("Email id does not exist.So signing up the user");
 			userHndlr.SignUpUser(user);
 		}
-		return "redirect:/SnippetUsersHome";
+		redirectAttribute.addFlashAttribute("user",user);
+		return "redirect:/SnippetUsersHome/"+user.id;
 	}
 
 }

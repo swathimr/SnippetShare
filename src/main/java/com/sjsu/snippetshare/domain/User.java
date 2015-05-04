@@ -1,7 +1,11 @@
 package com.sjsu.snippetshare.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
 	
+	@JsonProperty("_id")
+	public String id;
 	private String email;
 	private String password;
 	private String name;
@@ -23,6 +27,12 @@ public class User {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }
