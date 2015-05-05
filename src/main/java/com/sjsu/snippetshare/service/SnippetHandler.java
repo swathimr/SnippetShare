@@ -19,7 +19,7 @@ public class SnippetHandler {
     DBCollection coll;
     BasicDBObject doc;
 
-    public Snippet addSnippet(Snippet snippet, ObjectId boardId) {
+    public Snippet addSnippet(String boardid, Snippet snippet) {
         try {
             coll = MongoFactory.getConnection().getCollection("Board");
         } catch (UnknownHostException uhe) {
@@ -27,6 +27,7 @@ public class SnippetHandler {
         }
         snippet.setSnippetId(convertObjectIdToString(new ObjectId()));
         BasicDBObject dbSnippet = createSnippetDBObject(snippet);
+        ObjectId boardId = new ObjectId(boardid);
         DBObject updateQuery = new BasicDBObject("_id", boardId);
         BasicDBObject updateCommand = new BasicDBObject("$push", new BasicDBObject("snippets", dbSnippet));
         coll.update(updateQuery, updateCommand);
@@ -45,12 +46,13 @@ public class SnippetHandler {
         return dbSnippet;
     }
 
-    public Snippet getSnippet(ObjectId boardId, String snippetId) {
+    public Snippet getSnippet(String boardid, String snippetId) {
         try {
             coll = MongoFactory.getConnection().getCollection("Board");
         } catch (UnknownHostException uhe) {
             return null;
         }
+        ObjectId boardId = new ObjectId(boardid);
         BasicDBObject dbo = new BasicDBObject("_id", boardId);
         DBObject dbBoard = coll.findOne(dbo);
         Snippet snippet = new Snippet();
@@ -64,12 +66,13 @@ public class SnippetHandler {
         return snippet;
     }
 
-    public Snippet updateSnippet(ObjectId boardId, Snippet snippet) {
+    public Snippet updateSnippet(String boardid, Snippet snippet) {
         try {
             coll = MongoFactory.getConnection().getCollection("Board");
         } catch (UnknownHostException uhe) {
             return null;
         }
+        ObjectId boardId = new ObjectId(boardid);
         BasicDBObject dbBoard = new BasicDBObject("_id", boardId);
         BasicDBObject snipId = new BasicDBObject("snippetId", snippet.getSnippetId());
         BasicDBObject snip = new BasicDBObject("snippets", snipId);
@@ -91,12 +94,13 @@ public class SnippetHandler {
         return id.toString();
     }
 
-    public boolean deleteSnippet(ObjectId boardId, String snippetId) {
+    public boolean deleteSnippet(String boardid, String snippetId) {
         try {
             coll = MongoFactory.getConnection().getCollection("Board");
         } catch (UnknownHostException uhe) {
             return false;
         }
+        ObjectId boardId = new ObjectId(boardid);
         BasicDBObject dbBoard = new BasicDBObject("_id", boardId);
         BasicDBObject snipId = new BasicDBObject("snippetId", snippetId);
         BasicDBObject snip = new BasicDBObject("snippets", snipId);
@@ -108,12 +112,13 @@ public class SnippetHandler {
         return true;
     }
 
-    public List<Snippet> getAllSnippets(ObjectId boardId) {
+    public List<Snippet> getAllSnippets(String boardid) {
         try {
             coll = MongoFactory.getConnection().getCollection("Board");
         } catch (UnknownHostException uhe) {
             return null;
         }
+        ObjectId boardId = new ObjectId(boardid);
         BasicDBObject dbo = new BasicDBObject("_id", boardId);
         DBObject dbBoard = coll.findOne(dbo);
         List<Snippet> snippets = new ArrayList<Snippet>();
