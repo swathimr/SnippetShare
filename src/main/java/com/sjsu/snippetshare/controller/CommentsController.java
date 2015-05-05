@@ -46,7 +46,7 @@ public class CommentsController {
 	}
 	
 	
-	@RequestMapping(value="/comments/{id1}/{id2}",method=RequestMethod.PUT)
+	/*@RequestMapping(value="/comments/{id1}/{id2}",method=RequestMethod.PUT)
 	public Comment viewComment(@PathVariable("id1") String snippetOwner,@PathVariable("id2") String comment_id,
 			@ModelAttribute Comment comment,Model model) throws UnknownHostException
 	{
@@ -56,6 +56,6 @@ public class CommentsController {
 		
 		
 		return comment;
-	}
+	}*/
 	
 }

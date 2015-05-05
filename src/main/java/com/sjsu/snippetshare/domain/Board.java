@@ -9,8 +9,11 @@ public class Board {
 	private String boardOwner;
 	private String category;
 	private String privacy;
-	private List<String> accessList =  new ArrayList<>();
-	private List<Snippet> snippets = new ArrayList<>();
+	private List<String> accessList =  new ArrayList<String>();
+	public List<String> getAccessList() {
+		return accessList;
+	}
+	private List<Snippet> snippets = new ArrayList<Snippet>();
 	
 	public String getBoardName() {
 		return boardName;
