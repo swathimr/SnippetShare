@@ -1,21 +1,18 @@
-/*package com.sjsu.snippetshare.service;
+package com.sjsu.snippetshare.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
-
+import com.sjsu.snippetshare.controller.HomeController;
+import com.sjsu.snippetshare.domain.Snippet;
+import com.sjsu.snippetshare.service.SnippetHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.Assert.*;
+import java.util.List;
 
-import com.sjsu.snippetshare.controller.HomeController;
-import com.sjsu.snippetshare.domain.Snippet;
-
-*//**
+/*
  * Created by mallika on 5/4/15.
- *//*
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = HomeController.class)
 public class SnippetHandlerTest {
@@ -61,4 +58,4 @@ public class SnippetHandlerTest {
         List<Snippet> snippets = snippetHandler.getAllSnippets(boardId);
         assertEquals(snippets.size(), 4);
     }
-}*/
+}

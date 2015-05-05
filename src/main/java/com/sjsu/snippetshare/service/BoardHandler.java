@@ -2,17 +2,18 @@ package com.sjsu.snippetshare.service;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
-<<<<<<< HEAD
-=======
 import org.bson.types.ObjectId;
 
->>>>>>> 731cb28e14aa2fd8dca51411c8e4277f3ef18b81
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.sjsu.snippetshare.domain.Board;
+import org.springframework.stereotype.Component;
+
+@Component
 public class BoardHandler {
 
 	DBCollection coll; 
@@ -45,36 +46,22 @@ public class BoardHandler {
 		}
 	}
 	
-	public ArrayList<Board> getAllBoards(String boardOwn) throws UnknownHostException
+	public ArrayList<Board> getAllBoards(String boardOwn, String accessPermission) throws UnknownHostException
 	{
-<<<<<<< HEAD
-
-=======
-		
-		
->>>>>>> 731cb28e14aa2fd8dca51411c8e4277f3ef18b81
 		ArrayList<Board> boardList = new ArrayList<Board>();
 		coll = MongoFactory.getConnection().getCollection("Board");
-		BasicDBObject query = new BasicDBObject("Owner",boardOwn);
-		DBCursor cursor = coll.find(query);
+		DBCursor cursor = coll.find();
 		DBObject curObj;
 		Board board;
-		while (cursor.hasNext()) 
+		while (cursor.hasNext())
 		{
 			board = new Board();
-		    curObj = cursor.next();
-		    String id = curObj.get("_id").toString();
-		    String name = curObj.get("Name").toString();
-		    board.setBoardId(id);
-		    board.setBoardName(name);
-		    System.out.println("ID:"+id);
-		    System.out.println("Name:"+name);
-		    boardList.add(board);
+			curObj = cursor.next();
+			Board boardObj = board.makePOJOFromBSON(curObj);
+			boardList.add(boardObj);
 		}
-		
-		cursor.close();
-		
-		return boardList;
+			cursor.close();
+			return boardList;
 	}
 	
 	public void deleteBoard(String boardName) throws UnknownHostException

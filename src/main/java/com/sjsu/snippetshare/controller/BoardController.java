@@ -4,24 +4,20 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
-<<<<<<< HEAD
 import com.sjsu.snippetshare.domain.Board;
-
-=======
->>>>>>> 731cb28e14aa2fd8dca51411c8e4277f3ef18b81
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sjsu.snippetshare.domain.Board;
 import com.sjsu.snippetshare.domain.User;
 import com.sjsu.snippetshare.service.BoardHandler;
 
-@Controller
+@ComponentScan
+@RestController
 @RequestMapping(value = ("/SnippetUsersHome"))
 public class BoardController {
 	
@@ -33,7 +29,7 @@ public class BoardController {
 		boardHndlr=new BoardHandler();
 		ArrayList<Map> newList = new ArrayList<Map>();
 		System.out.println("5536c0f0b874c0b703a6d27e");
-		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId);//Board();
+		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "Shared");//Board();
 		for(Board b : boardObj)
 		{
 			System.out.println("Get board details");
@@ -41,7 +37,7 @@ public class BoardController {
 			System.out.println(b.getBoardName());
 		}
 		
-		model.addAttribute("allBoards",boardObj);
+		model.addAttribute("ownerBoards",boardObj);
 		
 		
 		// Mallika pls add aop for here nd fetch me the boards only i want to share
