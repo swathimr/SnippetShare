@@ -32,10 +32,14 @@
  <div class="col-md-8 col-md-offset-1" style="background-color:#f5f5f5;">
  	<div class= "container">
  	
- 	<h2><strong><center>Created Boards</center></strong></h2>
+ 	<h2><strong><center>Your Created Boards</center></strong></h2><hr/><br/>
  	
  	<p th:each="entry: ${allBoards}">
-  <span th:text="'Key: ' + ${entry.id} + ', Value: ' + ${entry.boardName}"></span>
+ 	
+	 	
+	 	<img src="/images/board_thumb.jpg" width="8%;"/>
+	 	<span th:text="'Key: ' + ${entry.boardId} + ', Value: ' + ${entry.boardName}"></span>
+	
 	</p>
 
  </div>

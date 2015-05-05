@@ -1,15 +1,16 @@
 package com.sjsu.snippetshare.service;
 
-import java.awt.List;
 import java.net.UnknownHostException;
-import java.util.HashMap;
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.sjsu.snippetshare.domain.Board;
-
 public class BoardHandler {
 
 	DBCollection coll; 
@@ -31,7 +32,6 @@ public class BoardHandler {
 	
 	public void getBoard() throws UnknownHostException
 	{
-		
 		coll = MongoFactory.getConnection().getCollection("Board");
 		BasicDBObject query = new BasicDBObject("Owner","swathi6489@gmail.com");
 		DBObject q1 = coll.findOne(query);
@@ -42,21 +42,33 @@ public class BoardHandler {
 		}
 	}
 	
-	public HashMap<String, String> getAllBoards(String boardOwn) throws UnknownHostException
+	public ArrayList<Board> getAllBoards(String boardOwn) throws UnknownHostException
 	{
-		HashMap<String,String> boardMap = new HashMap<String,String>();
+		
+		JSONObject obj = new org.json.JSONObject();
+		JSONArray array = new JSONArray();
+		ArrayList<Board> boardList = new ArrayList<Board>();
 		coll = MongoFactory.getConnection().getCollection("Board");
 		BasicDBObject query = new BasicDBObject("Owner",boardOwn);
 		DBCursor cursor = coll.find(query);
 		DBObject curObj;
-		    while (cursor.hasNext()) 
-		    {
-		    	curObj = cursor.next();
-		    	 boardMap.put(curObj.get("_id").toString(),curObj.get("Name").toString());
-		    }
+		Board board;
+		while (cursor.hasNext()) 
+		{
+			board = new Board();
+		    curObj = cursor.next();
+		    String id = curObj.get("_id").toString();
+		    String name = curObj.get("Name").toString();
+		    board.setBoardId(id);
+		    board.setBoardName(name);
+		    System.out.println("ID:"+id);
+		    System.out.println("Name:"+name);
+		    boardList.add(board);
+		}
+		
 		cursor.close();
-		System.out.println("map from handler"+boardMap);
-		return boardMap;
+		
+		return boardList;
 	}
 	
 	public void deleteBoard(String boardName) throws UnknownHostException
@@ -71,12 +83,10 @@ public class BoardHandler {
 	public void updateBoard(Board board) throws UnknownHostException
 	{
 		coll = MongoFactory.getConnection().getCollection("Board");
-			 
 		BasicDBObject searchQuery = new BasicDBObject();
 		System.out.println(board.getBoardName());
 		searchQuery.put("Name",board.getBoardName());
 		searchQuery.put("Owner","swathi6489@gmail.com");
-		
 		BasicDBObject newDocument = new BasicDBObject();
 		newDocument.append("$set", new BasicDBObject().append("Name", "newBoardName"));
 		System.out.println("new docs:::"+newDocument);

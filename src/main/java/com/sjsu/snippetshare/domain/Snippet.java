@@ -76,5 +76,5 @@ public class Snippet {
         this.comments = (List<Comment>) dbo.get("comments");
         return this;
     }
-
 }
+

@@ -80,6 +80,4 @@ public class Board {
 	public void setSnippets(List<Snippet> snippets) {
 		this.snippets = snippets;
 	}
-
-
 }

@@ -4,13 +4,18 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
+<<<<<<< HEAD
 import com.sjsu.snippetshare.domain.Board;
+=======
+import org.json.JSONArray;
+>>>>>>> 703a08814fec9bfdbc2982086d8e1255d1ea39d4
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sjsu.snippetshare.domain.Board;
 import com.sjsu.snippetshare.domain.User;
 import com.sjsu.snippetshare.service.BoardHandler;
 
@@ -26,10 +31,16 @@ public class BoardController {
 		boardHndlr=new BoardHandler();
 		ArrayList<Map> newList = new ArrayList<Map>();
 		System.out.println("5536c0f0b874c0b703a6d27e");
-		Map map = boardHndlr.getAllBoards("5536c0f0b874c0b703a6d27e");//Board();
-		System.out.println("map valyue got is :::"+map);
-		newList.add(map);
-		model.addAttribute("allBoards",newList);
+		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId);//Board();
+		//System.out.println("map valyue got is :::"+array);
+		for(Board b : boardObj)
+		{
+			System.out.println("Get board details");
+			System.out.println(b.getBoardId());
+			System.out.println(b.getBoardName());
+		}
+		
+		model.addAttribute("allBoards",boardObj);
 		
 		return "SnippetUsersHome";
 	}
