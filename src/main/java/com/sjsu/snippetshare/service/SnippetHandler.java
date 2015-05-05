@@ -116,7 +116,7 @@ public class SnippetHandler {
         }
         BasicDBObject dbo = new BasicDBObject("_id", boardId);
         DBObject dbBoard = coll.findOne(dbo);
-        List<Snippet> snippets = new ArrayList<>();
+        List<Snippet> snippets = new ArrayList<Snippet>();
         Snippet snippet = new Snippet();
         ArrayList<BasicDBObject> dbSnippets = (ArrayList<BasicDBObject>) dbBoard.get("snippets");
         for (Iterator<BasicDBObject> iterator = dbSnippets.iterator(); iterator.hasNext(); ) {
