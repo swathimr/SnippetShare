@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.sjsu.snippetshare.domain.Board;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,8 +54,8 @@ public class BoardController {
 		return "SnippetUsersHome";
 	}
 	
-	@RequestMapping(value=("/getOneBoard/{boardID}"),method=RequestMethod.GET)
-	public Board getBoard(Model model,@PathVariable String boardID) throws UnknownHostException
+	@RequestMapping(value=("/getOneBoard"),method=RequestMethod.GET)
+	public Board getBoard(Model model,@ModelAttribute String boardID) throws UnknownHostException
 	{
 		boardHndlr=new BoardHandler();
 		Board board = null;

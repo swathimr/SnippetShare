@@ -45,8 +45,7 @@ public class BoardHandler {
 	public ArrayList<Board> getAllBoards(String boardOwn) throws UnknownHostException
 	{
 		
-		JSONObject obj = new org.json.JSONObject();
-		JSONArray array = new JSONArray();
+		
 		ArrayList<Board> boardList = new ArrayList<Board>();
 		coll = MongoFactory.getConnection().getCollection("Board");
 		BasicDBObject query = new BasicDBObject("Owner",boardOwn);
