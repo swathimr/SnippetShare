@@ -1,7 +1,7 @@
 package com.sjsu.snippetshare.controller;
 
-import com.sjsu.snippetshare.domain.Snippet;
-import com.sjsu.snippetshare.service.SnippetHandler;
+import java.util.List;
+
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.List;
+import com.sjsu.snippetshare.domain.Snippet;
+import com.sjsu.snippetshare.service.SnippetHandler;
 
 @EnableAutoConfiguration
 @org.springframework.web.bind.annotation.RestController

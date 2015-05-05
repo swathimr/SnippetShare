@@ -1,15 +1,18 @@
 package com.sjsu.snippetshare.service;
 
-import com.mongodb.*;
-import com.sjsu.snippetshare.domain.Board;
-import com.sjsu.snippetshare.domain.Comment;
-import com.sjsu.snippetshare.domain.Snippet;
-import org.bson.types.ObjectId;
-
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.bson.types.ObjectId;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteResult;
+import com.sjsu.snippetshare.domain.*;
 
 /**
  * Created by mallika on 5/3/15.

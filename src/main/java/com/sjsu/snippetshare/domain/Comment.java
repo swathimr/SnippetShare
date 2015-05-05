@@ -5,8 +5,11 @@ package com.sjsu.snippetshare.domain;
  * Created by mallika on 5/3/15.
  */
 
+<<<<<<< HEAD
 import com.mongodb.BasicDBObject;
 import org.bson.types.ObjectId;
+=======
+>>>>>>> 731cb28e14aa2fd8dca51411c8e4277f3ef18b81
 
 public class Comment 
 {
