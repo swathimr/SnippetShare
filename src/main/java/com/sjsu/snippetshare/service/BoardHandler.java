@@ -78,17 +78,19 @@ public class BoardHandler {
 		coll.remove(delquery);
 	}
 	
-	public void updateBoard(Board board) throws UnknownHostException
+	public Board updateBoard(Board board) throws UnknownHostException
 	{
 		coll = MongoFactory.getConnection().getCollection("Board");
-		BasicDBObject searchQuery = new BasicDBObject();
-		System.out.println(board.getBoardName());
-		searchQuery.put("Name",board.getBoardName());
-		searchQuery.put("Owner","swathi6489@gmail.com");
-		BasicDBObject newDocument = new BasicDBObject();
-		newDocument.append("$set", new BasicDBObject().append("Name", "newBoardName"));
-		System.out.println("new docs:::"+newDocument);
-		coll.update(searchQuery, newDocument);
+		BasicDBObject searchQuery = new BasicDBObject("_id",new ObjectId(board.getBoardId()));
+		System.out.println(board.getBoardId());
+		BasicDBObject updatedDocument = new BasicDBObject();								
+		updatedDocument.append("$set", new BasicDBObject().append("Name", board.getBoardId())
+				.append("Owner", board.getBoardOwner())
+				.append("Category", board.getCategory())
+				.append("Privacy", board.getPrivacy()));
+		System.out.println("new docs:::"+updatedDocument);
+		coll.update(searchQuery, updatedDocument);
+		return board;
 	}
 	
 	public Board getOneBoard(String boardID) throws UnknownHostException 
@@ -116,6 +118,29 @@ public class BoardHandler {
 		
 		//board.setAccessList(accessList);
 		return board;
+		
+	}
+	
+	public Board getBoardInfo(String board_id) throws UnknownHostException
+	{
+		coll = MongoFactory.getConnection().getCollection("Board");
+		//ObjectId objId = new ObjectId(board.getBoardId());
+		ObjectId objId = new ObjectId(board_id);
+		BasicDBObject searchQuery = new BasicDBObject("_id",objId);
+		Board boardObj = new Board();
+		DBObject cursor = coll.findOne(searchQuery);
+		if(cursor != null)
+		{
+			boardObj.setBoardName(cursor.get("Name").toString());
+			boardObj.setBoardOwner(cursor.get("Owner").toString());
+			boardObj.setCategory(cursor.get("Category").toString());
+			boardObj.setPrivacy(cursor.get("Privacy").toString());
+			System.out.println(boardObj.getBoardName());
+			System.out.println(boardObj.getBoardOwner());
+			System.out.println(boardObj.getCategory());
+			System.out.println(boardObj.getPrivacy());
+		}
+		return boardObj;
 		
 	}
 	

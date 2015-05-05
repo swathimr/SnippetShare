@@ -70,13 +70,33 @@ public class BoardController {
 		return board;
 	}
 	
+	
 	@RequestMapping(value=("/updateBoard"),method=RequestMethod.PUT)
-	public String updateBoard(Board board) throws UnknownHostException
+	public Board updateBoard(Model model,@ModelAttribute Board board) throws UnknownHostException
 	{
 		boardHndlr=new BoardHandler();
-		boardHndlr.updateBoard(board);
+		Board b = null;
+		System.out.println("Board::"+board.getBoardId());
+		if(board.getBoardId() != null)
+		{
+			b=boardHndlr.updateBoard(board);
+		}
+		//return "SnippetUsersHome";
+		return b;
+	}
+	
+	@RequestMapping(value=("/boardInfo/{board_id}"),method=RequestMethod.GET)
+	public String boardInfo(Model model,@PathVariable String board_id) throws UnknownHostException
+	{
+		boardHndlr=new BoardHandler();
+		//System.out.println(board.getBoardId());
+		if(board_id!= null)
+		{
+			boardHndlr.getBoardInfo(board_id);
+		}
 		return "SnippetUsersHome";
 	}
+	
 	
 	//delets board based on board name and email id
 	@RequestMapping(value=("/deleteBoard"),method=RequestMethod.DELETE)
