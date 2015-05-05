@@ -1,6 +1,5 @@
 package com.sjsu.snippetshare.service;
 
-import java.awt.List;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 

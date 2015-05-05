@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sjsu.snippetshare.domain.Board;
 import com.sjsu.snippetshare.domain.User;
 import com.sjsu.snippetshare.service.BoardHandler;
 
