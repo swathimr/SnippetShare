@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-	private ObjectId boardId;
+	private String boardId;
 	private String boardName;
 	private String boardOwner;
 	private String category;
@@ -25,11 +25,11 @@ public class Board {
 	public Board() {
 	}
 
-	public ObjectId getBoardId() {
+	public String getBoardId() {
 		return boardId;
 	}
 
-	public void setBoardId(ObjectId boardId) {
+	public void setBoardId(String boardId) {
 		this.boardId = boardId;
 	}
 
