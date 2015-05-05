@@ -15,7 +15,7 @@ public class Snippet {
     private String snippetName;
     private String ownerId;
     private String snippetText;
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<Comment>();
 
     public Snippet(String snippetName, String ownerId, String snippetText) {
         this.snippetName = snippetName;

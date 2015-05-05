@@ -20,9 +20,9 @@ public class CommentsHandler {
 		coll = MongoFactory.getConnection().getCollection("Board");
 		boolean updated = false;
 		String comment_id = new ObjectId().toString();
-		comment.setCommentID(comment_id);
-		BasicDBObject newComment = new BasicDBObject("commentId",comment.getCommentID()).
-				append("text",comment.getText()).append("ownerId",comment.getOwnerID());
+		comment.setCommentId(comment_id);
+		BasicDBObject newComment = new BasicDBObject("commentId",comment.getCommentId()).
+				append("text",comment.getText()).append("ownerId",comment.getOwnerId());
 		DBObject updateQuery = new BasicDBObject("_id", user)
 							.append("Snippets.snippetId", new ObjectId(snippet));
 		BasicDBObject updateCommand =
