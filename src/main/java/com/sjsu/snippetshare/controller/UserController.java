@@ -69,6 +69,7 @@ public class UserController {
 	{
 		userHndlr= new UserHandler();
 		boolean userVal=userHndlr.checkIfUserExists(user);
+		System.out.println("get user id"+user.id);
 		if(!userVal)
 		{
 			System.out.println("Email id does not exist.So signing up the user");

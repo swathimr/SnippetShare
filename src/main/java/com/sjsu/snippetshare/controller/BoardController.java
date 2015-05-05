@@ -10,11 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+<<<<<<< Updated upstream
+=======
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+>>>>>>> Stashed changes
 
 import com.sjsu.snippetshare.domain.Board;
 import com.sjsu.snippetshare.domain.User;
 import com.sjsu.snippetshare.service.BoardHandler;
-
+@RestController
 @Controller
 @RequestMapping(value = ("/SnippetUsersHome"))
 public class BoardController {
@@ -56,8 +61,17 @@ public class BoardController {
 	public String getBoard(Board board) throws UnknownHostException
 	{
 		boardHndlr=new BoardHandler();
+<<<<<<< Updated upstream
 		//boardHndlr.getAllBoards();//Board();
 		return "SnippetUsersHome";
+=======
+		if(!board.getBoardId().equals(null))
+		{
+			board = boardHndlr.getOneBoard(board.getBoardId());//Board();
+		}
+		model.addAttribute("board",board);
+		return board;
+>>>>>>> Stashed changes
 	}
 	
 	@RequestMapping(value=("/updateBoard"),method=RequestMethod.PUT)

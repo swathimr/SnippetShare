@@ -20,7 +20,9 @@ public class UserHandler {
 		{
 			userdoc.append("password", user.getPassword());
 		}
+		
 		coll.insert(userdoc);
+		user.setId(userdoc.getString("_id").toString());
 		System.out.println("Facebook user inserted into DB::"+userdoc);
 	}
 	
@@ -31,9 +33,27 @@ public class UserHandler {
 		System.out.println("collecion is::::"+coll);
 		DBObject q1 = coll.findOne(query);
 		System.out.println("fetched value is:"+q1);
-		user.setId(q1.get("_id").toString());
 		if(q1!=null)
 		{
+			user.setId(q1.get("_id").toString());
+			return true;
+		}
+		else
+		{
+			return false;
+		}	
+	}
+	
+	public boolean checkIfUserExistsForSignUp(User user) throws UnknownHostException
+	{
+		coll = MongoFactory.getConnection().getCollection("User");
+		BasicDBObject query = new BasicDBObject("email",user.getEmail().toString());
+		System.out.println("collecion is::::"+coll);
+		DBObject q1 = coll.findOne(query);
+		System.out.println("fetched value is:"+q1);
+		if(q1==null)
+		{
+			
 			return true;
 		}
 		else
