@@ -36,7 +36,7 @@ public class SnippetHandler {
         return newSnippet;
     }
 
-    private BasicDBObject createSnippetDBObject(Snippet snippet) {
+    public BasicDBObject createSnippetDBObject(Snippet snippet) {
         BasicDBObject dbSnippet = new BasicDBObject();
         dbSnippet.put("snippetId", snippet.getSnippetId());
         dbSnippet.put("snippetName", snippet.getSnippetName());

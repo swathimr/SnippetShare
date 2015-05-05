@@ -4,11 +4,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
-<<<<<<< HEAD
 import com.sjsu.snippetshare.domain.Board;
-=======
-import org.json.JSONArray;
->>>>>>> 703a08814fec9bfdbc2982086d8e1255d1ea39d4
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;

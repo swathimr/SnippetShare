@@ -5,6 +5,7 @@ package com.sjsu.snippetshare.domain;
  * Created by mallika on 5/3/15.
  */
 
+import com.mongodb.BasicDBObject;
 import org.bson.types.ObjectId;
 
 public class Comment 
@@ -17,6 +18,8 @@ public class Comment
         this.ownerId = ownerId;
         this.text = text;
     }
+
+    public Comment() {}
 
     public String getCommentId() {
         return commentId;
@@ -40,5 +43,12 @@ public class Comment
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public Comment makePOJOFromBSON(BasicDBObject dbo) {
+        this.commentId = (String) dbo.get("commentId");
+        this.text = (String) dbo.get("text");
+        this.ownerId = (String) dbo.get("ownerId");
+        return this;
     }
 }

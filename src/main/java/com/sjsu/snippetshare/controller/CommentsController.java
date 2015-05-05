@@ -14,7 +14,7 @@ import com.sjsu.snippetshare.domain.Comment;
 import com.sjsu.snippetshare.service.CommentsHandler;
 @Controller
 public class CommentsController {
-
+/*
 	CommentsHandler handler;
 	@RequestMapping(value="/comments/{user}/{board}/{snippet}",method=RequestMethod.PUT)
 	public Comment createComment(@PathVariable("user") String user,@PathVariable("board") String board,
@@ -46,7 +46,7 @@ public class CommentsController {
 	}
 	
 	
-	/*@RequestMapping(value="/comments/{id1}/{id2}",method=RequestMethod.PUT)
+	@RequestMapping(value="/comments/{id1}/{id2}",method=RequestMethod.PUT)
 	public Comment viewComment(@PathVariable("id1") String snippetOwner,@PathVariable("id2") String comment_id,
 			@ModelAttribute Comment comment,Model model) throws UnknownHostException
 	{

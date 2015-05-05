@@ -1,7 +1,11 @@
 package com.sjsu.snippetshare.service;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
+import com.sjsu.snippetshare.domain.Snippet;
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
@@ -12,7 +16,86 @@ import com.mongodb.WriteResult;
 import com.sjsu.snippetshare.domain.Comment;
 
 public class CommentsHandler {
-	
+	DBCollection coll;
+	BasicDBObject doc;
+
+	public Comment addComment(String boardid, String snippetId, Comment comment) {
+		try {
+			coll = MongoFactory.getConnection().getCollection("Board");
+		} catch (UnknownHostException uhe) {
+			return null;
+		}
+		comment.setCommentId(convertObjectIdToString(new ObjectId()));
+		BasicDBObject dbComment = createCommentDBObject(comment);
+		ObjectId boardId = new ObjectId(boardid);
+		BasicDBObject dbo = new BasicDBObject("_id", boardId);
+		DBObject dbBoard = coll.findOne(dbo);
+		Snippet newSnippet = new Snippet();
+		ArrayList<BasicDBObject> dbSnippets = (ArrayList<BasicDBObject>) dbBoard.get("snippets");
+		for (Iterator<BasicDBObject> iterator = dbSnippets.iterator(); iterator.hasNext(); ) {
+			BasicDBObject dbSnippet = (BasicDBObject) iterator.next();
+			if (dbSnippet.get("snippetId").equals(snippetId)) {
+				newSnippet = newSnippet.makePOJOFromBSON(dbSnippet);
+				break;
+			}
+		}
+		newSnippet.addComment(comment);
+		SnippetHandler snippetHandler = new SnippetHandler();
+		snippetHandler.updateSnippet(boardid, newSnippet);
+		Comment newComment = new Comment();
+		newComment = newComment.makePOJOFromBSON(dbComment);
+		return newComment;
+	}
+
+	private BasicDBObject createCommentDBObject(Comment comment) {
+		BasicDBObject dbComment = new BasicDBObject();
+		dbComment.put("commentId", comment.getCommentId());
+		dbComment.put("text", comment.getText());
+		dbComment.put("ownerId", comment.getOwnerId());
+		return dbComment;
+	}
+
+	public Comment getComment(String boardid, String snippetId, String commentId) {
+		return null;
+	}
+
+	public Comment updateComment(String boardid, String snippetId, Comment comment) {
+		return null;
+	}
+
+	public boolean deleteComment(String boardid, String snippetId, String commentId) {
+		return false;
+	}
+
+	public List<Comment> getAllComments(String boardid, String snippetId) {
+		return null;
+	}
+
+	private String convertObjectIdToString(ObjectId id) {
+		return id.toString();
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
 	DBCollection coll; 
 	BasicDBObject doc;
 	public Comment createComment(Comment comment, String user, String board,String snippet) throws UnknownHostException 
@@ -77,5 +160,6 @@ public class CommentsHandler {
 		
 		return null;
 	}
+	*/
 
-}
+
