@@ -52,12 +52,20 @@ public class BoardController {
 		return "SnippetUsersHome";
 	}
 	
-	@RequestMapping(value=("/getBoard"),method=RequestMethod.GET)
-	public String getBoard(Board board) throws UnknownHostException
+	@RequestMapping(value=("/getOneBoard/{boardID}"),method=RequestMethod.GET)
+	public Board getBoard(Model model,@PathVariable String boardID) throws UnknownHostException
 	{
 		boardHndlr=new BoardHandler();
-		//boardHndlr.getAllBoards();//Board();
-		return "SnippetUsersHome";
+		Board board = null;
+		
+		if(!boardID.equals(null))
+		{
+			board = boardHndlr.getOneBoard(boardID);//Board();
+		}
+		
+		model.addAttribute("board",board);
+		//return "SnippetUsersHome";
+		return board;
 	}
 	
 	@RequestMapping(value=("/updateBoard"),method=RequestMethod.PUT)
@@ -74,5 +82,16 @@ public class BoardController {
 	{
 		boardHndlr=new BoardHandler();
 		boardHndlr.deleteBoard(boardname);
+	}
+	
+	@RequestMapping(value=("/getBoards"),method=RequestMethod.GET)
+	public String getAllBoardsByOwner(Board board,Model model) throws UnknownHostException
+	{
+		boardHndlr=new BoardHandler();
+		System.out.println(board.getBoardOwner());
+//		Map map = boardHndlr.getAllBoards(board); 
+//		//map = boardHndlr.getAllBoards(board);//Board();
+//		model.addAttribute("allBoards",map);
+		return "SnippetUsersHome";
 	}
 }

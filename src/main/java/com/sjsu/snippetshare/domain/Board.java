@@ -3,6 +3,8 @@ package com.sjsu.snippetshare.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 public class Board {
 	private String boardId;
 	private String boardName;
@@ -53,6 +55,11 @@ public class Board {
 	}
 	public void setPrivacy(String privacy) {
 		this.privacy = privacy;
+	}
+	
+	public void addToAccessList(ObjectId user)
+	{
+		this.accessList.add(user.toString());
 	}
 	
 }

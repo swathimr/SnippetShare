@@ -3,6 +3,7 @@ package com.sjsu.snippetshare.service;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,7 +26,8 @@ public class BoardHandler {
 		createBoard.put("Owner",board.getBoardOwner());
 		createBoard.put("Category",board.getCategory());
 		createBoard.put("Privacy",board.getPrivacy());
-		createBoard.put("AccessList",board.getAccessList());
+		createBoard.put("snippets", board.getSnippets());
+		createBoard.put("AccessList",board.getAccessList().add("test@gmail.com"));
 		coll.insert(createBoard);
 		System.out.println("Facebook user inserted into DB::"+createBoard);
 	}
@@ -91,6 +93,34 @@ public class BoardHandler {
 		newDocument.append("$set", new BasicDBObject().append("Name", "newBoardName"));
 		System.out.println("new docs:::"+newDocument);
 		coll.update(searchQuery, newDocument);
+	}
+	
+	public Board getOneBoard(String boardID) throws UnknownHostException 
+	{
+		coll = MongoFactory.getConnection().getCollection("Board");
+		//BasicDBObject query = new BasicDBObject("Owner",board.getBoardOwner());
+		BasicDBObject query = new BasicDBObject("_id",new ObjectId(boardID));
+		DBObject cursor = coll.findOne(query);
+		Board board = new Board();
+		if(cursor != null)
+		{
+			board.setBoardId(cursor.get("_id").toString());
+			board.setBoardName(cursor.get("Name").toString());
+			board.setBoardOwner(cursor.get("Owner").toString());
+			ArrayList<String> access = new ArrayList<String>();
+			access.add(cursor.get("AccessList").toString());
+			board.setAccessList(access);
+			board.setCategory(cursor.get("Category").toString());
+			board.setPrivacy(cursor.get("Privacy").toString());
+			System.out.println(board.getBoardName());
+			System.out.println(board.getBoardOwner());
+			System.out.println(board.getCategory());
+			System.out.println(board.getPrivacy());
+		}
+		
+		//board.setAccessList(accessList);
+		return board;
+		
 	}
 	
 	
