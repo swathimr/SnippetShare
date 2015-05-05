@@ -3,6 +3,8 @@ package com.sjsu.snippetshare.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.DBObject;
+
 public class Board {
 	private String boardId;
 	private String boardName;
@@ -77,4 +79,26 @@ public class Board {
 	public void setSnippets(List<Snippet> snippets) {
 		this.snippets = snippets;
 	}
+	
+	public Board makePOJOFromBSON(DBObject dbo) 
+	{
+		String id = dbo.get("_id").toString();
+	    String name = dbo.get("Name").toString();
+	    String owner = dbo.get("Owner").toString();
+	    String privacy = dbo.get("Privacy").toString();
+	    String category = dbo.get("Category").toString();
+	    ArrayList<String> accessList = new ArrayList<String>(); 
+	    accessList.add(dbo.get("AccessList").toString());
+//	    ArrayList<Snippet> snippetList = new ArrayList<Snippet>();
+//	    Snippet snip = new Snippet();
+//	    snip.
+//	    snippetList.add(dbo.get("snippets").toString());
+		this.boardId = id;
+		this.boardName = name;
+		this.boardOwner = owner;
+		this.privacy = privacy;
+		this.category = category;
+		this.accessList = accessList;
+        return this;
+    }
 }
