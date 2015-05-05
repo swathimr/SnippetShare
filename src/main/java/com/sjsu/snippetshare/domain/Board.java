@@ -6,13 +6,15 @@ import org.springframework.context.annotation.Bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.DBObject;
+
 public class Board {
 	private String boardId;
 	private String boardName;
 	private String boardOwner;
 	private String category;
 	private String privacy;
-	private List<String> accessList =  new ArrayList<String>();
+	private List<String> accessList = new ArrayList<String>();
 	private List<Snippet> snippets = new ArrayList<Snippet>();
 
 	public Board(String boardName, String boardOwner, String category, String privacy) {
@@ -81,8 +83,8 @@ public class Board {
 		this.snippets = snippets;
 	}
 
-	public Board makePOJOFromBSON(DBObject dbo)
-	{
+
+	public Board makePOJOFromBSON(DBObject dbo) {
 		String id = dbo.get("_id").toString();
 		String name = dbo.get("Name").toString();
 		String owner = dbo.get("Owner").toString();
@@ -90,6 +92,10 @@ public class Board {
 		String category = dbo.get("Category").toString();
 		ArrayList<String> accessList = new ArrayList<String>();
 		accessList.add(dbo.get("AccessList").toString());
+//	    ArrayList<Snippet> snippetList = new ArrayList<Snippet>();
+//	    Snippet snip = new Snippet();
+//	    snip.
+//	    snippetList.add(dbo.get("snippets").toString());
 		this.boardId = id;
 		this.boardName = name;
 		this.boardOwner = owner;
