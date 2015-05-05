@@ -5,7 +5,6 @@ package com.sjsu.snippetshare.domain;
  * Created by mallika on 5/3/15.
  */
 
-import org.bson.types.ObjectId;
 
 public class Comment 
 {

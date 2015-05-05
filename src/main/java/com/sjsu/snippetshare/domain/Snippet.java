@@ -1,10 +1,9 @@
 package com.sjsu.snippetshare.domain;
 
-import com.mongodb.DBObject;
-import org.bson.types.ObjectId;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.mongodb.DBObject;
 
 /**
  * Created by mallika on 5/3/15.

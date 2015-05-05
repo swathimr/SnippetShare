@@ -74,8 +74,7 @@ public class BoardHandler {
 	{
 		coll = MongoFactory.getConnection().getCollection("Board");
 		BasicDBObject delquery = new BasicDBObject();
-		delquery.put("Name",boardName);
-		delquery.put("Owner", "swathi6489@gmail.com");
+		delquery.put("_id",new ObjectId(boardName));
 		coll.remove(delquery);
 	}
 	

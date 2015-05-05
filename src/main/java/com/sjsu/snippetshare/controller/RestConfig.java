@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.sjsu.snippetshare.domain.*;
+import com.sjsu.snippetshare.domain.User;
 
 @Controller
 @Configuration
