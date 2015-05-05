@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snippet Share Home Page</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"  />
+<style>
+body {
+     margin: 0;
+     background: url('/images/newCover.jpg');
+     background-size: 100%;
+     background-repeat:no-repeat;
+     display: compact;
+     font: 13px/18px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+</style>
+</head>
+<body>
+
+<!-- facebook login script -->
+<script>
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+   if (response.status === 'connected') {
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {     
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+  
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '794328207319399',
+    cookie     : true,
+    xfbml      : true,
+    version    : 'v2.2'
+  });
+
+ /*  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  }); */
+
+  };
+
+   (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+      
+      document.getElementById("fbemail").value=response.email;
+      document.getElementById("fbname").value=response.name;
+      document.getElementById("fbform").action="snippetshare/users/fblogin";
+      $( "#fbform" ).submit();
+    });
+  }
+</script>
+
+<div class="navbar-wrapper">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container-fluid">
+
+	    <div class="navbar-header">
+	       <a class="navbar-brand" href="#" style="color:white;font-family: 'Poller One', cursive;"><strong>SnippetShare</strong></a>
+	    </div>
+    
+     	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav navbar-right">
+			<li><a href="#" data-toggle="modal" data-target="#signupModal" style="color:white"><strong>Sign Up</strong></a></li>
+	        <li><a href="#" data-toggle="modal" data-target="#myModal" style="color:white"><strong>Login</strong></a></li>
+	       <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
+	        
+	      </ul>
+    	</div>   
+	 </div><!-- container-fluid -->
+ </nav>
+ </div><!-- end of navbar wrapper -->
+
+<h2 style="color:white;margin-top:10%;"><center><strong>CREATE AND SHARE SNIPPETS</strong></center></h2><br/><br/><br/>
+
+<div class="col-md-3" style="margin-left:38%;">
+<button type="submit" class="btn btn-block btn-primary" id="new" style="background-color:#ff5a5f;border-color:#ff5a5f;font-weight:bold;">Login / Sign up to know about it</button>
+</div>
+
+<div class="container" style="color:white;margin-top:8%;">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2><strong>Create Board</strong></h2>
+          <h4>Create your own board and add it under a category. Prioritize your public and private board and provide access to your baords to your set of friends.</h4>
+        </div>
+        <div class="col-md-4">
+          <h2><strong>Share Snippets</strong></h2>
+          <h4>Add a snippet under the created board.Collaborate with your friends and share or view others snippets.</h4>
+       </div>
+        <div class="col-md-4">
+          <h2><strong>Add Comments</strong></h2>
+          <h4>Acknowledge your friends by adding comments or share your views on the snippet. Edit or delete your comments.</h4>
+        </div>
+      </div>
+</div>
+<!-- Login modal dialog -->
+<div id="myModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="col-md-7 col-md-offset-2">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Login</strong></h4>
+        </div>
+        <div class="modal-body">
+          <!-- <fb:login-button size="large" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>onclick="checkLoginState(); -->
+       <!--  <div class="col-md-11"> -->
+        <form action="" id="fbform" role="form" method="post">
+        <input type="hidden" name="email" id="fbemail"/>
+        <input type="hidden" name="name" id="fbname"/>
+       <fb:login-button size="large" id="u_0_1" scope="public_profile,email" login-text="Log in with Facebook" onlogin="checkLoginState();"></fb:login-button>
+       &emsp;&emsp;<strong>(OR)</strong>
+       </form>
+		<div id="status"></div>
+		<!-- </div> -->
+		<br/>		
+         <!-- <button type="submit" class="btn btn-primary" style="margin-left:30%">Login using Facebook</button><hr/> -->
+          <form action="snippetshare/users/login" id="loginform" class="form-horizontal" role="form" method="post">
+			 <div class="form-group">
+				 <div class="col-md-12">
+				    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <div class="col-md-12">
+				    <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+				 </div>
+			</div>
+			<div class="checkbox">
+	          <label>
+	            <input type="checkbox" value="remember-me"/> Remember me
+	          </label>
+        </div><br/>
+        <button type="submit" class="btn btn-block btn-primary" id="new" style="background-color:#ff5a5f;border-color:#ff5a5f;">Login</button><br/>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+		</form> 			  
+        </div>
+
+      </div><!-- /.modal-content -->
+      </div>
+    </div><!-- /.modal-dialog -->
+  </div>
+  
+  <!-- Sign up modal -->
+ <div id="signupModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="col-md-7 col-md-offset-2">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Sign up</strong></h4>
+        </div>
+        <div class="modal-body">
+          <!-- <fb:login-button size="large" scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>onclick="checkLoginState(); -->
+        <form action="" id="fbform" role="form" method="post">
+        <input type="hidden" name="email" id="fbemail"/>
+        <input type="hidden" name="name" id="fbname"/>
+       <fb:login-button size="large" id="u_0_1" scope="public_profile,email" login-text="Log in with Facebook" onlogin="checkLoginState();"></fb:login-button>
+       &emsp;&emsp;<strong>(OR)</strong></form>
+		<div id="status"></div>
+		<br/>	
+		
+         <!-- <button type="submit" class="btn btn-primary" style="margin-left:30%">Login using Facebook</button><hr/> -->
+          <form action="snippetshare/users/signup" id="signupform" class="form-horizontal" role="form" method="post">
+          <div class="form-group">
+				 <div class="col-md-12">
+				    <input type="text" class="form-control" name="name" id="name" placeholder="Enter your name"/>
+				 </div>
+			</div>
+			 <div class="form-group">
+				 <div class="col-md-12">
+				    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" />
+				 </div>
+			</div>
+			<div class="form-group">
+				 <div class="col-md-12">
+				    <input type="password" class="form-control" name="password" id="password" placeholder="Password" />
+				 </div>
+			</div>
+        <button type="submit" class="btn btn-block btn-primary" id="new" style="background-color:#ff5a5f;border-color:#ff5a5f;">Sign Up</button><br/>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button> -->
+		</form> 			  
+        </div>
+
+      </div><!-- /.modal-content -->
+      </div>
+    </div><!-- /.modal-dialog -->
+  </div>
+ 
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src ="/js/bootstrap.min.js"></script>
+<script>
+$('#myModal').on('show.bs.modal', function () {
+	$(this).find('#loginform')[0].reset();
+	})
+	
+$('#signupModal').on('show.bs.modal', function () {
+	$(this).find('#signupform')[0].reset();
+	})
+function addNameField()
+{
+	$('#myModal').on('show.bs.modal', function () {
+		$('#name').show();
+		$('#new').html('Sign up')
+		})
+}
+
+</script>
+</body>
+</html>

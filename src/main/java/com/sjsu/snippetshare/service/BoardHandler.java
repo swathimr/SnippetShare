@@ -64,10 +64,6 @@ public class BoardHandler {
 		    System.out.println("ID:"+id);
 		    System.out.println("Name:"+name);
 		    boardList.add(board);
-//		    obj.put("id", curObj.get("_id").toString());
-//		    obj.put("boardName", curObj.get("Name").toString());
-		    //array.put(obj);
-		    //boardMap.put(curObj.get("_id").toString(),curObj.get("Name").toString());
 		}
 		
 		cursor.close();

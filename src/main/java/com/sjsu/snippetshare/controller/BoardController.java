@@ -27,7 +27,7 @@ public class BoardController {
 		boardHndlr=new BoardHandler();
 		ArrayList<Map> newList = new ArrayList<Map>();
 		System.out.println("5536c0f0b874c0b703a6d27e");
-		ArrayList<Board> boardObj = boardHndlr.getAllBoards("5536c0f0b874c0b703a6d27e");//Board();
+		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId);//Board();
 		//System.out.println("map valyue got is :::"+array);
 		for(Board b : boardObj)
 		{
