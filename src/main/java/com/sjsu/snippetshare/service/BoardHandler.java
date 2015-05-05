@@ -4,8 +4,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import org.bson.types.ObjectId;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;

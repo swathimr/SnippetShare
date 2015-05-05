@@ -4,7 +4,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.json.JSONArray;
+import com.sjsu.snippetshare.domain.Board;
+
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +50,7 @@ public class BoardController {
 		System.out.println("got board values herre"+board.toString());
 		boardHndlr.createBoard(board);
 		user.setId(board.getBoardOwner());
-		model.addAttribute("user",user);
+		model.addAttribute("user", user);
 		return "SnippetUsersHome";
 	}
 	
