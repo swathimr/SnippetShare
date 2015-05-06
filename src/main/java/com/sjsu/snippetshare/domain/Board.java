@@ -97,8 +97,7 @@ public class Board {
 		if (dbList != null) {
 			for (Iterator<String> iterator = dbList.iterator(); iterator.hasNext(); ) {
 				String accessPerson = "";
-				accessPerson = iterator.next();
-				//accessPerson = dbAccessPerson.toString();
+				accessPerson =  iterator.next();
 				accessList.add(accessPerson);
 			}
 		}
