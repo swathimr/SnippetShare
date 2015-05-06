@@ -77,10 +77,10 @@
              
              
             <div class="row">
-                  <p th:each="entry: ${allBoards}">
-                 
+                <p th:each="entry: ${allBoards}">
+                     
 
-                <div class="col-md-2" style="padding-bottom:3%;margin-right:5%;" id="myBoardsId">
+                <div class="col-md-2" style="padding-bottom:3%;margin-right:5%;" th:id="myBoardsId">
                       <strong><span th:text="${entry.boardName}"/></strong><br/><br/>
                       <img src="/images/board_thumb.jpg" width="55%;"/><br/><br/>
                     <input type="hidden" name="bid" id="bid" th:value="${entry.boardId}"/>
@@ -93,15 +93,17 @@
                     <input type="hidden" name="brdcategory" th:value="${entry.category}" id="brdcategory"/>
                     <input type="hidden" name="brdprivacy" th:value="${entry.privacy}" id="brdprivacy"/>
 
-                    <form action="/getAllSnippets" method="post">
-                        <input type="hidden" class="form-control" name="boardOwner" id="boardOwner"
-                               th:value="${user.id}"/>
-                        <input type="hidden" class="form-control" name="boardId" id="boardId"
-                               th:value="${entry.boardId}"/>
-                        <button type="submit" id="createdBoardsID" class="btn btn-default btn-xs">&nbsp;
-                            <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>View
-                        </button>
-                    </form>
+                    <a th:href="@{/getAllSnippets/user/{userid}/board/{boardid}(userid=${user.id},boardid=${entry.boardId})}"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>View</a>
+
+                    <!--<form action="/getAllSnippets" method="post">-->
+                        <!--<input type="hidden" class="form-control" name="boardOwner" id="boardOwner"-->
+                               <!--th:value="${user.id}"/>-->
+                        <!--<input type="hidden" class="form-control" name="boardId" id="boardId"-->
+                               <!--th:value="${entry.boardId}"/>-->
+                        <!--<button type="submit" id="createdBoardsID" class="btn btn-default btn-xs">&nbsp;-->
+                            <!--<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>View-->
+                        <!--</button>-->
+                    <!--</form>-->
                 </div>
                 </p>
             </div>
