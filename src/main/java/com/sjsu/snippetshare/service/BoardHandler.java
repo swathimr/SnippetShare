@@ -2,6 +2,7 @@ package com.sjsu.snippetshare.service;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -9,6 +10,8 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteResult;
 import com.sjsu.snippetshare.domain.Board;
 public class BoardHandler {
 
@@ -19,16 +22,59 @@ public class BoardHandler {
 	{
 		coll = MongoFactory.getConnection().getCollection("Board");
 		BasicDBObject createBoard = new BasicDBObject();
+		
 		System.out.println(board.getBoardName());
 		createBoard.put("Name",board.getBoardName());
 		createBoard.put("Owner",board.getBoardOwner());
 		createBoard.put("Category",board.getCategory());
 		createBoard.put("Privacy",board.getPrivacy());
+		createBoard.put("AccessList",board.getAccessList());
 		createBoard.put("snippets", board.getSnippets());
-		createBoard.put("AccessList",board.getAccessList().add("test@gmail.com"));
-		coll.insert(createBoard);
+		createBoard.put("AccessList",getAccessList(board));
+		WriteResult res = coll.insert(createBoard);
+		System.out.println("WriteResult : "+res.toString());
 		System.out.println("Facebook user inserted into DB::"+createBoard);
 	}
+	
+	private List<String> getAccessList(Board board) 
+	{
+		System.out.println("Inside getAccessList");
+		List<String> accessList = board.getAccessList();
+		List<String> accessUserList = new ArrayList<String>();
+		for(String access : accessList)
+		{
+			if(access != null)
+			{
+				try 
+				{
+					String userID = getUserIDFromEmail(access);
+					accessUserList.add(userID);
+				} catch (Exception e) 
+				{
+
+					e.printStackTrace();
+				}
+			}
+		}
+		return accessUserList;
+	}
+
+	private String getUserIDFromEmail(String access) throws Exception 
+	{
+		System.out.println("Inside getUserIDFromEmail");
+		DBCollection collection = MongoFactory.getConnection().getCollection("User");
+		BasicDBObject query = new BasicDBObject("email",access);
+		DBObject dbObj = collection.findOne(query);;
+		if(dbObj != null)
+		{
+			 return (dbObj.get("_id").toString());
+		}
+		else
+		{
+			throw new MongoException("This user does not exist");
+		}
+	}
+
 	
 	public void getBoard() throws UnknownHostException
 	{
@@ -60,6 +106,7 @@ public class BoardHandler {
 		cursor.close();
 		return boardList;
 	}
+
 	
 	public void deleteBoard(String boardName) throws UnknownHostException
 	{
@@ -69,17 +116,19 @@ public class BoardHandler {
 		coll.remove(delquery);
 	}
 	
-	public void updateBoard(Board board) throws UnknownHostException
+	public Board updateBoard(Board board) throws UnknownHostException
 	{
 		coll = MongoFactory.getConnection().getCollection("Board");
-		BasicDBObject searchQuery = new BasicDBObject();
-		System.out.println(board.getBoardName());
-		searchQuery.put("Name",board.getBoardName());
-		searchQuery.put("Owner","swathi6489@gmail.com");
-		BasicDBObject newDocument = new BasicDBObject();
-		newDocument.append("$set", new BasicDBObject().append("Name", "newBoardName"));
-		System.out.println("new docs:::"+newDocument);
-		coll.update(searchQuery, newDocument);
+		BasicDBObject searchQuery = new BasicDBObject("_id",new ObjectId(board.getBoardId()));
+		System.out.println(board.getBoardId());
+		BasicDBObject updatedDocument = new BasicDBObject();								
+		updatedDocument.append("$set", new BasicDBObject().append("Name", board.getBoardId())
+				.append("Owner", board.getBoardOwner())
+				.append("Category", board.getCategory())
+				.append("Privacy", board.getPrivacy()));
+		System.out.println("new docs:::"+updatedDocument);
+		coll.update(searchQuery, updatedDocument);
+		return board;
 	}
 	
 	public Board getOneBoard(String boardID) throws UnknownHostException 
@@ -107,6 +156,29 @@ public class BoardHandler {
 		
 		//board.setAccessList(accessList);
 		return board;
+		
+	}
+	
+	public Board getBoardInfo(String board_id) throws UnknownHostException
+	{
+		coll = MongoFactory.getConnection().getCollection("Board");
+		//ObjectId objId = new ObjectId(board.getBoardId());
+		ObjectId objId = new ObjectId(board_id);
+		BasicDBObject searchQuery = new BasicDBObject("_id",objId);
+		Board boardObj = new Board();
+		DBObject cursor = coll.findOne(searchQuery);
+		if(cursor != null)
+		{
+			boardObj.setBoardName(cursor.get("Name").toString());
+			boardObj.setBoardOwner(cursor.get("Owner").toString());
+			boardObj.setCategory(cursor.get("Category").toString());
+			boardObj.setPrivacy(cursor.get("Privacy").toString());
+			System.out.println(boardObj.getBoardName());
+			System.out.println(boardObj.getBoardOwner());
+			System.out.println(boardObj.getCategory());
+			System.out.println(boardObj.getPrivacy());
+		}
+		return boardObj;
 		
 	}
 	

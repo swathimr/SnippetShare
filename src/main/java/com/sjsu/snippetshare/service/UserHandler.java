@@ -21,6 +21,7 @@ public class UserHandler {
 			userdoc.append("password", user.getPassword());
 		}
 		coll.insert(userdoc);
+		user.setId(userdoc.getString("_id").toString());
 		System.out.println("Facebook user inserted into DB::"+userdoc);
 	}
 	
@@ -36,6 +37,7 @@ public class UserHandler {
 		{
 			user.setId(q1.get("_id").toString());
 			return true;
+			
 		}
 		else
 		{

@@ -89,6 +89,13 @@ public class Board {
 	    String category = dbo.get("Category").toString();
 	    ArrayList<String> accessList = new ArrayList<String>(); 
 	    accessList.add(dbo.get("AccessList").toString());
+<<<<<<< HEAD
+=======
+//	    ArrayList<Snippet> snippetList = new ArrayList<Snippet>();
+//	    Snippet snip = new Snippet();
+//	    snip.
+//	    snippetList.add(dbo.get("snippets").toString());
+>>>>>>> 814c1590e21edd2a8940fc9f03700776835fd9e1
 		this.boardId = id;
 		this.boardName = name;
 		this.boardOwner = owner;
@@ -97,5 +104,8 @@ public class Board {
 		this.accessList = accessList;
         return this;
     }
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 814c1590e21edd2a8940fc9f03700776835fd9e1
 }
