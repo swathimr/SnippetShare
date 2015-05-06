@@ -17,7 +17,7 @@ public class CommentsHandlerTest {
         String boardId = "553dbaf6b874231faaaeed27";
         String snippetId = "55486125b8748c0c1755ac47";
         Comment comment = new Comment("5536c0f0b874c0b703a6d27e", "Test Comment 1");
-        commentsHandler.addComment(boardId, snippetId, comment);
+        //commentsHandler.createComment(boardId, snippetId, comment);
     }
 
     @Test

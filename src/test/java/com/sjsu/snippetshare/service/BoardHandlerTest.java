@@ -26,9 +26,8 @@ public class BoardHandlerTest {
         Authorize authorize = (Authorize) context.getBean("authorizeAspect");
         BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 
-        List<Board> accessBoards = boardHndlr.getAllBoards("sindhu", "Shared");
-        assertEquals(3, accessBoards.size());
-        accessBoards = boardHndlr.getAllBoards("swathi6489@gmail.com", "Owned");
-        assertEquals(5, accessBoards.size());
+        List<Board> accessBoards = boardHndlr.getAllBoards("5536c0f0b874c0b703a6d27e", "Shared");
+        System.out.println(accessBoards.size());
+        assertEquals(1, accessBoards.size());
     }
 }

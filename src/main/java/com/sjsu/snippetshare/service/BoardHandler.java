@@ -93,7 +93,7 @@ public class BoardHandler {
 	public ArrayList<Board> getAllBoards(String userId, String accessPermission) throws UnknownHostException
 	{
 		ArrayList<Board> boardList = new ArrayList<Board>();
-		coll = MongoFactory.getConnection().getCollection("Board");
+		coll = MongoFactory.getConnection().getCollection("TestBoard");
 		DBCursor cursor = coll.find();
 		DBObject curObj;
 		Board board;

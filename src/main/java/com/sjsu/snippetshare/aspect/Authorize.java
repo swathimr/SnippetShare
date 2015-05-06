@@ -36,9 +36,13 @@ public class Authorize {
             }
         } else if (condition.equals("Shared")) {
             for (Board board : boards) {
-                if (board.getAccessList() != null) {
-                    if (userId.equals(board.getAccessList().get(0))) {
-                        filteredBoards.add(board);
+                List<String> accessList = board.getAccessList();
+                if (accessList != null) {
+                    for (String accessPerson : accessList) {
+                        if (userId.equals(accessPerson)) {
+                            filteredBoards.add(board);
+                            break;
+                        }
                     }
                 }
             }

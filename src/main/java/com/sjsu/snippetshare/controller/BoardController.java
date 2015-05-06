@@ -31,10 +31,10 @@ public class BoardController {
 		System.out.println("Mallika"+userId);
 		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "Shared");//Board();
 		System.out.println(boardObj.size());
-		model.addAttribute("allBoards", boardObj);
+		model.addAttribute("sharedBoards", boardObj);
 		boardObj = boardHndlr.getAllBoards(userId, "Owned");
 		System.out.println(boardObj.size());
-		model.addAttribute("sharedBoards", boardObj);;
+		model.addAttribute("allBoards", boardObj);;
 		return "SnippetUsersHome";
 	}
 	

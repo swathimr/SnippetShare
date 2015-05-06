@@ -1,9 +1,12 @@
 package com.sjsu.snippetshare.domain;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.context.annotation.Bean;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -90,6 +93,16 @@ public class Board {
 		String privacy = dbo.get("Privacy").toString();
 		String category = dbo.get("Category").toString();
 		ArrayList<String> accessList = new ArrayList<String>();
+		ArrayList<String> dbList = (ArrayList<String>) dbo.get("AccessList");
+		if (dbList != null) {
+			for (Iterator<String> iterator = dbList.iterator(); iterator.hasNext(); ) {
+				String accessPerson = "";
+				accessPerson = iterator.next();
+				//accessPerson = dbAccessPerson.toString();
+				accessList.add(accessPerson);
+			}
+		}
+
 		accessList.add(dbo.get("AccessList").toString());
 //	    ArrayList<Snippet> snippetList = new ArrayList<Snippet>();
 //	    Snippet snip = new Snippet();
