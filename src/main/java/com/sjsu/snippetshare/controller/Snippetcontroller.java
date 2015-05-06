@@ -52,8 +52,8 @@ public class Snippetcontroller {
         return "Success!";
     }
 
-    @RequestMapping(value = "/getAllSnippets/{boardId}", method = RequestMethod.POST)
-    public List<Snippet> deleteSnippet(@PathVariable String boardId, Model model) {
+    @RequestMapping(value = "/getAllSnippets/user/{userId}/board/{boardId}", method = RequestMethod.GET)
+    public List<Snippet> getAllSnippets(@PathVariable("userId") String userId, @PathVariable("boardId") String boardId, Model model) {
         List<Snippet> snippets = snippetHandler.getAllSnippets(boardId);
         return snippets;
     }

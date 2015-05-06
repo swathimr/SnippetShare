@@ -88,7 +88,7 @@
                     <input type="hidden" name="bname" id="bname" th:value="${entry.boardName}"/>
                     <input type="hidden" name="bprivacy" id="bprivacy" th:value="${entry.privacy}"/>
                     <input type="hidden" name="bcategory" id="bcategory" th:value="${category}"/>
-                    <span><input type="button" name="optradio" id="" th:value="${entry.boardId}" onclick="getValues()"/></span>&nbsp;
+                    <span><input type="button" name="optradio" id="" th:value="${entry.boardId}"/></span>&nbsp;
                     <input type="hidden" name="brdName" th:value="${entry.boardName}" id="brdName"/>
                     <input type="hidden" name="brdcategory" th:value="${entry.category}" id="brdcategory"/>
                     <input type="hidden" name="brdprivacy" th:value="${entry.privacy}" id="brdprivacy"/>
@@ -349,17 +349,17 @@
         $(this).find('select[name="category"]').val(category);
         $(this).find('select[name="privacy"]').val(privacy);
     });
-
-    function getValues() {
-
-
-        category = document.getElementById("bcategory").value;
-        '' +
-        alert(category);
-        privacy = document.getElementById("brdprivacy").value;
-        alert(brdName + category + privacy);
-
-    }
+//
+//    function getValues() {
+//
+//
+//        category = document.getElementById("bcategory").value;
+//        '' +
+//        alert(category);
+//        privacy = document.getElementById("brdprivacy").value;
+//        alert(brdName + category + privacy);
+//
+//    }
 
     $('#EditBoardModal').on('hidden.bs.modal', function () {
         // do something…
@@ -368,6 +368,14 @@
     function submitDeleteForm() {
         document.getElementById("deleteForm").submit();
     }
+
+    $(document).ready(
+            function() {
+                $("input").click(function(event) {
+                    alert($(this).attr("value"));
+                });
+            }
+    );
 
 </script>
  
