@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sjsu.snippetshare.domain.User;
 
 @Controller
-@ComponentScan
 public class RestConfig {
 
 	@RequestMapping("/snippetshare")

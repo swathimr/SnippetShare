@@ -4,44 +4,37 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.sjsu.snippetshare.aspect.Authorize;
 import com.sjsu.snippetshare.domain.Board;
+import com.sjsu.snippetshare.service.BoardHandler;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sjsu.snippetshare.domain.Board;
 import com.sjsu.snippetshare.domain.User;
-import com.sjsu.snippetshare.service.BoardHandler;
 
-@ComponentScan
-@RestController
+@Controller
 @RequestMapping(value = ("/SnippetUsersHome"))
 public class BoardController {
-	
-	BoardHandler boardHndlr;
+
+	org.springframework.context.ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+	Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+	BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 	
 	@RequestMapping("/{userId}")
 	public String getSnippeUsersHomePage(Model model,@PathVariable String userId) throws UnknownHostException
 	{
-		boardHndlr=new BoardHandler();
-		ArrayList<Map> newList = new ArrayList<Map>();
-		System.out.println("5536c0f0b874c0b703a6d27e");
+		System.out.println("Mallika"+userId);
 		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "Shared");//Board();
-		for(Board b : boardObj)
-		{
-			System.out.println("Get board details");
-			System.out.println(b.getBoardId());
-			System.out.println(b.getBoardName());
-		}
-		
-		model.addAttribute("ownerBoards",boardObj);
-		
-		
-		// Mallika pls add aop for here nd fetch me the boards only i want to share
-		model.addAttribute("sharedBoards",boardObj);
+		System.out.println(boardObj.size());
+		model.addAttribute("allBoards", boardObj);
+		boardObj = boardHndlr.getAllBoards(userId, "Owned");
+		System.out.println(boardObj.size());
+		model.addAttribute("sharedBoards", boardObj);
 		return "SnippetUsersHome";
 	}
 	

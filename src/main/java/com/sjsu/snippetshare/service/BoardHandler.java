@@ -15,7 +15,6 @@ import com.mongodb.WriteResult;
 import com.sjsu.snippetshare.domain.Board;
 import org.springframework.stereotype.Component;
 
-@Component
 public class BoardHandler {
 
 	DBCollection coll; 
@@ -91,7 +90,7 @@ public class BoardHandler {
 		}
 	}
 	
-	public ArrayList<Board> getAllBoards(String boardOwn, String accessPermission) throws UnknownHostException
+	public ArrayList<Board> getAllBoards(String userId, String accessPermission) throws UnknownHostException
 	{
 		ArrayList<Board> boardList = new ArrayList<Board>();
 		coll = MongoFactory.getConnection().getCollection("Board");

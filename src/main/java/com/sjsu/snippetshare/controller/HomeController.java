@@ -2,6 +2,7 @@ package com.sjsu.snippetshare.controller;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -13,14 +14,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * Hello world!
  *
  */
-@EnableAspectJAutoProxy
-@Configuration
-@ComponentScan
-@EnableAutoConfiguration
+@SpringBootApplication
 public class HomeController 
 {	
 	public static void main(String[] args) throws Exception {
-        //ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-        SpringApplication.run(RestConfig.class);
+        org.springframework.context.ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+
+        SpringApplication.run(HomeController.class);
     }
 }

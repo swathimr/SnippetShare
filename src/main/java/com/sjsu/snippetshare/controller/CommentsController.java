@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sjsu.snippetshare.domain.Comment;
 import com.sjsu.snippetshare.service.CommentsHandler;
-@Controller
 public class CommentsController {
 /*
 	CommentsHandler handler;

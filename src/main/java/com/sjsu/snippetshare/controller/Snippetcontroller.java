@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.sjsu.snippetshare.domain.Snippet;
 import com.sjsu.snippetshare.service.SnippetHandler;
 
-@EnableAutoConfiguration
 @org.springframework.web.bind.annotation.RestController
-
 public class Snippetcontroller {
     SnippetHandler snippetHandler = new SnippetHandler();
 
