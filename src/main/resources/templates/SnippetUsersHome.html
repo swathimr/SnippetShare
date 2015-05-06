@@ -32,22 +32,35 @@
  <div class="col-md-7 col-md-offset-2" style="background-color:#f5f5f5;">
  	<div class= "container">
  	
- 	<h2><strong>Your Created Boards</strong><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="margin-left:48%;">&emsp;</span>
- 		<form action="/deleteBoard" method="post">
+ 	<h2><strong>Your Created Boards</strong>
+ 	
+ 	<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#EditBoardModal">
+ 	<span class="glyphicon glyphicon-pencil" aria-hidden="true" style="margin-left:48%;">&emsp;</span>Edit</button>
+ 	
+ 		<form action="/SnippetUsersHome/deleteBoard" id="deleteForm" role="form" method="post">
+ 		<input type="hidden" th:value="${user.id}" name="boardOwner" id="boardOwner"/>
  		<input type="hidden" value="" id="boardId" name="boardId"/>
-	 	<a href="#" onclick="$(this).closest('form').submit(); return false;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+ 		<button type="submit" class="btn btn-default btn-xs" onclick="submitDeleteForm();">
+ 		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Delete</button>
 	 	</form></h2>
+	 	 <p class="text-muted"><strong>Please select radio button and click on Edit or Delete button</strong></p>
  	<hr width="80%;" style="margin-right:30%;"/><br/>
+ 	
  	<div class="row">
  	<p th:each="entry: ${allBoards}">
- 	<div class="col-md-2" style="padding-bottom:3%;margin-right:5%;">
+ 	<div class="col-md-2" style="padding-bottom:3%;margin-right:5%;" id="myBoardsId">
+ 	 	<strong><span th:text="${entry.boardName}"/></strong><br/><br/>
  	 	<img src="/images/board_thumb.jpg" width="55%;"/><br/><br/>
- 	 	<form action="" method="post">
-	 	<button type="submit" id="createdBoardsID" class="btn btn-default btn-xs" th:value="${entry.boardId}">&nbsp;<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>View</button>
-	 	</form>
-	 	<span th:text="${entry.boardName}"/></div>
+	 	<span><input type="button" name="optradio" id="" th:value="${entry.boardId}" onclick="getValues();"/></span>&nbsp;
+	 	<input type="hidden" name="brdName" th:value="${entry.boardName}" id="brdName"/>
+	 	<input type="hidden" name="brdcategory" th:value="${entry.category}" id="brdcategory"/>
+	 	<input type="hidden" name="brdprivacy" th:value="${entry.privacy}" id="brdprivacy"/>
+	 	<button type="submit" id="createdBoardsID" class="btn btn-default btn-xs" th:value="${entry.boardId}">&nbsp;
+	 	<span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>View</button>
+	 	</div>
 	</p>
 	</div>
+	
 	<div class="row">
 	<h2><strong>Boards shared with you</strong><span class="glyphicon glyphicon-pencil" aria-hidden="true" style="margin-left:45%;">&emsp;</span><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></h2><hr width="80%;" style="margin-right:30%;"/><br/>
 	<p th:each="entry: ${sharedBoards}">
@@ -60,7 +73,7 @@
  </div><!-- end of container -->
  </div>
  
-  <div class="col-md-2" style="margin-left:1%;"><button type="button" class="btn btn-warning" style="width:70%;" data-toggle="modal" data-target="#myModal"> + Create Board</button></div>
+  <div class="col-md-3" style="padding-left:3%;margin-top:1%;"><button type="button" class="btn btn-warning" style="width:70%;" data-toggle="modal" data-target="#myModal"> + Create Board</button></div>
  
  </div><!-- end of  row -->
  
@@ -126,10 +139,102 @@
   </div><!-- /.modal -->
  
  
+ <!-- update board modal -->
+ <div id="EditBoardModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel"><strong>Update Board</strong></h4>
+        </div>
+        <div class="modal-body">
+          
+		<form id="editForm" action="/SnippetUsersHome/updateBoard" method="POST" role="form" >
+			<div class="row">
+			<div class="col-xs-7 col-md-offset-2">
+				<label for="boardName">Board Name</label>
+				<input type="text" class="form-control" id="boardName" name="boardName" value-=""/>
+			</div>
+			</div><br/>
+			
+				<input type="hidden" class="form-control" name="boardOwner" id="boardOwner" th:value="${user.id}"/>
+			
+			<div class="row">
+			<div class="col-xs-7 col-md-offset-2">
+				<label for="category">Category</label>
+				<select class="form-control" name="category" id="category" value="">
+		        <option>Select One</option>
+     			<option>Java</option>
+      			<option>Scala</option>
+      			<option>C / C++</option>
+      			<option>HTML / JavaScript</option>
+      			<option>PHP / Perl / Python</option>
+      		</select>
+				
+			</div>
+			</div><br/>
+			<div class="row">
+			<div class="col-xs-7 col-md-offset-2">
+				<label for="privacy">Privacy</label>
+				<select class="form-control" name="privacy" id="privacy" value="">
+		        <option>Select Private or Public</option>
+     			<option>Private</option>
+      			<option>Public</option>
+      			</select>
+			</div>
+			</div><br/>
+		<div class="col-xs-7 col-md-offset-2">
+		  <button id="submit" type="submit" class="btn btn-block btn-primary" style="background-color:#ff5a5f;border-color:#ff5a5f;font-weight:bold;">Update Board</button></div><br/>
+		</form>
+		<br/>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+ 
 <!--  <p th:text="'userid ' + ${user.id}"/>
  <p th:text="'userid ' + ${allBoards}"/> -->
- 
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src ="/js/bootstrap.min.js"></script>
+ <script>
+ 
+ var brdName;
+ var category;
+ var privacy;
+ 
+ $('#EditBoardModal').on('show.bs.modal', function() {
+	  	 $(this).find('input[name="boardName"]').val(brdName);
+	  	$(this).find('select[name="category"]').val(category);
+	  	$(this).find('select[name="privacy"]').val(privacy);
+	});
+ 
+ function getValues()
+ {
+	 var boardId=document.getElementsByName("optradio")[0].value;
+	 //document.getElementById("boardId").value=boardId; 
+	alert(boardId); // for delete
+	console.log("board isss"+boardId);
+	
+	 brdName=document.getElementById("brdName").value;
+	 category=document.getElementById("brdcategory").value;
+	 privacy=document.getElementById("brdprivacy").value;
+	 alert(brdName+category+privacy);
+	 
+ }
+  
+ $('#EditBoardModal').on('hidden.bs.modal', function () {
+	  // do something…
+	})
+ 
+ function submitDeleteForm()
+ {
+	 document.getElementById("deleteForm").submit();
+ }
+ 
+ </script>
+ 
+
 </body>
 </html>

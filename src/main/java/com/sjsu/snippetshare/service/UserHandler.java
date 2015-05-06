@@ -31,9 +31,10 @@ public class UserHandler {
 		System.out.println("collecion is::::"+coll);
 		DBObject q1 = coll.findOne(query);
 		System.out.println("fetched value is:"+q1);
-		user.setId(q1.get("_id").toString());
+		
 		if(q1!=null)
 		{
+			user.setId(q1.get("_id").toString());
 			return true;
 		}
 		else

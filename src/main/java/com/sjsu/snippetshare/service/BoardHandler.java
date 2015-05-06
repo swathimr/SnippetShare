@@ -44,8 +44,6 @@ public class BoardHandler {
 	
 	public ArrayList<Board> getAllBoards(String boardOwn) throws UnknownHostException
 	{
-		
-		
 		ArrayList<Board> boardList = new ArrayList<Board>();
 		coll = MongoFactory.getConnection().getCollection("Board");
 		BasicDBObject query = new BasicDBObject("Owner",boardOwn);
@@ -56,17 +54,10 @@ public class BoardHandler {
 		{
 			board = new Board();
 		    curObj = cursor.next();
-		    String id = curObj.get("_id").toString();
-		    String name = curObj.get("Name").toString();
-		    board.setBoardId(id);
-		    board.setBoardName(name);
-		    System.out.println("ID:"+id);
-		    System.out.println("Name:"+name);
-		    boardList.add(board);
+		    Board boardObj = board.makePOJOFromBSON(curObj);
+		    boardList.add(boardObj);
 		}
-		
 		cursor.close();
-		
 		return boardList;
 	}
 	

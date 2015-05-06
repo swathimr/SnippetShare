@@ -35,7 +35,7 @@ public class BoardController {
 			System.out.println(b.getBoardId());
 			System.out.println(b.getBoardName());
 		}
-		
+		model.addAttribute("board", new Board());
 		model.addAttribute("allBoards",boardObj);
 		
 		
@@ -70,18 +70,22 @@ public class BoardController {
 		return board;
 	}
 	
-	@RequestMapping(value=("/updateBoard"),method=RequestMethod.PUT)
-	public String updateBoard(Board board) throws UnknownHostException
+	@RequestMapping(value=("/updateBoard"),method=RequestMethod.POST)
+	public String updateBoard(Board board,RedirectAttributes redirectAttribute,User user) throws UnknownHostException
 	{
 		boardHndlr=new BoardHandler();
+		System.out.println("update board value"+board.getBoardName());
+		user.setId(board.getBoardOwner());
 		boardHndlr.updateBoard(board);
-		return "SnippetUsersHome";
+		redirectAttribute.addFlashAttribute("user", user);
+		return "redirect:/SnippetUsersHome/"+user.id;
 	}
 	
 	//delets board based on board name and email id
-	@RequestMapping(value=("/deleteBoard"),method=RequestMethod.DELETE)
+	@RequestMapping(value=("/deleteBoard"),method=RequestMethod.POST)
 	public String deleteBoard(Board board,RedirectAttributes redirectAttribute,User user) throws UnknownHostException
 	{
+		System.out.println("came in here"+board.getBoardId());
 		boardHndlr=new BoardHandler();
 		boardHndlr.deleteBoard(board.getBoardId());
 		user.setId(board.getBoardOwner());
