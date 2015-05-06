@@ -100,5 +100,5 @@ public class Board {
 		this.category = category;
 		this.accessList = accessList;
         return this;
-    }
+	}
 }
