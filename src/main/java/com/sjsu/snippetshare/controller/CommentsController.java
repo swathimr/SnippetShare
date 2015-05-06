@@ -56,8 +56,6 @@ public class CommentsController {
 
 		return comment;
 	}*/
-
-	}
 /*
 	CommentsHandler handler;
 	@RequestMapping(value="/createComment/{user}/{board}/{snippet}",method=RequestMethod.POST)
