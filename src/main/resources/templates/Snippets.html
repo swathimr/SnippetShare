@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Snippet Share Home Page</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"  />
+</head>
+<body>
+<div class="navbar-wrapper">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container-fluid">
+	    <div class="navbar-header">
+	       <a class="navbar-brand" href="#" style="color:white;font-family: 'Poller One', cursive;"><strong>SnippetShare</strong></a>
+	    </div>
+     	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav navbar-right">
+			<li><a href="#" data-toggle="modal" data-target="#signupModal" style="color:white"><strong>Home</strong></a></li>
+	       <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
+	      </ul>
+    	</div>   
+	 </div><!-- container-fluid -->
+ </nav>
+ </div><!-- end of navbar wrapper -->
+</body>
+</html>
