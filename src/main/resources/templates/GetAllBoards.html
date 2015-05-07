@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Get all boards</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"  />
+</head>
+<body>
+<div class="navbar-wrapper">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container-fluid">
+
+	    <div class="navbar-header">
+	       <a class="navbar-brand" href="#" style="color:white;font-family: 'Poller One', cursive;"><strong>SnippetShare</strong></a>
+	    </div>
+    
+     	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav navbar-right">
+			<li><a href="#" data-toggle="modal" data-target="#signupModal" style="color:white"><strong>Home</strong></a></li>
+	       <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
+	       <li><a href="#" th:href="@{/logout}" style="color:white"><strong>LogOut</strong></a></li>
+	      </ul>
+    	</div>   
+	 </div><!-- container-fluid -->
+ </nav>
+ </div><!-- end of navbar wrapper -->
+ 
+ 
+<!--  <p th:text="'userid ' + ${user.id}"/> -->
+ 
+ <div class="col-md-7 col-md-offset-2" style="background-color:#f5f5f5;">
+ 	<div class= "container">
+ 	<h2><strong>All Other Boards</strong></h2>
+ 	<hr width="80%;" style="margin-right:30%;"/><br/>
+ 	<div class="row">
+ 	<p th:each="entry: ${allBoards}">
+ 	<div class="col-md-2" style="padding-bottom:3%;margin-right:5%;" id="myBoardsId">
+ 	 	<strong><span th:text="${entry.boardName}"/></strong><br/><br/>
+ 	 	<img src="/images/code-red-640x360.png" width="55%;"/><br/><br/>
+	 	<a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a><!-- View</button></form> -->
+	 	</div>
+	</p>
+	</div>
+ 	
+ 	
+ 	</div>
+ 	</div>
+ 
+ 
+ <!--<p th:text="'userid ' + ${allBoards}"/> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src ="/js/bootstrap.min.js"></script>
+
+</body>
+</html>

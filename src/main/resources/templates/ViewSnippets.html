@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>View Snippet By Board</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"  />
+    <style>
+        /* body
+        {
+        //background-color:#E6E6FA;
+        } */
+    </style>
+</head>
+<body>
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="color:white;font-family: 'Poller One', cursive;"><strong>SnippetShare</strong></a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" data-toggle="modal" data-target="#signupModal" style="color:white"><strong>Home</strong></a></li>
+                    <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
+                    <li><a href="#" th:href="@{/logout}" style="color:white"><strong>LogOut</strong></a></li>
+                </ul>
+            </div>
+        </div><!-- container-fluid -->
+    </nav>
+</div><!-- end of navbar wrapper -->
+<!-- <p th:text="'userid ' + ${userId}"/> -->
+<!--<p th:text="'boardid ' + ${boardId}"/> -->
+
+<div class="col-md-2">
+    <img src="/images/updated_snippet.jpg" width="40%;" style="margin-left:15%;"/>
+</div>
+<div class="col-md-7" style="background-color:#f5f5f5;margin-left:2%;">
+    <div class= "container">
+
+        <h2><strong>Snippets and Comments</strong></h2>
+        <hr width="80%;" style="margin-right:30%;"/><br/>
+
+        <p th:each="entry: ${snippets}">
+
+            <details>
+                <summary><strong><span th:text="'Snippet Name   :   ' +${entry.snippetName}"/></strong>
+  <span>
+  <form action="" id="deleteSnippetForm" method="post">
+      <button type="submit" class="btn btn-warning btn-xs" th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}" onclick="deleteSnippet(this);">Delete Snippet</button>
+  </form></span>
+                </summary><br/>
+                <!-- <a class="btn btn-warning btn-xs" type="button" href="@{'/deleteSnippet/'+${board.boardId}+'/'+${entry.snippetId}+'/'+${user.id}}" style="margin-left:60%;">Delete Snippet</a></summary><br/> -->
+                <p th:text="'Snippet Text  : ' +${entry.snippetText}"/>
+                <p><strong>Comments </strong></p>
+                <p th:each="entry1: ${entry.comments}">
+                <p th:text="${entry1.text}"></p>
+        </p>
+        <form th:action="@{/createComment/__${userId}__/__${boardId}__/__${entry.snippetId}__}" th:object="${comment}"
+              method="post" role="form" >
+            <textarea cols="35" rows="1" name="text" id="text" th:field="*{text}"/>
+            <input type="hidden" class="form-control" name="ownerId" id="ownerId"  th:value="${userId}"/>
+            <input type="submit" />
+        </form>
+        </details><hr width="80%;" style="margin-right:30%;"/>
+
+        <!-- <p th:text="${entry.snippetName}"></p>
+        <p th:each="entry: ${snippets}">
+            <p th:text="${entry.comments}"></p>
+        </p> -->
+        </p>
+    </div><!-- end of container -->
+</div>
+<div class="col-md-2" style="margin-left:4%;">
+    <h4><strong>Create a Snippet</strong></h4>
+    <span class="glyphicon glyphicon-list-alt" onclick="openCreateSnippetModal()" style="font-size:510%;"></span>
+</div>
+
+<div id="createSnippet" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><strong>Create Snippet</strong></h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="editForm" action="/createSnippet" method="POST" role="form" >
+                    <div class="row">
+                        <div class="col-xs-7 col-md-offset-2">
+                            <label for="boardName">Snippet Name</label>
+                            <input type="text" class="form-control" id="snippetName" name="snippetName"/>
+                        </div>
+                    </div><br/>
+
+                    <input type="hidden" class="form-control" name="ownerId" id="ownerId" th:value="${userId}"/>
+                    <input type="hidden" class="form-control" name="boardId" id="boardId" th:value="${boardId}"/>
+
+                    <div class="row">
+                        <div class="col-xs-7 col-md-offset-2">
+                            <label for="boardName">Snippet Text</label>
+				<textarea rows="4" cols="50" id="snippetText" name="snippetText">
+				</textarea>
+                        </div>
+                    </div><br/>
+
+                    <div class="col-xs-7 col-md-offset-2">
+                        <button id="submit" type="submit" class="btn btn-block btn-primary" style="background-color:#ff5a5f;border-color:#ff5a5f;font-weight:bold;" onclick="createSnippetSubmit()">Create Snippet</button></div><br/>
+                </form>
+                <br/>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src ="/js/bootstrap.min.js"></script>
+<script>
+    function openCreateSnippetModal(){
+        $('#createSnippet').modal('show');
+    }
+
+    function deleteSnippet(value)
+    {
+        var split = value.value.split("::");
+        boardId=split[0];
+        snippetId=split[1];
+        userId=split[2];
+        alert("board:::"+boardId+"snippetid:::"+snippetId+"useridd:::"+userId);
+        document.getElementById("deleteSnippetForm").action="/deleteSnippet/"+boardId+'/'+snippetId+'/'+userId;
+        console.log("action"+document.getElementById("deleteSnippetForm").action);
+        alert("action"+document.getElementById("deleteSnippetForm").action);
+        console.log("action"+document.getElementById("deleteSnippetForm").action);
+        document.getElementById("deleteSnippetForm").submit();
+        console.log("action"+document.getElementById("deleteSnippetForm").action);
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Snippet Share Search</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	href="../static/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/sidebar.css}"
+	href="../static/css/bootstrap.min.css" />
+</head>
+<body>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<div id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li class="sidebar-brand"><strong style="color: darkgray;">Search for</strong></li>
+				<li>
+					<form class="navbar-form navbar-left" role="search" action="/searchSnippets"
+							method="GET">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Snippets"
+								style="float: left; width: 126px;" name="snippet" />
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</li>
+				<li>
+					<form class="navbar-form navbar-left" role="search" action="/searchBoards"
+							method="GET">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Boards"
+								style="float: left; width: 126px;" name="board" />
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</li>
+				<li>
+					<form class="navbar-form navbar-left" role="search" action="/searchUsers"
+							method="GET">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Users"
+								style="float: left; width: 126px;" name="user" />
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-md-4"></div>
+	<div class="col-md-8">
+		<!-- end of navbar wrapper -->
+		<div id="page-content-wrapper">
+			<!-- Keep all page content within the page-content inset div! -->
+			<div class="page-content inset">
+				<div class="row">
+
+					<div class="row col-md-9">
+						<div class="col-xs-12">
+							<div class="row thumbnail">
+								<div class="col-xs-1"></div>
+								<div class="col-xs-10">
+									<tr th:each="entry : ${boardList}">
+										<div class="row">
+											<div class="btn btn-default btn-draggable col-xs-12"
+												style="margin-top: 10px; border: 1px solid; padding-bottom: 10px;">
+												<strong>BOARD NAME:</strong>
+												<td th:text="${entry.boardName}"></td>
+												<br/>
+												<p>
+													<span><strong>BOARD CATEGORY: </strong></span><span
+														th:text="${entry.category}"></span>
+												</p>
+												<p>
+													<span><strong>BOARD OWNER: </strong></span><span
+														th:text="${entry.boardOwner}"></span>
+												</p>
+												<p>
+													<span><strong>PRIVACY: </strong></span><span
+														th:text="${entry.privacy}"></span>
+												</p>
+												
+											</div>
+										</div>
+									</tr>
+								</div>
+							</div>
+							<button id="hide">Hide</button>
+							<button id="show">Show</button>
+						</div>
+					</div>
+					<div class="col-md-3"></div>
+				</div>
+			</div>
+		</div>
+		<!-- end of container -->
+	</div>
+
+	<!-- end of  row -->
+
+
+
+	<!-- update board modal -->
+
+
+	<!--  <p th:text="'userid ' + ${user.id}"/>
+ <p th:text="'userid ' + ${allBoards}"/> -->
+	<!-- <script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script>
+		var brdName;
+		var category;
+		var privacy;
+
+		$('#EditBoardModal').on('show.bs.modal', function() {
+			$(this).find('input[name="boardName"]').val(brdName);
+			$(this).find('select[name="category"]').val(category);
+			$(this).find('select[name="privacy"]').val(privacy);
+		});
+
+		function getValues() {
+			var boardId = document.getElementsByName("optradio")[0].value;
+			//document.getElementById("boardId").value=boardId; 
+			alert(boardId); // for delete
+			console.log("board isss" + boardId);
+			document.getElementByName("boardId").value = boardId;
+			brdName = document.getElementByName("brdName").value;
+			category = document.getElementByName("brdcategory").value;
+			privacy = document.getElementByName("brdprivacy").value;
+			alert(brdName + category + privacy);
+
+		}
+
+		$('#EditBoardModal').on('hidden.bs.modal', function() {
+			// do something…
+		})
+
+		function submitDeleteForm() {
+			document.getElementById("deleteForm").submit();
+		}
+		
+		
+		
+	</script>
+ -->
+	<script src="http://code.jquery.com/jquery-latest.min.js"
+		type="text/javascript">
+		
+	</script>
+	<script>
+		$(document).ready(function() {
+			$("#hide").click(function() {
+				$("p").hide();
+			});
+			$("#show").click(function() {
+				$("p").show();
+			});
+		});
+	</script>
+</body>
+</html>

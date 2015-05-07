@@ -14,15 +14,19 @@ public class CommentsHandlerTest {
     @Test
     public void testAddComment() throws Exception {
         CommentsHandler commentsHandler = new CommentsHandler();
-        String boardId = "553dbaf6b874231faaaeed27";
-        String snippetId = "55486125b8748c0c1755ac47";
+        String boardId = "55491bd2b8747d2e080befae";
+        String snippetId = "1";
         Comment comment = new Comment("5536c0f0b874c0b703a6d27e", "Test Comment 1");
-        //commentsHandler.createComment(boardId, snippetId, comment);
+        //commentsHandler.createComment(comment, "5536c0f0b874c0b703a6d27e", boardId, snippetId);
     }
 
     @Test
     public void testGetComment() throws Exception {
-
+        CommentsHandler commentsHandler = new CommentsHandler();
+        String boardId = "55491bd2b8747d2e080befae";
+        String snippetId = "1";
+        String commentId = "5549ca5f77c8621d2842be9d";
+        commentsHandler.deleteComment(boardId, snippetId, commentId);
     }
 
     @Test

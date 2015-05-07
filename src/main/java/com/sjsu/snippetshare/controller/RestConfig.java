@@ -17,5 +17,11 @@ public class RestConfig {
 		model.addAttribute("user", new User());
         return "SnippetShare";
     }
+
+    @RequestMapping("/logout")
+    public String logOut() {
+        return "redirect:/snippetshare";
+
+    }
 	
 }

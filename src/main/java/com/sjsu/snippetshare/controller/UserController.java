@@ -16,8 +16,8 @@ import com.sjsu.snippetshare.service.UserHandler;
 @Controller
 @RequestMapping(value = ("/snippetshare/users"))
 public class UserController {
-	
-	DBCollection coll; 
+
+	DBCollection coll;
 	BasicDBObject doc;
 	UserHandler userHndlr;
 
@@ -30,15 +30,15 @@ public class UserController {
 		if(userVal)
 		{
 			redirectAttribute.addFlashAttribute("user",user);
-		return "redirect:/SnippetUsersHome/"+user.id;
+			return "redirect:/SnippetUsersHome/"+user.id;
 		}
 		else
 		{
-		return "redirect:/snippetshare";
+			return "redirect:/snippetshare";
 		}
 	}
-	
-	
+
+
 	// facebook login
 	@RequestMapping(value="/fblogin",method=RequestMethod.POST)
 	public String loginFbUser(User user,RedirectAttributes redirectAttribute) throws UnknownHostException
@@ -60,7 +60,7 @@ public class UserController {
 			return "redirect:/SnippetUsersHome/"+user.id;
 		}
 	}
-	
+
 	@RequestMapping(value="/signup",method=RequestMethod.POST)
 	public String createUser(@ModelAttribute User user,RedirectAttributes redirectAttribute) throws UnknownHostException
 	{

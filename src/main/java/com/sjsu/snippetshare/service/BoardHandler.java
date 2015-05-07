@@ -90,10 +90,10 @@ public class BoardHandler {
 		}
 	}
 	
-	public ArrayList<Board> getAllBoards(String userId, String accessPermission) throws UnknownHostException
+	public ArrayList<Board> getAllBoards(String userId, String accessPermission, boolean accessPrivacy) throws UnknownHostException
 	{
 		ArrayList<Board> boardList = new ArrayList<Board>();
-		coll = MongoFactory.getConnection().getCollection("TestBoard");
+		coll = MongoFactory.getConnection().getCollection("Board");
 		DBCursor cursor = coll.find();
 		DBObject curObj;
 		Board board;
@@ -109,11 +109,11 @@ public class BoardHandler {
 	}
 
 	
-	public void deleteBoard(String boardName) throws UnknownHostException
+	public void deleteBoard(String boardId) throws UnknownHostException
 	{
 		coll = MongoFactory.getConnection().getCollection("Board");
 		BasicDBObject delquery = new BasicDBObject();
-		delquery.put("_id",new ObjectId(boardName));
+		delquery.put("_id",new ObjectId(boardId));
 		coll.remove(delquery);
 	}
 	
@@ -123,7 +123,7 @@ public class BoardHandler {
 		BasicDBObject searchQuery = new BasicDBObject("_id",new ObjectId(board.getBoardId()));
 		System.out.println(board.getBoardId());
 		BasicDBObject updatedDocument = new BasicDBObject();								
-		updatedDocument.append("$set", new BasicDBObject().append("Name", board.getBoardId())
+		updatedDocument.append("$set", new BasicDBObject().append("Name", board.getBoardName())
 				.append("Owner", board.getBoardOwner())
 				.append("Category", board.getCategory())
 				.append("Privacy", board.getPrivacy()));

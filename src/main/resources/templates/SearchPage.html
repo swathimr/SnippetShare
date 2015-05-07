@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Snippet Share Search</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+	href="../static/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/sidebar.css}"
+	href="../static/css/bootstrap.min.css" />
+</head>
+<body>
+
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<div id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li class="sidebar-brand"><strong style="color: darkgray;">Search
+						for</strong></li>
+				<li>
+					<form class="navbar-form navbar-left" role="search"
+						action="/searchSnippets" method="GET">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Snippets"
+								style="float: left; width: 126px;" name="snippet" />
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</li>
+				<li>
+					<form class="navbar-form navbar-left" role="search"
+						action="/searchBoards" method="GET">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Boards"
+								style="float: left; width: 126px;" name="board" />
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</li>
+				<li>
+					<form class="navbar-form navbar-left" role="search"
+						action="/searchUsers" method="GET">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Users"
+								style="float: left; width: 126px;" name="user" />
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

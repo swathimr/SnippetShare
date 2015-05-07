@@ -115,7 +115,7 @@ public class SnippetHandler {
         return true;
     }
 
-    public List<Snippet> getAllSnippets(String boardid) {
+    public ArrayList<Snippet> getAllSnippets(String boardid) {
         try {
             coll = MongoFactory.getConnection().getCollection("Board");
         } catch (UnknownHostException uhe) {
@@ -124,14 +124,20 @@ public class SnippetHandler {
         ObjectId boardId = new ObjectId(boardid);
         BasicDBObject dbo = new BasicDBObject("_id", boardId);
         DBObject dbBoard = coll.findOne(dbo);
-        List<Snippet> snippets = new ArrayList<Snippet>();
+        ArrayList<Snippet> snippets = new ArrayList<Snippet>();
         Snippet snippet = new Snippet();
-        ArrayList<BasicDBObject> dbSnippets = (ArrayList<BasicDBObject>) dbBoard.get("snippets");
+        ArrayList<BasicDBObject> dbSnippets = new ArrayList<BasicDBObject>();
+        try {
+            dbSnippets = (ArrayList<BasicDBObject>) dbBoard.get("snippets");
+        } catch (NullPointerException npe) {
+            return snippets;
+        }
         for (Iterator<BasicDBObject> iterator = dbSnippets.iterator(); iterator.hasNext(); ) {
             snippet = new Snippet();
             BasicDBObject dbSnippet = (BasicDBObject) iterator.next();
             snippet = snippet.makePOJOFromBSON(dbSnippet);
             snippets.add(snippet);
+
         }
         return snippets;
     }

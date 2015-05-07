@@ -5,20 +5,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mongodb.*;
 import com.sjsu.snippetshare.domain.Snippet;
 import org.bson.types.ObjectId;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
-import com.mongodb.WriteResult;
 import com.sjsu.snippetshare.domain.Comment;
 
 public class CommentsHandler {
 	DBCollection coll;
 	BasicDBObject doc;
-	public Comment createComment(Comment comment, String commentOwner, String board,String snippet) throws UnknownHostException
+	public Comment createComment(Comment comment, String commentOwner, String snippet) throws UnknownHostException
 	{
 		coll = MongoFactory.getConnection().getCollection("Board");
 		boolean updated = false;
@@ -27,10 +23,10 @@ public class CommentsHandler {
 		comment.setOwnerId(commentOwner);
 		BasicDBObject newComment = new BasicDBObject("commentId",comment.getCommentId()).
 				append("text",comment.getText()).append("ownerId",comment.getOwnerId());
-		DBObject updateQuery = new BasicDBObject("_id", new ObjectId(board))
-				.append("snippets.snippetId", snippet);
+		DBObject updateQuery = new BasicDBObject("snippets.snippetId", snippet);
+
 		BasicDBObject updateCommand =
-				new BasicDBObject("$push", new BasicDBObject("Snippets.$.comments", newComment));
+				new BasicDBObject("$push", new BasicDBObject("snippets.$.comments", newComment));
 		WriteResult collDB = coll.update(updateQuery, updateCommand);
 		System.out.println("collDB:"+collDB);
 		if(collDB.getN() !=0)
@@ -44,6 +40,43 @@ public class CommentsHandler {
 		return comment;
 	}
 
+
+	public List<Comment> getAllComments(String userId, String boardId, String snippetId) throws UnknownHostException {
+		coll = MongoFactory.getConnection().getCollection("Board");
+		DBObject findQuery = new BasicDBObject("_id", new ObjectId(boardId))
+				.append("snippets.snippetId", snippetId);
+		Comment comment = new Comment();
+		List<Comment> comments = new ArrayList<Comment>();
+		DBCursor dbComments = coll.find(findQuery);
+		if (dbComments != null) {
+			while (dbComments.hasNext()) {
+				DBObject dbComment = dbComments.next();
+				comment = new Comment();
+				comment.setCommentId(dbComment.get("commentId").toString());
+				comment.setText(dbComment.get("text").toString());
+				comment.setOwnerId(dbComment.get("ownerId").toString());
+				comments.add(comment);
+			}
+		}
+		return comments;
+	}
+
+	public boolean deleteComment(String boardId, String snippetId, String commentId) throws UnknownHostException {
+		coll = MongoFactory.getConnection().getCollection("Board");
+		DBObject deleteQuery = new BasicDBObject("_id", new ObjectId(boardId))
+				.append("snippets.snippetId", snippetId);
+		BasicDBObject deleteCommand = new BasicDBObject("$pull", new BasicDBObject("snippets.$.comments", commentId));
+		WriteResult deleteResult = coll.update(deleteQuery, deleteCommand);
+		if(deleteResult.getN() !=0)
+		{
+			return true;
+		}
+		else
+		{
+			throw new MongoException(deleteQuery);
+		}
+	}
+
 	public Comment updateComment(Comment comment, String snippetId,String commentId) throws UnknownHostException
 	{
 
@@ -54,7 +87,7 @@ public class CommentsHandler {
 		DBObject updateQuery = new BasicDBObject("snippets.snippetId", snippetId).
 				append("snippets.comments.commentId", commentId);
 		BasicDBObject updateCommand =
-				new BasicDBObject("$push", new BasicDBObject("Snippets.comments.$.text", updateComment));
+				new BasicDBObject("$push", new BasicDBObject("snippets.comments.$.text", updateComment));
 		WriteResult collDB = coll.update(updateQuery, updateCommand);
 		System.out.println("collDB:"+collDB);
 		if(collDB.getN() !=0)

@@ -8,6 +8,10 @@
 
     <aop:aspectj-autoproxy />
     <bean id="boardHandler" class="com.sjsu.snippetshare.service.BoardHandler" />
+    <bean id="snippetHandler" class="com.sjsu.snippetshare.service.SnippetHandler" />
+    <bean id="commentsHandler" class="com.sjsu.snippetshare.service.CommentsHandler" />
     <bean id="authorizeAspect" class="com.sjsu.snippetshare.aspect.Authorize" />
     <bean id="board" class="com.sjsu.snippetshare.domain.Board" />
+    <bean id="snippet" class="com.sjsu.snippetshare.domain.Snippet" />
+    <bean id="comment" class="com.sjsu.snippetshare.domain.Comment" />
 </beans>

@@ -22,26 +22,38 @@ import com.sjsu.snippetshare.domain.User;
 public class BoardController {
 
 	org.springframework.context.ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-	Authorize authorize = (Authorize) context.getBean("authorizeAspect");
-	BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
-	
-	@RequestMapping("/{userId}")
-	public String getSnippeUsersHomePage(Model model,@PathVariable String userId) throws UnknownHostException
+
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	public String getSnippetUsersHomePage(Model model, @PathVariable("userId") String userId) throws UnknownHostException
 	{
-		System.out.println("Mallika"+userId);
-		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "Shared");//Board();
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
+		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "Shared", true);//Board();
 		System.out.println(boardObj.size());
 		model.addAttribute("sharedBoards", boardObj);
-		boardObj = boardHndlr.getAllBoards(userId, "Owned");
+		boardObj = boardHndlr.getAllBoards(userId, "Owned", true);
 		System.out.println(boardObj.size());
 		model.addAttribute("allBoards", boardObj);
 		model.addAttribute("size", boardObj.size());
 		return "SnippetUsersHome";
 	}
+
+	@RequestMapping(value = "/allboards/{userId}")
+	public String getAllBoards(@PathVariable("userId") String userId, User user, Model model) throws UnknownHostException {
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
+		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "", false);
+		user.setId(userId);
+		model.addAttribute("allBoards", boardObj);
+		model.addAttribute("user",user);
+		return "GetAllBoards";
+	}
 	
 	@RequestMapping(value=("/createBoard"),method=RequestMethod.POST)
 	public String createBoard(Board board,RedirectAttributes redirectAttribute,User user) throws UnknownHostException
 	{
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 		boardHndlr=new BoardHandler();
 		System.out.println("got board values herre"+board.toString());
 		boardHndlr.createBoard(board);
@@ -53,6 +65,8 @@ public class BoardController {
 	@RequestMapping(value=("/getOneBoard"),method=RequestMethod.GET)
 	public Board getBoard(Model model,@ModelAttribute Board board) throws UnknownHostException
 	{
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 		boardHndlr=new BoardHandler();
 		
 		
@@ -68,6 +82,8 @@ public class BoardController {
 	@RequestMapping(value=("/updateBoard"),method=RequestMethod.POST)
 	public String updateBoard(Board board,RedirectAttributes redirectAttribute,User user) throws UnknownHostException
 	{
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 		boardHndlr=new BoardHandler();
 		System.out.println("update board value"+board.getBoardName());
 		Board b = null;
@@ -83,6 +99,8 @@ public class BoardController {
 	@RequestMapping(value=("/boardInfo/{board_id}"),method=RequestMethod.GET)
 	public String boardInfo(Model model,@PathVariable String board_id) throws UnknownHostException
 	{
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 		boardHndlr=new BoardHandler();
 		//System.out.println(board.getBoardId());
 		if(board_id!= null)
@@ -98,7 +116,8 @@ public class BoardController {
 	public String deleteBoard(Board board,RedirectAttributes redirectAttribute,User user) throws UnknownHostException
 	{
 		System.out.println("came in here"+board.getBoardId());
-		boardHndlr=new BoardHandler();
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 		boardHndlr.deleteBoard(board.getBoardId());
 		user.setId(board.getBoardOwner());
 		redirectAttribute.addFlashAttribute("user", user);
@@ -108,6 +127,8 @@ public class BoardController {
 	@RequestMapping(value=("/getBoards"),method=RequestMethod.GET)
 	public String getAllBoardsByOwner(Board board,Model model) throws UnknownHostException
 	{
+		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 		boardHndlr=new BoardHandler();
 		System.out.println(board.getBoardOwner());
 //		Map map = boardHndlr.getAllBoards(board); 

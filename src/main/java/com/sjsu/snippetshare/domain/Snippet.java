@@ -14,7 +14,8 @@ public class Snippet {
     private String snippetName;
     private String ownerId;
     private String snippetText;
-    private List<Comment> comments = new ArrayList<Comment>();
+    private String boardId;
+    private ArrayList<Comment> comments = new ArrayList<Comment>();
 
     public Snippet(String snippetName, String ownerId, String snippetText) {
         this.snippetName = snippetName;
@@ -52,7 +53,7 @@ public class Snippet {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
     }
 
@@ -69,11 +70,19 @@ public class Snippet {
     }
 
     public Snippet makePOJOFromBSON(DBObject dbo) {
-        this.snippetId = (String) dbo.get("snippetId");
-        this.snippetName = (String) dbo.get("snippetName");
-        this.snippetText = (String) dbo.get("snippetText");
-        this.comments = (List<Comment>) dbo.get("comments");
+        this.snippetId = dbo.get("snippetId").toString();
+        this.snippetName =dbo.get("snippetName").toString();
+        this.snippetText =dbo.get("snippetText").toString();
+        this.comments = (ArrayList<Comment>) dbo.get("comments");
         return this;
+    }
+
+    public String getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(String boardId) {
+        this.boardId = boardId;
     }
 }
 

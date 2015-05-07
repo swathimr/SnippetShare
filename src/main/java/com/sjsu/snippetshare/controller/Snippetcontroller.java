@@ -1,8 +1,16 @@
 package com.sjsu.snippetshare.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.sjsu.snippetshare.aspect.Authorize;
+import com.sjsu.snippetshare.domain.Board;
+import com.sjsu.snippetshare.domain.Comment;
+import com.sjsu.snippetshare.domain.User;
+import com.sjsu.snippetshare.service.BoardHandler;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sjsu.snippetshare.domain.Snippet;
 import com.sjsu.snippetshare.service.SnippetHandler;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@org.springframework.web.bind.annotation.RestController
+@Controller
 public class Snippetcontroller {
-    SnippetHandler snippetHandler = new SnippetHandler();
-
+    org.springframework.context.ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+    Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+    SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
+/*
     @RequestMapping(value = "/createSnippet/{boardId}", method = RequestMethod.POST)
     public String createSnippet(@PathVariable String boardId, @ModelAttribute Snippet snippet, Model model) {
         Snippet dbSnippet = snippetHandler.addSnippet(boardId, snippet);
@@ -23,6 +34,23 @@ public class Snippetcontroller {
             return "Failed!";
         }
         return "Success!";
+    }
+    */
+
+    @RequestMapping(value = "/createSnippet", method = RequestMethod.POST)
+    public String createSnippet(@ModelAttribute Snippet snippet,RedirectAttributes redirectAttribute,User user,Board board) {
+        System.out.println("got in to create snippet"+snippet.getBoardId());
+        System.out.println("got in to create snippet"+snippet.getSnippetText());
+        System.out.println("got it"+snippet.getOwnerId());
+        Snippet dbSnippet = snippetHandler.addSnippet(snippet.getBoardId(),snippet);
+        if (dbSnippet == null) {
+            return "Failed!";
+        }
+        System.out.println("created one is::::::::::::::"+dbSnippet);
+        board.setBoardId(snippet.getBoardId());
+        redirectAttribute.addFlashAttribute("board",board);
+        redirectAttribute.addFlashAttribute("user", user);
+        return "redirect:/getAllSnippets/"+user.id+"/"+board.getBoardId();
     }
 
     @RequestMapping(value = "/getSnippet/{boardId}/{snippetId}", method = RequestMethod.GET)
@@ -43,19 +71,25 @@ public class Snippetcontroller {
         return "Success!";
     }
 
-    @RequestMapping(value = "/getSnippet/{boardId}/{snippetId}", method = RequestMethod.POST)
-    public String deleteSnippet(@PathVariable String boardId, @PathVariable String snippetId, Model model) {
+    @RequestMapping(value = "/getAllSnippets/{userId}/{boardId}")
+    public String getSnippet(Model model,@PathVariable String userId, @PathVariable String boardId) {
+        ArrayList<Snippet> snippets = snippetHandler.getAllSnippets(boardId);
+        System.out.println("board id from get all snippets"+boardId);
+        model.addAttribute("boardId", boardId);
+        model.addAttribute("userId", userId);
+        model.addAttribute("snippets",snippets);
+        model.addAttribute("comment",new Comment());
+        return "ViewSnippets";
+    }
+
+    @RequestMapping(value ="/deleteSnippet/{boardId}/{snippetId}/{userId}",method = RequestMethod.POST)
+    public String deleteSnippet(@PathVariable String boardId, @PathVariable String snippetId,@PathVariable String userId) {
+        System.out.println("in delete snippet api"+boardId+snippetId+userId);
         boolean result = snippetHandler.deleteSnippet(boardId, snippetId);
         if (!result) {
             return "Failed!";
         }
-        return "Success!";
-    }
-
-    @RequestMapping(value = "/getAllSnippets/user/{userId}/board/{boardId}", method = RequestMethod.GET)
-    public List<Snippet> getAllSnippets(@PathVariable("userId") String userId, @PathVariable("boardId") String boardId, Model model) {
-        List<Snippet> snippets = snippetHandler.getAllSnippets(boardId);
-        return snippets;
+        return "redirect:/getAllSnippets/"+userId+"/"+boardId;
     }
 
 }
