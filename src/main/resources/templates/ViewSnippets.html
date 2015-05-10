@@ -58,6 +58,13 @@
                 <p><strong>Comments </strong></p>
                 <p th:each="entry1: ${entry.comments}">
                 <p th:text="${entry1.text}"></p>
+                <span>
+                    <form action="" id="deleteCommentForm" method="post">
+                        <button type="submit" class="btn btn-warning btn-xs"
+                                th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}+'::'+${entry1.commentId}"
+                                onclick="deleteComment(this);">Delete Comment</button>
+                    </form>
+                </span>
         </p>
         <form th:action="@{/createComment/__${userId}__/__${boardId}__/__${entry.snippetId}__}" th:object="${comment}"
               method="post" role="form" >
@@ -136,6 +143,20 @@
         document.getElementById("deleteSnippetForm").action="/deleteSnippet/"+boardId+'/'+snippetId+'/'+userId;
         console.log("action"+document.getElementById("deleteSnippetForm").action);
         alert("action"+document.getElementById("deleteSnippetForm").action);
+        console.log("action"+document.getElementById("deleteSnippetForm").action);
+        document.getElementById("deleteSnippetForm").submit();
+        console.log("action"+document.getElementById("deleteSnippetForm").action);
+    }
+
+    function deleteComment(value)
+    {
+        var split = value.value.split("::");
+        boardId=split[0];
+        snippetId=split[1];
+        userId=split[2];
+        commentId = split[3];
+        document.getElementById("deleteCommentForm").action="/deleteComment/"+boardId+'/'+snippetId+'/'+commentId+'/'+userId;
+        console.log("action"+document.getElementById("deleteSnippetForm").action);
         console.log("action"+document.getElementById("deleteSnippetForm").action);
         document.getElementById("deleteSnippetForm").submit();
         console.log("action"+document.getElementById("deleteSnippetForm").action);

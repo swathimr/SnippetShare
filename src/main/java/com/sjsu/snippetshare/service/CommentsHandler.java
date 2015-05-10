@@ -65,7 +65,8 @@ public class CommentsHandler {
 		coll = MongoFactory.getConnection().getCollection("Board");
 		DBObject deleteQuery = new BasicDBObject("_id", new ObjectId(boardId))
 				.append("snippets.snippetId", snippetId);
-		BasicDBObject deleteCommand = new BasicDBObject("$pull", new BasicDBObject("snippets.$.comments", commentId));
+		DBObject delete = new BasicDBObject("commentId", commentId);
+		BasicDBObject deleteCommand = new BasicDBObject("$pull", new BasicDBObject("snippets.$.comments", delete));
 		WriteResult deleteResult = coll.update(deleteQuery, deleteCommand);
 		if(deleteResult.getN() !=0)
 		{

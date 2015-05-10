@@ -55,10 +55,14 @@ public class CommentsController {
 		return comment;
 	}
 
-	@RequestMapping(value = "/deleteComment/{boardId}/{snippetId}/{commentId}", method = RequestMethod.POST)
-	public String deleteComment(@PathVariable("boardId") String boardId, @PathVariable("snippetId") String snippetId, @PathVariable("commentId") String commentId, Model model) throws UnknownHostException {
+	@RequestMapping(value = "/deleteComment/{boardId}/{snippetId}/{commentId}/{userId}")
+	public String deleteComment(@PathVariable("boardId") String boardId,
+								@PathVariable("snippetId") String snippetId,
+								@PathVariable("commentId") String commentId
+							, @PathVariable("userId") String userId) throws UnknownHostException {
+		handler= new CommentsHandler();
 		handler.deleteComment(boardId, snippetId, commentId);
-		return HttpResponse.class.toString();
+		return "redirect:/getAllSnippets/"+userId+"/"+boardId;
 	}
 
 	@RequestMapping(value = "/getAllComments/{userId}/{boardId}/{snippetId}", method = RequestMethod.GET)
