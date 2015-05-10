@@ -27,7 +27,6 @@ public class CommentsHandler {
 						append("text",comment.getText()).append("ownerId", comment.getOwnerId())
 				.append("ownerName", comment.getOwnerName());
 		DBObject updateQuery = new BasicDBObject("snippets.snippetId", snippet);
-
 		BasicDBObject updateCommand =
 				new BasicDBObject("$push", new BasicDBObject("snippets.$.comments", newComment));
 		WriteResult collDB = coll.update(updateQuery, updateCommand);
