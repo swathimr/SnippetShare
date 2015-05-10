@@ -57,7 +57,7 @@
                 <p th:text="'Snippet Text  : ' +${entry.snippetText}"/>
                 <p><strong>Comments </strong></p>
                 <p th:each="entry1: ${entry.comments}">
-                <p th:text="${entry1.text}"></p>
+                    <span th:text="${entry1.ownerName} +' : '  +${entry1.text}"/>
                 <span>
                     <form action="" id="deleteCommentForm" method="post">
                         <button type="submit" class="btn btn-warning btn-xs"

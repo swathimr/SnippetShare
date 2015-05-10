@@ -13,13 +13,22 @@ public class Comment
     private String commentId;
     private String text;
 	private String ownerId;
+    String ownerName;
 
-    public Comment(String ownerId, String text) {
+    public Comment(String ownerId, String text)
+    {
         this.ownerId = ownerId;
         this.text = text;
     }
 
     public Comment() {}
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
 
     public String getCommentId() {
         return commentId;
