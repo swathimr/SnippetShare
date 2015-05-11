@@ -7,7 +7,7 @@
 <title>Get all boards</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"  />
 </head>
-<body>
+<body style = "background-image:url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg');background-size:cover;background-repeat:no-repeat;">
 <div class="navbar-wrapper">
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container-fluid">
@@ -29,23 +29,23 @@
  
  
 <!--  <p th:text="'userid ' + ${user.id}"/> -->
- 
- <div class="col-md-7 col-md-offset-2" style="background-color:#f5f5f5;">
- 	<div class= "container">
- 	<h2><strong>All Other Boards</strong></h2>
- 	<hr width="80%;" style="margin-right:30%;"/><br/>
+
+ 	<div class= "container" style="background-color:#f5f5f5;">
+ 	<h2><strong>All Boards</strong></h2>
+ 	<hr/><br/>
  	<div class="row">
  	<p th:each="entry: ${allBoards}">
- 	<div class="col-md-2" style="padding-bottom:3%;margin-right:5%;" id="myBoardsId">
- 	 	<strong><span th:text="${entry.boardName}"/></strong><br/><br/>
- 	 	<img src="/images/code-red-640x360.png" width="55%;"/><br/><br/>
-	 	<a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a><!-- View</button></form> -->
+ 	<div class="col-md-2" style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:LightGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
+ 	 	<img src="/images/code-red-640x360.png" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span th:text="${entry.privacy}"></span></strong><br/><br/>
+		<strong><div th:text="${entry.boardName}" style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/></strong><br/>
+		<a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
+				class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
 	 	</div>
 	</p>
+
 	</div>
  	
  	
- 	</div>
  	</div>
  
  

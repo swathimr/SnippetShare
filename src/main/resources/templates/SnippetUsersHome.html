@@ -7,7 +7,7 @@
     <title>Snippet Share Home Page</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
 </head>
-<body>
+<body>//style = "background-image:url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg');background-size:cover;background-repeat:no-repeat;">
 <div class="navbar-wrapper">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container-fluid">
@@ -32,89 +32,77 @@
 
 <div class="row">
 
-    <div class="col-md-2">
-        <div class="sidebar-module sidebar-module-inset"
-             style="margin-left: 11%; margin-right: 11%; background-color: #fff;">
-            <p><strong>To search for Snippets, Boards and/or other Users</strong></p>
+    <div class="col-md-1" style="margin-left:2%;margin-top:1%;background-color:#f5f5f5;border-radius: 15px;">
+        <p class="text-muted" style="margin-top:2%;"><strong>To search for Snippets and Boards </strong></p>
             <h4>
                 <i class="glyphicon glyphicon-share-alt"></i> &nbsp;
-                <a th:href="@{/searchPage}">Click Here</a>
+                <a th:href="@{/searchPage}"><strong>Click Here</strong></a>
             </h4>
-        </div>
     </div>
-    <div class="col-md-7" style="background-color:#f5f5f5;">
-        <div class="container">
-            <h2><strong>Your Created Boards</strong> &nbsp;&nbsp; <a class="btn btn-primary"
-                                                                     th:href="@{'/SnippetUsersHome/allboards/'+${user.id}}">View
-                All Boards</a>
 
-                <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#EditBoardModal"
-                        style="margin-left:36%;">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;Edit
-                </button>
 
-                <form action="/SnippetUsersHome/deleteBoard" id="deleteForm" role="form" method="post">
-                    <input type="hidden" th:value="${user.id}" name="boardOwner" id="boardOwner"/>
-                    <input type="hidden" value="" id="boardId" name="boardId"/>
-                    <button type="submit" class="btn btn-default btn-xs" onclick="submitDeleteForm();"
-                            style="margin-left:77%;">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;Delete
-                    </button>
-                </form>
+
+        <div class="container" style="background-color:#f5f5f5;">
+            <h2><strong>Your Created Boards</strong>
+                <button type="button" class="btn btn-primary" style="width:15%;margin-left:50%;box-shadow:2px 3px 0px rgba(4, 4, 4, 0.3);"
+                        data-toggle="modal" data-target="#myModal"> +
+                    <strong>Create Board</strong>
+                </button><br/><br/>
+
+                <a class="btn btn-primary" style="width:15%;margin-left:77%;box-shadow:2px 3px 0px rgba(4, 4, 4, 0.3);"
+                   th:href="@{'/SnippetUsersHome/allboards/'+${user.id}}"><strong>View All Boards</strong></a>
             </h2>
-            <p class="text-muted"><strong>Please select radio button and click on Edit or Delete button</strong></p>
-            <hr width="80%;" style="margin-right:30%;"/>
+
+            <hr style="border-top: black"/>
             <br/>
 
             <div class="row">
                 <p th:each="entry: ${allBoards}">
 
-                <div class="col-md-2" style="padding-bottom:3%;margin-right:5%;" id="myBoardsId">
-                    <strong><span th:text="${entry.boardName}"/></strong><br/><br/>
-                    <img src="/images/board_thumb.jpg" width="55%;"/><br/><br/>
-                    <span><input type="radio" name="optradio"
-                                 th:value="${entry.boardId}+'::'+${entry.boardName}+'::'+${entry.category}+'::'+${entry.privacy}"
-                                 onclick="getValues(this);"/></span>&nbsp;
-                    <!-- <input type="hidden" name="brdName" th:value="${entry.boardName}" id="brdName"/>
-                    <input type="hidden" name="brdcategory" th:value="${entry.category}" id="brdcategory"/>
-                    <input type="hidden" name="brdprivacy" th:value="${entry.privacy}" id="brdprivacy"/> -->
-                    <!-- <form action = "/getAllSnippets" method="post">
-                    <input type="hidden" class="form-control" name="boardOwner" id="boardOwner" th:value="${user.id}"/>
-                    <input type="hidden" class="form-control" name="boardId" id="boardId" th:value="${entry.boardId}"/>
-                    <button type="submit" id="createdBoardsID" class="btn btn-default btn-xs">&nbsp; -->
-                    <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}"><span
+                <div class="col-md-2" style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:Silver;box-shadow: 8px 8px 5px #888888;cursor:pointer;" id="myBoardsId">
+               <!-- "/images/board_thumb.jpg" width="15%;"   -->
+                    <img src="/images/board_thumb.jpg" width="15%;" style="padding-top:5%;"/>&emsp;<strong><span th:text="${entry.privacy}"></span>
+
+                <button type="button" class="btn btn-link" style="color:black;width:2%;" name="optradio" th:value="${entry.boardId}+'::'+${entry.boardName}+'::'+${entry.category}+'::'+${entry.privacy}"
+                      onclick="getValues(this);"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+
+                <button type="button" class="btn btn-link" style="color:black;width:2%;" th:value="${entry.boardId}" name="deleteButtonValue" onclick="submitDeleteForm(this);">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </strong>
+                <br/> <br/>
+                <strong><div th:text="${entry.boardName}"
+                             style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/></strong><br/>
+
+
+                <form action="/SnippetUsersHome/deleteBoard" id="deleteForm" role="form" method="post">
+                    <input type="hidden" th:value="${user.id}" name="boardOwner" id="boardOwner"/>
+                    <input type="hidden" id="boardIdDel" name="boardId"/>
+                </form>
+
+                    <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
                             class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a><!-- View</button></form> -->
                 </div>
                 </p>
-            </div>
+            </div><hr/>
 
             <div class="row">
-                <h2><strong>Boards shared with you</strong><span class="glyphicon glyphicon-pencil" aria-hidden="true"
-                                                                 style="margin-left:45%;">&emsp;</span><span
-                        class="glyphicon glyphicon-trash" aria-hidden="true"></span></h2>
-                <hr width="80%;" style="margin-right:30%;"/>
-                <br/>
+                <h2><strong>&nbsp;Boards shared with you</strong></h2>
+                <hr/>
 
                 <p th:each="entry: ${sharedBoards}">
 
-                <div class="col-md-2" style="padding-bottom:3%;margin-right:5%;">
-                    <strong><span th:text="${entry.boardName}"/></strong><br/><br/>
-                    <img src="/images/black.jpg" width="55%;"/><br/><br/>
-                    <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}"><span
-                            class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a><!-- View</button></form> -->
+                <div class="col-md-2" style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:DarkGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
+                <img src="/images/black.jpg" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span th:text="${entry.privacy}"></span></strong><br/><br/>
+                    <strong><div th:text="${entry.boardName}" style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/></strong><br/>
+                <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
+                        class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
                 </div>
                 </p>
             </div>
             <br/>
         </div>
         <!-- end of container -->
-    </div>
-
-    <div class="col-md-3" style="padding-left:3%;margin-top:1%;">
-        <button type="button" class="btn btn-warning" style="width:70%;" data-toggle="modal" data-target="#myModal"> +
-            Create Board
-        </button>
-    </div>
 
 </div>
 <!-- end of  row -->
@@ -284,23 +272,24 @@
     });
 
     function getValues(test) {
-        alert(test);
-        alert(test.value);
+        //alert(test.value);
+        //alert(test.html());
         var split = test.value.split("::");
 
         boardId = split[0];
         brdName = split[1];
         category = split[2];
         privacy = split[3];
-        alert(boardId + brdName + category + privacy);
+        //alert(boardId + brdName + category + privacy);
+       $('#EditBoardModal').modal('show');
 
     }
 
-    $('#EditBoardModal').on('hidden.bs.modal', function () {
-        // do something…
-    })
-
-    function submitDeleteForm() {
+    function submitDeleteForm(deleteVal) {
+        alert(deleteVal.value);
+        var brdId=deleteVal.value;
+        document.getElementById("boardIdDel").value=brdId;
+        alert(document.getElementById("boardIdDel").value);
         document.getElementById("deleteForm").submit();
     }
 
