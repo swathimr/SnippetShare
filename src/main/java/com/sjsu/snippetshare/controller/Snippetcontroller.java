@@ -106,12 +106,13 @@ public class Snippetcontroller {
                                               @RequestParam(value="emailId5") String emailId5,
                                               Model model)
     {
-
+        System.out.println("addUsersToBoard : board id "+ boardId);
         SnippetHandler hand = new SnippetHandler();
         try {
             ArrayList<String> userList = new ArrayList<String>();
             if(!emailId1.equals(null))
             {
+                System.out.println("emailId1 is : "+ emailId1);
                 userList.add(emailId1);
             }
             if(!emailId2.equals(null))

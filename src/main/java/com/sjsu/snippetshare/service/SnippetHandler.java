@@ -145,18 +145,14 @@ public class SnippetHandler {
     public boolean updateAccessList(String boardId, ArrayList<String> userList) throws Exception
     //public boolean updateAccessList(String boardId, String userEmailAddr) throws Exception
     {
-
+            System.out.println("updateAccessList......boardId : "+ boardId);
             coll = MongoFactory.getConnection().getCollection("Board");
             ObjectId bId = new ObjectId(boardId);
-            DBObject dbo = new BasicDBObject("_id", boardId).append("Privacy", "Private");
+            DBObject dbo = new BasicDBObject("_id", bId).append("Privacy", "Private");
             //DBObject update = new BasicDBObject("AccessList", getUserFromEmail(userList));
             BasicDBObject updateCommand =
                     new BasicDBObject("$push", new BasicDBObject("AccessList",
                             new BasicDBObject("$each", getUserFromEmail(userList))));
-//        BasicDBObject updateCommand =
-//                    new BasicDBObject("$push",
-//                            new BasicDBObject("AccessList", getUserFromEmail(userEmailAddr)));
-
             WriteResult result = coll.update(dbo, updateCommand);
             if(result.getN() != 0) {
                 return true;
@@ -168,17 +164,18 @@ public class SnippetHandler {
     }
 
     public ArrayList<String> getUserFromEmail(ArrayList<String> userList) throws Exception
-    //public String getUserFromEmail(String userEmail) throws Exception
     {
         ArrayList<String> userID = new ArrayList<String>();
 
             DBCollection collection = MongoFactory.getConnection().getCollection("User");
             for(String userEmail : userList)
             {
+                System.out.println("Inside getUserFromEmail: "+ userEmail);
                 DBObject dbo = new BasicDBObject("email", userEmail);
-                DBObject obj = coll.findOne(dbo);
+                DBObject obj = collection.findOne(dbo);
                 if(obj != null)
                 {
+                    System.out.println("Found email address, adding user id");
                     userID.add(obj.get("_id").toString());
                     //return obj.get("_id").toString();
                 }
