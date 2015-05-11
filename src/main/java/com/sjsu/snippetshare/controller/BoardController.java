@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sjsu.snippetshare.aspect.Authorize;
 import com.sjsu.snippetshare.domain.Board;
+import com.sjsu.snippetshare.domain.Comment;
 import com.sjsu.snippetshare.service.BoardHandler;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -75,7 +76,7 @@ public class BoardController {
 			board = boardHndlr.getOneBoard(board.getBoardId());//Board();
 		}
 		
-		model.addAttribute("board",board);
+		model.addAttribute("board", board);
 		return board;
 	}
 	

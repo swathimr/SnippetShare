@@ -84,12 +84,51 @@ public class Snippetcontroller {
 
     @RequestMapping(value ="/deleteSnippet/{boardId}/{snippetId}/{userId}",method = RequestMethod.POST)
     public String deleteSnippet(@PathVariable String boardId, @PathVariable String snippetId,@PathVariable String userId) {
-        System.out.println("in delete snippet api"+boardId+snippetId+userId);
+        System.out.println("in delete snippet api" + boardId + snippetId + userId);
         boolean result = snippetHandler.deleteSnippet(boardId, snippetId);
-        if (!result) {
+        if (!result)
+        {
             return "Failed!";
         }
         return "redirect:/getAllSnippets/"+userId+"/"+boardId;
     }
+
+    @RequestMapping(value ="/addUsersToBoard/{boardId}/{userId}/{u1}/{u2}/{u3}",method = RequestMethod.POST)
+    public String updateAccessList(@PathVariable String boardId,
+                                              @PathVariable String userId,
+                                              //@ModelAttribute ArrayList<String> userList,
+                                   @PathVariable String u1,
+                                   @PathVariable String u2,
+                                   @PathVariable String u3,
+                                              Model model)
+    {
+
+        SnippetHandler hand = new SnippetHandler();
+        try {
+            ArrayList<String> userList = new ArrayList<String>();
+            if(!u1.equals(null))
+            {
+                userList.add(u1);
+            }
+            if(!u2.equals(null))
+            {
+                userList.add(u2);
+            }
+            if(!u3.equals(null))
+            {
+                userList.add(u3);
+            }
+
+            //hand.updateAccessList(boardId, userList);
+            hand.updateAccessList(boardId, userList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "redirect:/getAllSnippets/"+userId+"/"+boardId;
+
+    }
+
+
+
 
 }

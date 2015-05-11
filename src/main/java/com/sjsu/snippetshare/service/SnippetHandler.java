@@ -142,4 +142,55 @@ public class SnippetHandler {
         return snippets;
     }
 
+    public boolean updateAccessList(String boardId, ArrayList<String> userList) throws Exception
+    //public boolean updateAccessList(String boardId, String userEmailAddr) throws Exception
+    {
+
+            coll = MongoFactory.getConnection().getCollection("Board");
+            ObjectId bId = new ObjectId(boardId);
+            DBObject dbo = new BasicDBObject("_id", boardId).append("Privacy", "Private");
+            //DBObject update = new BasicDBObject("AccessList", getUserFromEmail(userList));
+            BasicDBObject updateCommand =
+                    new BasicDBObject("$push", new BasicDBObject("AccessList",
+                            new BasicDBObject("$each", getUserFromEmail(userList))));
+//        BasicDBObject updateCommand =
+//                    new BasicDBObject("$push",
+//                            new BasicDBObject("AccessList", getUserFromEmail(userEmailAddr)));
+
+            WriteResult result = coll.update(dbo, updateCommand);
+            if(result.getN() != 0) {
+                return true;
+            }
+            else
+            {
+                throw new MongoException(updateCommand);
+            }
+    }
+
+    public ArrayList<String> getUserFromEmail(ArrayList<String> userList) throws Exception
+    //public String getUserFromEmail(String userEmail) throws Exception
+    {
+        ArrayList<String> userID = new ArrayList<String>();
+
+            DBCollection collection = MongoFactory.getConnection().getCollection("User");
+            for(String userEmail : userList)
+            {
+                DBObject dbo = new BasicDBObject("email", userEmail);
+                DBObject obj = coll.findOne(dbo);
+                if(obj != null)
+                {
+                    userID.add(obj.get("_id").toString());
+                    //return obj.get("_id").toString();
+                }
+                else
+                {
+                    throw new Exception("Email address does not exist");
+                }
+
+            }
+
+        return userID;
+    }
+
+
 }
