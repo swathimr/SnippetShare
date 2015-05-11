@@ -8,6 +8,7 @@ import com.sjsu.snippetshare.domain.Board;
 import com.sjsu.snippetshare.domain.Comment;
 import com.sjsu.snippetshare.domain.User;
 import com.sjsu.snippetshare.service.BoardHandler;
+
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sjsu.snippetshare.domain.Snippet;
 import com.sjsu.snippetshare.service.SnippetHandler;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -93,42 +96,47 @@ public class Snippetcontroller {
         return "redirect:/getAllSnippets/"+userId+"/"+boardId;
     }
 
-    @RequestMapping(value ="/addUsersToBoard/{boardId}/{userId}/{u1}/{u2}/{u3}",method = RequestMethod.POST)
-    public String updateAccessList(@PathVariable String boardId,
-                                              @PathVariable String userId,
-                                              //@ModelAttribute ArrayList<String> userList,
-                                   @PathVariable String u1,
-                                   @PathVariable String u2,
-                                   @PathVariable String u3,
+    @RequestMapping(value ="/addUsersToBoard/{boardId}/{userId}",method = RequestMethod.POST)
+    public String updateAccessList(@PathVariable(value="boardId") String boardId,
+                                              @PathVariable(value="userId") String userId,
+                                              @RequestParam(value="emailId1") String emailId1,
+                                              @RequestParam(value="emailId2") String emailId2,
+                                              @RequestParam(value="emailId3") String emailId3,
+                                              @RequestParam(value="emailId4") String emailId4,
+                                              @RequestParam(value="emailId5") String emailId5,
                                               Model model)
     {
 
         SnippetHandler hand = new SnippetHandler();
         try {
             ArrayList<String> userList = new ArrayList<String>();
-            if(!u1.equals(null))
+            if(!emailId1.equals(null))
             {
-                userList.add(u1);
+                userList.add(emailId1);
             }
-            if(!u2.equals(null))
+            if(!emailId2.equals(null))
             {
-                userList.add(u2);
+                userList.add(emailId2);
             }
-            if(!u3.equals(null))
+            if(!emailId3.equals(null))
             {
-                userList.add(u3);
+                userList.add(emailId3);
             }
-
+            if(!emailId4.equals(null))
+            {
+                userList.add(emailId4);
+            }
+            if(!emailId5.equals(null))
+            {
+                userList.add(emailId5);
+            }
+            for(int i=0; i<userList.size();i++)
+            System.out.println(userList.get(i));
             //hand.updateAccessList(boardId, userList);
             hand.updateAccessList(boardId, userList);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "redirect:/getAllSnippets/"+userId+"/"+boardId;
-
     }
-
-
-
-
 }

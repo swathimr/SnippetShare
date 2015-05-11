@@ -93,8 +93,8 @@
 							id="ownerId" th:value="${userId}" /> <input type="submit" />
 					</form>
 
-					<form action="@{/addUsersToBoard/__${boardId}__/__${userId}__}"
-						method="post">
+					<form th:action="@{/addUsersToBoard/__${boardId}__/__${userId}__}"
+						method="post" role="form">
 						<div class="form-group">
 							<label>Share Snippets with: </label>
 						</div>
