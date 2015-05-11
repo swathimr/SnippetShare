@@ -42,11 +42,38 @@
 	<!-- <p th:text="'userid ' + ${userId}"/> -->
 	<!--<p th:text="'boardid ' + ${boardId}"/> -->
 
-	<div class="col-md-2">
+	<div class="col-md-3">
 		<img src="/images/updated_snippet.jpg" width="40%;"
-			style="margin-left: 15%;" />
+			style="margin-left: 15%;" /> <br />
+		<form th:action="@{/addUsersToBoard/__${boardId}__/__${userId}__}"
+			method="post" role="form" style="margin-left: 15%; margin-top: 15%;">
+			<div class="form-group">
+				<label>Share Snippets with: </label>
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="emailId1"
+					name="emailId1" placeholder="Enter email" style="width: 300px;" />
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="emailId2"
+					name="emailId2" placeholder="Enter email" style="width: 300px;" />
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="emailId3"
+					name="emailId3" placeholder="Enter email" style="width: 300px;" />
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="emailId4"
+					name="emailId4" placeholder="Enter email" style="width: 300px;" />
+			</div>
+			<div class="form-group">
+				<input type="email" class="form-control" id="emailId5"
+					name="emailId5" placeholder="Enter email" style="width: 300px;" />
+			</div>
+			<button type="submit" class="btn btn-default">Submit</button>
+		</form>
 	</div>
-	<div class="col-md-7"
+	<div class="col-md-6"
 		style="background-color: #f5f5f5; margin-left: 2%;">
 		<div class="container">
 
@@ -91,34 +118,6 @@
 							th:field="*{text}" />
 						<input type="hidden" class="form-control" name="ownerId"
 							id="ownerId" th:value="${userId}" /> <input type="submit" />
-					</form>
-
-					<form th:action="@{/addUsersToBoard/__${boardId}__/__${userId}__}"
-						method="post" role="form">
-						<div class="form-group">
-							<label>Share Snippets with: </label>
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="emailId1"
-								name="emailId1" placeholder="Enter email" style="width: 500px;" />
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="emailId2"
-								name="emailId2" placeholder="Enter email" style="width: 500px;" />
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="emailId3"
-								name="emailId3" placeholder="Enter email" style="width: 500px;" />
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="emailId4"
-								name="emailId4" placeholder="Enter email" style="width: 500px;" />
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="emailId5"
-								name="emailId5" placeholder="Enter email" style="width: 500px;" />
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
 
 				</details>
