@@ -29,13 +29,9 @@ public class BoardController {
 	{
 		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
 		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
-		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "Shared", true);//Board();
-		System.out.println(boardObj.size());
-		model.addAttribute("sharedBoards", boardObj);
-		boardObj = boardHndlr.getAllBoards(userId, "Owned", true);
-		System.out.println(boardObj.size());
-		model.addAttribute("allBoards", boardObj);
-		model.addAttribute("allBoards", boardObj);
+		ArrayList<ArrayList<Board>> allBoards = boardHndlr.getAllBoards(userId, true);
+		model.addAttribute("sharedBoards", allBoards.get(1));
+		model.addAttribute("allBoards", allBoards.get(0));
 		model.addAttribute("userId", userId);
 		return "SnippetUsersHome";
 	}
@@ -44,9 +40,13 @@ public class BoardController {
 	public String getAllBoards(@PathVariable("userId") String userId, User user, Model model) throws UnknownHostException {
 		Authorize authorize = (Authorize) context.getBean("authorizeAspect");
 		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
-		ArrayList<Board> boardObj = boardHndlr.getAllBoards(userId, "", false);
+		ArrayList<ArrayList<Board>> allBoards = boardHndlr.getAllBoards(userId, false);
 		user.setId(userId);
-		model.addAttribute("allBoards", boardObj);
+		model.addAttribute("javaBoards", allBoards.get(0));
+		model.addAttribute("scalaBoards", allBoards.get(1));
+		model.addAttribute("ccppBoards", allBoards.get(2));
+		model.addAttribute("htmlBoards", allBoards.get(3));
+		model.addAttribute("pppBoards", allBoards.get(4));
 		model.addAttribute("user",user);
 		return "GetAllBoards";
 	}

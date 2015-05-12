@@ -25,36 +25,58 @@ public class Authorize {
     public Object doBoardAccessCheck(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         String userId = (String) args[0];
-        String condition = (String) args[1];
-        boolean accessPrivacy = (Boolean) args[2];
+        boolean accessPrivacy = (Boolean) args[1];
         System.out.println("Before");
         System.out.println(accessPrivacy);
         System.out.println("In aspect");
-        List<Board> boards = (List<Board>) pjp.proceed();
+        ArrayList<ArrayList<Board>> masterList = (ArrayList<ArrayList<Board>>) pjp.proceed();
+        ArrayList<Board> boards = masterList.get(0);
+        ArrayList<ArrayList<Board>> allBoards = new ArrayList<ArrayList<Board>>();
         if (accessPrivacy) {
-            List<Board> filteredBoards = new ArrayList<Board>();
-            if (condition.equals("Owned")) {
-                for (Board board : boards) {
-                    if (board.getBoardOwner().equals(userId)) {
-                        filteredBoards.add(board);
-                    }
-                }
-            } else if (condition.equals("Shared")) {
-                for (Board board : boards) {
+            ArrayList<Board> ownedBoards = new ArrayList<Board>();
+            ArrayList<Board> sharedBoards = new ArrayList<Board>();
+            for (Board board : boards) {
+                if (board.getBoardOwner().equals(userId)) {
+                    ownedBoards.add(board);
+                } else {
                     List<String> accessList = board.getAccessList();
                     if (accessList != null) {
                         for (String accessPerson : accessList) {
                             if (userId.equals(accessPerson)) {
-                                filteredBoards.add(board);
-                                break;
+                                sharedBoards.add(board);
                             }
                         }
                     }
                 }
             }
-            return filteredBoards;
+            allBoards.add(0, ownedBoards);
+            allBoards.add(1, sharedBoards);
+        } else {
+            ArrayList<Board> javaBoards = new ArrayList<Board>();
+            ArrayList<Board> scalaBoards = new ArrayList<Board>();
+            ArrayList<Board> ccppBoards = new ArrayList<Board>();
+            ArrayList<Board> htmlBoards = new ArrayList<Board>();
+            ArrayList<Board> pppBoards = new ArrayList<Board>();
+            for (Board board : boards) {
+                if (board.getCategory().equals("Java")) {
+                    javaBoards.add(board);
+                } else if (board.getCategory().equals("Scala")) {
+                    scalaBoards.add(board);
+                } else if (board.getCategory().equals("PHP / Perl / Python")) {
+                    pppBoards.add(board);
+                } else if (board.getCategory().equals("C / C++")) {
+                    ccppBoards.add(board);
+                } else if (board.getCategory().equals("HTML / JavaScript")) {
+                    htmlBoards.add(board);
+                }
+            }
+            allBoards.add(0, javaBoards);
+            allBoards.add(1, scalaBoards);
+            allBoards.add(2, ccppBoards);
+            allBoards.add(3, htmlBoards);
+            allBoards.add(4, pppBoards);
         }
-        return boards;
+        return allBoards;
     }
 
     @Around("execution(public* com.sjsu.snippetshare.service.SnippetHandler.getAllSnippets(..))")

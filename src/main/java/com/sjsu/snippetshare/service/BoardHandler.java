@@ -90,8 +90,9 @@ public class BoardHandler {
 		}
 	}
 	
-	public ArrayList<Board> getAllBoards(String userId, String accessPermission, boolean accessPrivacy) throws UnknownHostException
+	public ArrayList<ArrayList<Board>> getAllBoards(String userId, boolean accessPrivacy) throws UnknownHostException
 	{
+		ArrayList<ArrayList<Board>> masterList = new ArrayList<ArrayList<Board>>();
 		ArrayList<Board> boardList = new ArrayList<Board>();
 		coll = MongoFactory.getConnection().getCollection("Board");
 		DBCursor cursor = coll.find();
@@ -104,8 +105,9 @@ public class BoardHandler {
 			Board boardObj = board.makePOJOFromBSON(curObj);
 			boardList.add(boardObj);
 		}
-			cursor.close();
-			return boardList;
+		cursor.close();
+		masterList.add(0, boardList);
+		return masterList;
 	}
 
 	

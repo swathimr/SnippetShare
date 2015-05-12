@@ -1,57 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Get all boards</title>
-<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"  />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Get all boards</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
 </head>
-<body style = "background-image:url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg');background-size:cover;background-repeat:no-repeat;">
+<body style="background-image:url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg');background-size:cover;background-repeat:no-repeat;">
 <div class="navbar-wrapper">
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-    <div class="container-fluid">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div class="container-fluid">
 
-	    <div class="navbar-header">
-	       <a class="navbar-brand" href="#" style="color:white;font-family: 'Poller One', cursive;"><strong>SnippetShare</strong></a>
-	    </div>
-    
-     	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav navbar-right">
-			<li><a href="#" data-toggle="modal" data-target="#signupModal" style="color:white"><strong>Home</strong></a></li>
-	       <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
-	       <li><a href="#" th:href="@{/logout}" style="color:white"><strong>LogOut</strong></a></li>
-	      </ul>
-    	</div>   
-	 </div><!-- container-fluid -->
- </nav>
- </div><!-- end of navbar wrapper -->
- 
- 
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="color:white;font-family: 'Poller One', cursive;"><strong>SnippetShare</strong></a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" data-toggle="modal" data-target="#signupModal"
+                           style="color:white"><strong>Home</strong></a></li>
+                    <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
+                    <li><a href="#" th:href="@{/logout}" style="color:white"><strong>LogOut</strong></a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- container-fluid -->
+    </nav>
+</div>
+<!-- end of navbar wrapper -->
+
+
 <!--  <p th:text="'userid ' + ${user.id}"/> -->
 
- 	<div class= "container" style="background-color:#f5f5f5;">
- 	<h2><strong>All Boards</strong></h2>
- 	<hr/><br/>
- 	<div class="row">
- 	<p th:each="entry: ${allBoards}">
- 	<div class="col-md-2" style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:LightGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
- 	 	<img src="/images/code-red-640x360.png" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span th:text="${entry.privacy}"></span></strong><br/><br/>
-		<strong><div th:text="${entry.boardName}" style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/></strong><br/>
-		<a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
-				class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
-	 	</div>
-	</p>
+<div class="container" style="background-color:#f5f5f5;">
+    <h2><strong>All Boards</strong></h2>
+    <hr/>
+    <br/>
 
-	</div>
- 	
- 	
- 	</div>
- 
- 
- <!--<p th:text="'userid ' + ${allBoards}"/> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src ="/js/bootstrap.min.js"></script>
+    <div class="row">
+        <h3>Java Boards</h3>
+        <p th:each="entry: ${javaBoards}">
+
+        <div class="col-md-2"
+             style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:LightGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
+            <img src="/images/code-red-640x360.png" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span
+                th:text="${entry.privacy}"></span></strong><br/><br/>
+            <strong>
+                <div th:text="${entry.boardName}"
+                     style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/>
+            </strong><br/>
+            <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs"
+               style="margin-left:20%;"><span
+                    class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
+        </div>
+        </p>
+
+
+    </div>
+    <div class="row">
+        <h3>Scala Boards</h3>
+        <p th:each="entry: ${scalaBoards}">
+
+        <div class="col-md-2"
+             style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:LightGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
+            <img src="/images/code-red-640x360.png" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span
+                th:text="${entry.privacy}"></span></strong><br/><br/>
+            <strong>
+                <div th:text="${entry.boardName}"
+                     style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/>
+            </strong><br/>
+            <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs"
+               style="margin-left:20%;"><span
+                    class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
+        </div>
+        </p>
+
+
+    </div>
+    <div class="row">
+        <h3>C/C++ Boards</h3>
+        <p th:each="entry: ${ccppBoards}">
+
+        <div class="col-md-2"
+             style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:LightGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
+            <img src="/images/code-red-640x360.png" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span
+                th:text="${entry.privacy}"></span></strong><br/><br/>
+            <strong>
+                <div th:text="${entry.boardName}"
+                     style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/>
+            </strong><br/>
+            <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs"
+               style="margin-left:20%;"><span
+                    class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
+        </div>
+        </p>
+
+
+    </div>
+    <div class="row">
+        <h3>HTML/JavaScript Boards</h3>
+        <p th:each="entry: ${htmlBoards}">
+
+        <div class="col-md-2"
+             style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:LightGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
+            <img src="/images/code-red-640x360.png" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span
+                th:text="${entry.privacy}"></span></strong><br/><br/>
+            <strong>
+                <div th:text="${entry.boardName}"
+                     style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/>
+            </strong><br/>
+            <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs"
+               style="margin-left:20%;"><span
+                    class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
+        </div>
+        </p>
+
+
+    </div>
+    <div class="row">
+        <h3>Perl/Python/PHP Boards</h3>
+        <p th:each="entry: ${pppBoards}">
+
+        <div class="col-md-2"
+             style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:LightGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
+            <img src="/images/code-red-640x360.png" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span
+                th:text="${entry.privacy}"></span></strong><br/><br/>
+            <strong>
+                <div th:text="${entry.boardName}"
+                     style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/>
+            </strong><br/>
+            <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs"
+               style="margin-left:20%;"><span
+                    class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
+        </div>
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+<!--<p th:text="'userid ' + ${allBoards}"/> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 </body>
 </html>
