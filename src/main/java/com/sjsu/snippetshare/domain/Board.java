@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class Board {
-	private String boardId;
+	String boardId;
 	String boardName;
 	String boardOwner;
 	String category;

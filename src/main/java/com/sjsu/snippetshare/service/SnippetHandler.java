@@ -152,7 +152,7 @@ public class SnippetHandler {
             System.out.println("updateAccessList......boardId : "+ boardId);
             coll = MongoFactory.getConnection().getCollection("Board");
             ObjectId bId = new ObjectId(boardId);
-            DBObject dbo = new BasicDBObject("_id", bId).append("Privacy", "Private");
+            DBObject dbo = new BasicDBObject("_id", bId);
             //DBObject update = new BasicDBObject("AccessList", getUserFromEmail(userList));
             BasicDBObject updateCommand =
                     new BasicDBObject("$push", new BasicDBObject("AccessList",

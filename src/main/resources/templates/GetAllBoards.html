@@ -18,10 +18,9 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" data-toggle="modal" data-target="#signupModal"
-                           style="color:white"><strong>Home</strong></a></li>
-                    <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
-                    <li><a href="#" th:href="@{/logout}" style="color:white"><strong>LogOut</strong></a></li>
+                    <li><a href="#" th:href="@{/SnippetUsersHome/__${userId}__}" style="color: white"><strong>Home</strong></a></li>
+                    <li><a href="#" th:href="@{/snippetshare/users/settings/__${userId}__}" style="color: white"><strong>Your Settings</strong></a></li>
+                    <li><a href="#" th:href="@{/logout}" style="color: white"><strong>LogOut</strong></a></li>
                 </ul>
             </div>
         </div>

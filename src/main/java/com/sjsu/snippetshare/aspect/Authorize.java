@@ -58,16 +58,35 @@ public class Authorize {
             ArrayList<Board> htmlBoards = new ArrayList<Board>();
             ArrayList<Board> pppBoards = new ArrayList<Board>();
             for (Board board : boards) {
-                if (board.getCategory().equals("Java")) {
-                    javaBoards.add(board);
-                } else if (board.getCategory().equals("Scala")) {
-                    scalaBoards.add(board);
-                } else if (board.getCategory().equals("PHP / Perl / Python")) {
-                    pppBoards.add(board);
-                } else if (board.getCategory().equals("C / C++")) {
-                    ccppBoards.add(board);
-                } else if (board.getCategory().equals("HTML / JavaScript")) {
-                    htmlBoards.add(board);
+                boolean getBoard = false;
+                if (board.getPrivacy().equals("Public")) {
+                    getBoard = true;
+                } else {
+                    if (board.getBoardOwner().equals(userId)) {
+                        getBoard = true;
+                    } else {
+                        List<String> accessList = board.getAccessList();
+                        if (accessList != null) {
+                            for (String accessPerson : accessList) {
+                                if (userId.equals(accessPerson)) {
+                                    getBoard = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (getBoard) {
+                    if (board.getCategory().equals("Java")) {
+                        javaBoards.add(board);
+                    } else if (board.getCategory().equals("Scala")) {
+                        scalaBoards.add(board);
+                    } else if (board.getCategory().equals("PHP / Perl / Python")) {
+                        pppBoards.add(board);
+                    } else if (board.getCategory().equals("C / C++")) {
+                        ccppBoards.add(board);
+                    } else if (board.getCategory().equals("HTML / JavaScript")) {
+                        htmlBoards.add(board);
+                    }
                 }
             }
             allBoards.add(0, javaBoards);

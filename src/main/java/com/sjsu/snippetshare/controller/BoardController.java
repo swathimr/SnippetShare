@@ -122,6 +122,7 @@ public class BoardController {
 		BoardHandler boardHndlr = (BoardHandler) context.getBean("boardHandler");
 		boardHndlr.deleteBoard(board.getBoardId());
 		user.setId(board.getBoardOwner());
+		user.setId(board.getBoardOwner());
 		redirectAttribute.addFlashAttribute("user", user);
 		return "redirect:/SnippetUsersHome/"+user.id;
 	}

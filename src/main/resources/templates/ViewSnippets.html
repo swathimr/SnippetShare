@@ -47,7 +47,7 @@
     <img src="/images/updated_snippet.jpg" width="40%;"
          style="margin-left: 15%;"/> <br/>
     <span th:if="${parentBoard.boardOwner} == ${userId}">
-        <form th:action="@{/addUsersToBoard/__${boardId}__/__${userId}__}"
+        <form th:action="@{/addUsersToBoard/__${parentBoard.boardId}__/__${userId}__}"
               method="post" role="form" style="margin-left: 15%; margin-top: 15%;">
             <div class="form-group">
                 <label>Share Snippets with: </label>

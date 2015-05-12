@@ -126,32 +126,31 @@ public class Snippetcontroller {
                                               @RequestParam(value="emailId3") String emailId3,
                                               @RequestParam(value="emailId4") String emailId4,
                                               @RequestParam(value="emailId5") String emailId5,
-                                              Model model)
+                                                Model model)
     {
         Authorize authorize = (Authorize) context.getBean("authorizeAspect");
-        SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
+        SnippetHandler hand = (SnippetHandler) context.getBean("snippetHandler");
         System.out.println("addUsersToBoard : board id "+ boardId);
-        SnippetHandler hand = new SnippetHandler();
         try {
             ArrayList<String> userList = new ArrayList<String>();
-            if(!emailId1.equals(null))
+            if(!emailId1.equals(""))
             {
                 System.out.println("emailId1 is : "+ emailId1);
                 userList.add(emailId1);
             }
-            if(!emailId2.equals(null))
+            if(!emailId2.equals(""))
             {
                 userList.add(emailId2);
             }
-            if(!emailId3.equals(null))
+            if(!emailId3.equals(""))
             {
                 userList.add(emailId3);
             }
-            if(!emailId4.equals(null))
+            if(!emailId4.equals(""))
             {
                 userList.add(emailId4);
             }
-            if(!emailId5.equals(null))
+            if(!emailId5.equals(""))
             {
                 userList.add(emailId5);
             }
