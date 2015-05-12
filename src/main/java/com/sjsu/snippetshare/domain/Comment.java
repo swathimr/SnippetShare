@@ -12,7 +12,7 @@ public class Comment
 {
     private String commentId;
     private String text;
-	private String ownerId;
+    String ownerId;
     String ownerName;
 
     public Comment(String ownerId, String text)

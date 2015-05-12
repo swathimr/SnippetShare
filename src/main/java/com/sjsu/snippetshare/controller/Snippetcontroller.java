@@ -1,5 +1,6 @@
 package com.sjsu.snippetshare.controller;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class Snippetcontroller {
     org.springframework.context.ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-    Authorize authorize = (Authorize) context.getBean("authorizeAspect");
-    SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
 /*
     @RequestMapping(value = "/createSnippet/{boardId}", method = RequestMethod.POST)
     public String createSnippet(@PathVariable String boardId, @ModelAttribute Snippet snippet, Model model) {
@@ -40,24 +39,30 @@ public class Snippetcontroller {
     }
     */
 
-    @RequestMapping(value = "/createSnippet", method = RequestMethod.POST)
-    public String createSnippet(@ModelAttribute Snippet snippet,RedirectAttributes redirectAttribute,User user,Board board) {
+    @RequestMapping(value = "/createSnippet/{userId}/{boardId}", method = RequestMethod.POST)
+    public String createSnippet(@PathVariable ("userId") String userId, @PathVariable ("boardId") String boardId, @ModelAttribute Snippet snippet,RedirectAttributes redirectAttribute,User user,Board board) {
+        Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+        SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
         System.out.println("got in to create snippet"+snippet.getBoardId());
         System.out.println("got in to create snippet"+snippet.getSnippetText());
         System.out.println("got it"+snippet.getOwnerId());
-        Snippet dbSnippet = snippetHandler.addSnippet(snippet.getBoardId(),snippet);
+        snippet.setOwnerId(userId);
+        snippet.setBoardId(boardId);
+        Snippet dbSnippet = snippetHandler.addSnippet(boardId,snippet);
         if (dbSnippet == null) {
             return "Failed!";
         }
-        System.out.println("created one is::::::::::::::"+dbSnippet);
+        System.out.println("created one is::::::::::::::" + dbSnippet);
         board.setBoardId(snippet.getBoardId());
-        redirectAttribute.addFlashAttribute("board",board);
+        redirectAttribute.addFlashAttribute("board", board);
         redirectAttribute.addFlashAttribute("user", user);
-        return "redirect:/getAllSnippets/"+user.id+"/"+board.getBoardId();
+        return "redirect:/getAllSnippets/"+userId+"/"+boardId;
     }
 
     @RequestMapping(value = "/getSnippet/{boardId}/{snippetId}", method = RequestMethod.GET)
     public String createSnippet(@PathVariable String boardId, @PathVariable String snippetId, Model model) {
+        Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+        SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
         Snippet dbSnippet = snippetHandler.getSnippet(boardId, snippetId);
         if (dbSnippet == null) {
             return "Failed!";
@@ -67,6 +72,8 @@ public class Snippetcontroller {
 
     @RequestMapping(value = "/updateSnippet/{boardId}", method = RequestMethod.POST)
     public String updateSnippet(@PathVariable String boardId, @ModelAttribute Snippet snippet, Model model) {
+        Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+        SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
         Snippet dbSnippet = snippetHandler.updateSnippet(boardId, snippet);
         if (dbSnippet == null) {
             return "Failed!";
@@ -76,17 +83,32 @@ public class Snippetcontroller {
 
     @RequestMapping(value = "/getAllSnippets/{userId}/{boardId}")
     public String getSnippet(Model model,@PathVariable String userId, @PathVariable String boardId) {
-        ArrayList<Snippet> snippets = snippetHandler.getAllSnippets(boardId);
+        Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+        SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
+        BoardHandler boardHandler = (BoardHandler) context.getBean("boardHandler");
+        ArrayList<ArrayList<Snippet>> masterList = snippetHandler.getAllSnippets(boardId, userId);
+        ArrayList<Snippet> editableSnippets = masterList.get(0);
+        ArrayList<Snippet> noneditableSnippets = masterList.get(1);
+        Board parentBoard = new Board();
+        try {
+            parentBoard = boardHandler.getOneBoard(boardId);
+        } catch (UnknownHostException uhe) {
+            System.out.println("Unknown Host exception for Get Board");
+        }
         System.out.println("board id from get all snippets"+boardId);
         model.addAttribute("boardId", boardId);
         model.addAttribute("userId", userId);
-        model.addAttribute("snippets",snippets);
+        model.addAttribute("editableSnippets",editableSnippets);
+        model.addAttribute("noneditableSnippets",noneditableSnippets);
+        model.addAttribute("parentBoard", parentBoard);
         model.addAttribute("comment",new Comment());
         return "ViewSnippets";
     }
 
     @RequestMapping(value ="/deleteSnippet/{boardId}/{snippetId}/{userId}",method = RequestMethod.POST)
     public String deleteSnippet(@PathVariable String boardId, @PathVariable String snippetId,@PathVariable String userId) {
+        Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+        SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
         System.out.println("in delete snippet api" + boardId + snippetId + userId);
         boolean result = snippetHandler.deleteSnippet(boardId, snippetId);
         if (!result)
@@ -106,6 +128,8 @@ public class Snippetcontroller {
                                               @RequestParam(value="emailId5") String emailId5,
                                               Model model)
     {
+        Authorize authorize = (Authorize) context.getBean("authorizeAspect");
+        SnippetHandler snippetHandler = (SnippetHandler) context.getBean("snippetHandler");
         System.out.println("addUsersToBoard : board id "+ boardId);
         SnippetHandler hand = new SnippetHandler();
         try {

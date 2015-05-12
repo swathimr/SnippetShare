@@ -35,7 +35,8 @@ public class BoardController {
 		boardObj = boardHndlr.getAllBoards(userId, "Owned", true);
 		System.out.println(boardObj.size());
 		model.addAttribute("allBoards", boardObj);
-		model.addAttribute("size", boardObj.size());
+		model.addAttribute("allBoards", boardObj);
+		model.addAttribute("userId", userId);
 		return "SnippetUsersHome";
 	}
 

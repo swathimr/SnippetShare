@@ -1,13 +1,14 @@
 package com.sjsu.snippetshare.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mongodb.DBObject;
 
 public class User {
 
 	public String id;
-	private String email;
-	private String password;
-	private String name;
+	String email;
+	String password;
+	String name;
 	
 	public String getPassword() {
 		return password;
@@ -32,6 +33,14 @@ public class User {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public User makePOJOFromBSON(DBObject dbo) {
+		this.setId(dbo.get("_id").toString());
+		this.setName(dbo.get("name").toString());
+		this.setEmail(dbo.get("email").toString());
+		this.setPassword(dbo.get("password").toString());
+		return this;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.sjsu.snippetshare.service;
 
+import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -115,7 +116,7 @@ public class SnippetHandler {
         return true;
     }
 
-    public ArrayList<Snippet> getAllSnippets(String boardid) {
+    public ArrayList<ArrayList<Snippet>> getAllSnippets(String boardid, String userId) {
         try {
             coll = MongoFactory.getConnection().getCollection("Board");
         } catch (UnknownHostException uhe) {
@@ -127,10 +128,11 @@ public class SnippetHandler {
         ArrayList<Snippet> snippets = new ArrayList<Snippet>();
         Snippet snippet = new Snippet();
         ArrayList<BasicDBObject> dbSnippets = new ArrayList<BasicDBObject>();
+        ArrayList<ArrayList<Snippet>> masterList = new ArrayList<ArrayList<Snippet>>();
         try {
             dbSnippets = (ArrayList<BasicDBObject>) dbBoard.get("snippets");
         } catch (NullPointerException npe) {
-            return snippets;
+            return masterList;
         }
         for (Iterator<BasicDBObject> iterator = dbSnippets.iterator(); iterator.hasNext(); ) {
             snippet = new Snippet();
@@ -139,7 +141,9 @@ public class SnippetHandler {
             snippets.add(snippet);
 
         }
-        return snippets;
+        masterList.add(0, snippets);
+        masterList.add(1, new ArrayList<Snippet>());
+        return masterList;
     }
 
     public boolean updateAccessList(String boardId, ArrayList<String> userList) throws Exception

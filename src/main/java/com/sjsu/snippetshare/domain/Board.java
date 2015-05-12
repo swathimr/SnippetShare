@@ -12,9 +12,9 @@ import java.util.List;
 
 public class Board {
 	private String boardId;
-	private String boardName;
-	private String boardOwner;
-	private String category;
+	String boardName;
+	String boardOwner;
+	String category;
 	private String privacy;
 	private List<String> accessList = new ArrayList<String>();
 	private List<Snippet> snippets = new ArrayList<Snippet>();

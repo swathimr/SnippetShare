@@ -3,7 +3,9 @@ package com.sjsu.snippetshare.controller;
 import java.net.UnknownHostException;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -73,6 +75,24 @@ public class UserController {
 		}
 		redirectAttribute.addFlashAttribute("user",user);
 		return "redirect:/SnippetUsersHome/"+user.id;
+	}
+
+	@RequestMapping(value = "/settings/{userId}", method=RequestMethod.GET)
+	public String settings(@PathVariable ("userId") String userId, Model model) throws UnknownHostException {
+		userHndlr= new UserHandler();
+		User user = userHndlr.getUser(userId);
+		model.addAttribute("user", user);
+		model.addAttribute("updateUser", new User());
+		return "settings";
+	}
+
+	@RequestMapping(value = "/update/{userId}", method = RequestMethod.POST)
+	public String updateUser(@PathVariable ("userId") String userId, @ModelAttribute User updateUser, Model model) throws UnknownHostException {
+		userHndlr= new UserHandler();
+		User user = userHndlr.updateUser(userId, updateUser);
+		model.addAttribute("user", user);
+		model.addAttribute("updateUser", new User());
+		return "settings";
 	}
 
 }

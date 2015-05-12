@@ -10,6 +10,7 @@ import org.bson.types.ObjectId;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,15 +57,15 @@ public class Authorize {
         return boards;
     }
 
-    /*
-
     @Around("execution(public* com.sjsu.snippetshare.service.SnippetHandler.getAllSnippets(..))")
     public Object doSnippetAccessCheck(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
-        String userId = (String) args[0];
-        List<Snippet> snippets = (List<Snippet>) pjp.proceed();
-        List<Snippet> editableSnippetList = new ArrayList<Snippet>();
-        List<Snippet> nonEditableSnippetList = new ArrayList<Snippet>();
+        String boardId = (String) args[0];
+        String userId = (String) args[1];
+        ArrayList<ArrayList<Snippet>> master = (ArrayList<ArrayList<Snippet>>) pjp.proceed();
+        ArrayList<Snippet> snippets = master.get(0);
+        ArrayList<Snippet> editableSnippetList = new ArrayList<Snippet>();
+        ArrayList<Snippet> nonEditableSnippetList = new ArrayList<Snippet>();
         for (Snippet snippet : snippets) {
             if (userId.equals(snippet.getOwnerId())) {
                 editableSnippetList.add(snippet);
@@ -72,13 +73,12 @@ public class Authorize {
                 nonEditableSnippetList.add(snippet);
             }
         }
-        ArrayList<List<Snippet>> masterSnippetList = new ArrayList<List<Snippet>>();
-        masterSnippetList.add(editableSnippetList);
-        masterSnippetList.add(nonEditableSnippetList);
-        return editableSnippetList;
+        ArrayList<ArrayList<Snippet>> masterSnippetList = new ArrayList<ArrayList<Snippet>>();
+        masterSnippetList.add(0, editableSnippetList);
+        masterSnippetList.add(1, nonEditableSnippetList);
+        return masterSnippetList;
     }
-    */
-/*
+
     @Around("execution(public* com.sjsu.snippetshare.service.CommentsHandler.getAllComments(..))")
     public Object doCommentAccessCheck(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
@@ -100,5 +100,4 @@ public class Authorize {
         masterCommentList.add(nonEditableCommentList);
         return masterCommentList;
     }
-    */
 }

@@ -7,7 +7,7 @@
     <title>Snippet Share Home Page</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css"/>
 </head>
-<body>//style = "background-image:url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg');background-size:cover;background-repeat:no-repeat;">
+<body style = "background-image:url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg');background-size:cover;background-repeat:no-repeat;">
 <div class="navbar-wrapper">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container-fluid">
@@ -18,10 +18,9 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" data-toggle="modal" data-target="#signupModal"
-                           style="color:white"><strong>Home</strong></a></li>
-                    <li><a href="#" th:href="@{/about}" style="color:white"><strong>About Us</strong></a></li>
-                    <li><a href="#" th:href="@{/logout}" style="color:white"><strong>LogOut</strong></a></li>
+                    <li><a href="#" th:href="@{/SnippetUsersHome/__${userId}__}" style="color: white"><strong>Home</strong></a></li>
+                    <li><a href="#" th:href="@{/snippetshare/users/settings/__${userId}__}" style="color: white"><strong>Your Settings</strong></a></li>
+                    <li><a href="#" th:href="@{/logout}" style="color: white"><strong>LogOut</strong></a></li>
                 </ul>
             </div>
         </div>
@@ -50,7 +49,7 @@
                 </button><br/><br/>
 
                 <a class="btn btn-primary" style="width:15%;margin-left:77%;box-shadow:2px 3px 0px rgba(4, 4, 4, 0.3);"
-                   th:href="@{'/SnippetUsersHome/allboards/'+${user.id}}"><strong>View All Boards</strong></a>
+                   th:href="@{'/SnippetUsersHome/allboards/'+${userId}}"><strong>View All Boards</strong></a>
             </h2>
 
             <hr style="border-top: black"/>
@@ -76,11 +75,11 @@
 
 
                 <form action="/SnippetUsersHome/deleteBoard" id="deleteForm" role="form" method="post">
-                    <input type="hidden" th:value="${user.id}" name="boardOwner" id="boardOwner"/>
+                    <input type="hidden" th:value="${userId}" name="boardOwner" id="boardOwner"/>
                     <input type="hidden" id="boardIdDel" name="boardId"/>
                 </form>
 
-                    <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
+                    <a th:href="@{'/getAllSnippets/'+${userId}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
                             class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a><!-- View</button></form> -->
                 </div>
                 </p>
@@ -95,7 +94,7 @@
                 <div class="col-md-2" style="margin-bottom:3%;padding-bottom:1%;margin-left:3%;background-color:DarkGray;box-shadow: 8px 8px 5px #888888;cursor:pointer;">
                 <img src="/images/black.jpg" width="20%;" style="padding-top:5%;"/>&emsp;<strong><span th:text="${entry.privacy}"></span></strong><br/><br/>
                     <strong><div th:text="${entry.boardName}" style="width:12em;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;"/></strong><br/>
-                <a th:href="@{'/getAllSnippets/'+${user.id}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
+                <a th:href="@{'/getAllSnippets/'+${userId}+'/'+${entry.boardId}}" class="btn btn-default btn-xs" style="margin-left:20%;"><span
                         class="glyphicon glyphicon-zoom-in" aria-hidden="true">View</span></a>
                 </div>
                 </p>
@@ -127,7 +126,7 @@
                     </div>
                     <br/>
 
-                    <input type="hidden" class="form-control" name="boardOwner" id="boardOwner" th:value="${user.id}"/>
+                    <input type="hidden" class="form-control" name="boardOwner" id="boardOwner" th:value="${userId}"/>
 
                     <div class="row">
                         <div class="col-xs-7 col-md-offset-2">
@@ -206,7 +205,7 @@
                     <br/>
                     <input type="hidden" class="form-control" name="boardId" id="boardId" value=""/>
 
-                    <input type="hidden" class="form-control" name="boardOwner" id="boardOwner" th:value="${user.id}"/>
+                    <input type="hidden" class="form-control" name="boardOwner" id="boardOwner" th:value="${userId}"/>
 
                     <div class="row">
                         <div class="col-xs-7 col-md-offset-2">

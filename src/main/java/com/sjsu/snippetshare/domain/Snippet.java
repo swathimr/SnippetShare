@@ -73,6 +73,7 @@ public class Snippet {
         this.snippetId = dbo.get("snippetId").toString();
         this.snippetName =dbo.get("snippetName").toString();
         this.snippetText =dbo.get("snippetText").toString();
+        this.ownerId = dbo.get("ownerId").toString();
         this.comments = (ArrayList<Comment>) dbo.get("comments");
         return this;
     }
