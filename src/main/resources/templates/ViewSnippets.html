@@ -7,14 +7,8 @@
     <title>View Snippet By Board</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
           href="../static/css/bootstrap.min.css"/>
-    <style>
-        /* body
-                {
-                //background-color:#E6E6FA;
-                } */
-    </style>
 </head>
-<body>
+<body style = "background-image:url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg');background-size:cover;background-repeat:no-repeat;">
 <div class="navbar-wrapper">
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
         <div class="container-fluid">
@@ -43,157 +37,140 @@
 <!-- <p th:text="'userid ' + ${userId}"/> -->
 <!--<p th:text="'boardid ' + ${boardId}"/> -->
 
-<div class="col-md-3">
-    <img src="/images/updated_snippet.jpg" width="40%;"
-         style="margin-left: 15%;"/> <br/>
-    <span th:if="${parentBoard.boardOwner} == ${userId}">
-        <form th:action="@{/addUsersToBoard/__${parentBoard.boardId}__/__${userId}__}"
-              method="post" role="form" style="margin-left: 15%; margin-top: 15%;">
-            <div class="form-group">
-                <label>Share Snippets with: </label>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="emailId1"
-                       name="emailId1" placeholder="Enter email" style="width: 300px;"/>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="emailId2"
-                       name="emailId2" placeholder="Enter email" style="width: 300px;"/>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="emailId3"
-                       name="emailId3" placeholder="Enter email" style="width: 300px;"/>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="emailId4"
-                       name="emailId4" placeholder="Enter email" style="width: 300px;"/>
-            </div>
-            <div class="form-group">
-                <input type="email" class="form-control" id="emailId5"
-                       name="emailId5" placeholder="Enter email" style="width: 300px;"/>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-    </span>
-</div>
-<div class="col-md-6"
-     style="background-color: #f5f5f5; margin-left: 2%;">
-    <div class="container">
-        <h4><span th:text="'Board Name   :   ' +${parentBoard.boardName}"/></h4>
-        <h4><span th:text="'Category   :   ' +${parentBoard.category}"></span></h4>
+<div class="row">
+    <!--<div class="col-md-1" style="margin-left:2%;">
+        <img src="/images/updated_snippet.jpg" width="40%;"/>
+    </div>-->
+
+    <div class="col-md-1 col-md-push-10" style="margin-left:4%;">
+        <h4>
+            <strong>Create a Snippet</strong>
+        </h4>
+		<span class="glyphicon glyphicon-list-alt"
+              onclick="openCreateSnippetModal()" style="font-size: 510%;"></span>
     </div>
 
-    <div class="container">
+    <div class="container" style="background-color: #f5f5f5;">
 
         <h2>
-            <strong>Snippets and Comments</strong>
+
+                <strong>Snippets and Comments</strong>
+                <span th:if="${parentBoard.boardOwner} == ${userId}">
+                    <form th:action="@{/addUsersToBoard/__${parentBoard.boardId}__/__${userId}__}"
+                          method="post" class="form-inline">
+
+                        <div class="form-group" style="margin-left:70%;">
+                           <!-- <label for="Share Boards with" style="font-size:medium;">Share Boards with:</label>-->
+                            <input type="email" class="form-control" id="emailId5"
+                                   name="emailId5" placeholder="Enter email to share Board"/>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </form>
+                </span>
+
+            <h4><strong>Board Name   :  </strong><span th:text="${parentBoard.boardName}"/></h4>
+            <h4 class="text-muted"><strong>Category   :  </strong><span th:text="${parentBoard.category}"></span></h4>
         </h2>
-        <hr width="80%;" style="margin-right: 30%;"/>
-        <br/>
+        <hr/>
 
         <p th:each="entry: ${editableSnippets}">
 
-            <details>
-                <summary>
+            <details style="border-style:dashed;border-color:DarkGrey">
+                &emsp;
+                <summary style="margin-left:1%;padding-top:1%">
                     <strong><span
                             th:text="'Snippet Name   :   ' +${entry.snippetName}"/></strong> <span>
 							<form action="" id="deleteSnippetForm" method="post">
-                                <button type="submit" class="btn btn-warning btn-xs"
-                                        th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}"
-                                        onclick="deleteSnippet(this);">Delete Snippet
-                                </button>
                             </form>
-						</span>
-                </summary>
-                <br/>
-                <!-- <a class="btn btn-warning btn-xs" type="button" href="@{'/deleteSnippet/'+${board.boardId}+'/'+${entry.snippetId}+'/'+${user.id}}" style="margin-left:60%;">Delete Snippet</a></summary><br/> -->
-                <p th:text="'Snippet Text  : ' +${entry.snippetText}"/>
+						</span><br/>
+                    <div class="row">
+                        <p th:text="'Snippet Text  : '+${entry.snippetText}" class="col-md-9" style="margin-left:2%;"/>
+                        <button type="submit" class="btn btn-warning btn-xs"
+                                th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}"
+                                onclick="deleteSnippet(this);">Delete Snippet
+                        </button>
 
-                <p>
-                    <strong>Comments </strong>
-                </p>
+                    </div>
+
+                </summary>
+
+                <strong>&nbsp;Comments </strong>
 
                 <p th:each="entry1: ${entry.comments}">
-                    <span th:text="${entry1.ownerName} +' : '  +${entry1.text}"/>
+                    &emsp;<span th:text="${entry1.ownerName} +' : '  +${entry1.text}"/>
                     <span th:if="${entry1.ownerId} == ${userId}">
+                        <button type="button" class="btn btn-link" style="color:black;width:2%;" th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}+'::'+${entry1.commentId}"
+                                onclick="deleteComment(this);">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+
 							<form action="" id="deleteCommentForm" method="post">
-                                <button type="submit" class="btn btn-warning btn-xs"
-                                        th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}+'::'+${entry1.commentId}"
-                                        onclick="deleteComment(this);">Delete Comment
-                                </button>
+
                             </form>
 						</span>
                 </p>
                 <form
                         th:action="@{/createComment/__${userId}__/__${boardId}__/__${entry.snippetId}__}"
                         th:object="${comment}" method="post" role="form">
-                    <textarea cols="35" rows="1" name="text" id="text" th:field="*{text}"/>
+                   &nbsp;<!--<textarea cols="35" rows="1" name="text" id="text" th:field="*{text}"/>-->
+                    <input type="text" name="text" id="text" th:field="*{text}"/>
+                    <button type="submit">Add</button>
                     <input type="hidden" class="form-control" name="ownerId"
-                           id="ownerId" th:value="${userId}"/> <input type="submit"/>
+                           id="ownerId" th:value="${userId}"/>
                 </form>
-
+                <br/>
             </details>
-        <hr width="80%;" style="margin-right: 30%;"/>
+        <hr/>
 
-        <!-- <p th:text="${entry.snippetName}"></p>
-    <p th:each="entry: ${snippets}">
-        <p th:text="${entry.comments}"></p>
-    </p> -->
         </p>
         <p th:each="entry: ${noneditableSnippets}">
 
-            <details>
-                <summary>
+            <details style="border-style:dashed;border-color:DarkGrey">
+                &emsp;
+                <summary style="margin-left:1%;padding-top:1%">
                     <strong><span
                             th:text="'Snippet Name   :   ' +${entry.snippetName}"/></strong> <span>
-
-						</span>
+						</span><br/>
+                        <p th:text="'Snippet Text  : '+${entry.snippetText}" class="col-md-9" style="margin-left:2%;"/>
                 </summary>
-                <br/>
-                <!-- <a class="btn btn-warning btn-xs" type="button" href="@{'/deleteSnippet/'+${board.boardId}+'/'+${entry.snippetId}+'/'+${user.id}}" style="margin-left:60%;">Delete Snippet</a></summary><br/> -->
-                <p th:text="'Snippet Text  : ' +${entry.snippetText}"/>
 
-                <p>
-                    <strong>Comments </strong>
-                </p>
+                <!-- <a class="btn btn-warning btn-xs" type="button" href="@{'/deleteSnippet/'+${board.boardId}+'/'+${entry.snippetId}+'/'+${user.id}}" style="margin-left:60%;">Delete Snippet</a></summary><br/> -->
+               <!-- <p th:text="'Snippet Text  : ' +${entry.snippetText}"/>-->
+
+                <strong>&nbsp;Comments </strong>
 
                 <p th:each="entry1: ${entry.comments}">
-                    <span th:text="${entry1.ownerName} +' : '  +${entry1.text}"/>
-                        <span th:if="${entry1.ownerId} == ${userId}">
+                    &emsp;<span th:text="${entry1.ownerName} +' : '  +${entry1.text}"/>
+                    <span th:if="${entry1.ownerId} == ${userId}">
+                        <button type="button" class="btn btn-link" style="color:black;width:2%;" th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}+'::'+${entry1.commentId}"
+                                onclick="deleteComment(this);">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+
 							<form action="" id="deleteCommentForm" method="post">
-                                <button type="submit" class="btn btn-warning btn-xs"
-                                        th:value="${boardId}+'::'+${entry.snippetId}+'::'+${userId}+'::'+${entry1.commentId}"
-                                        onclick="deleteComment(this);">Delete Comment
-                                </button>
+
                             </form>
 						</span>
                 </p>
                 <form
                         th:action="@{/createComment/__${userId}__/__${boardId}__/__${entry.snippetId}__}"
                         th:object="${comment}" method="post" role="form">
-                    <textarea cols="35" rows="1" name="text" id="text" th:field="*{text}"/>
+                    &nbsp;<!--<textarea cols="35" rows="1" name="text" id="text" th:field="*{text}"/>-->
+                    <input type="text" name="text" id="text" th:field="*{text}"/>
+                    <button type="submit">Add</button>
                     <input type="hidden" class="form-control" name="ownerId"
-                           id="ownerId" th:value="${userId}"/> <input type="submit"/>
+                           id="ownerId" th:value="${userId}"/>
                 </form>
-
+                <br/>
             </details>
-        <hr width="80%;" style="margin-right: 30%;"/>
+        <hr/>
 
-        <!-- <p th:text="${entry.snippetName}"></p>
-    <p th:each="entry: ${snippets}">
-        <p th:text="${entry.comments}"></p>
-    </p> -->
         </p>
     </div>
     <!-- end of container -->
-</div>
-<div class="col-md-2" style="margin-left: 4%;">
-    <h4>
-        <strong>Create a Snippet</strong>
-    </h4>
-		<span class="glyphicon glyphicon-list-alt"
-              onclick="openCreateSnippetModal()" style="font-size: 510%;"></span>
-</div>
+    </div>
+
+
 
 <div id="createSnippet" class="modal fade" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
@@ -297,13 +274,10 @@
                 + commentId
                 + '/'
                 + userId;
+
+        document.getElementById("deleteCommentForm").submit();
         console.log("action"
-        + document.getElementById("deleteSnippetForm").action);
-        console.log("action"
-        + document.getElementById("deleteSnippetForm").action);
-        document.getElementById("deleteSnippetForm").submit();
-        console.log("action"
-        + document.getElementById("deleteSnippetForm").action);
+        + document.getElementById("deleteCommentForm").action);
     }
 </script>
 
