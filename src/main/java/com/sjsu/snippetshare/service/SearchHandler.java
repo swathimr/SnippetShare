@@ -25,7 +25,6 @@ public class SearchHandler {
 	ArrayList<Snippet> snippetList = new ArrayList<Snippet>();
 	ArrayList<User> userList = new ArrayList<User>();
 	ArrayList<Board> boardList = new ArrayList<Board>();
-
 	public ArrayList searchSnippets(String snippet) {
 		try {
 			c = new Comment();
@@ -35,11 +34,12 @@ public class SearchHandler {
 			Pattern pattern = Pattern.compile(".*" + snippet + ".*");
 			query.put("snippets.snippetText", pattern);
 			DBCursor docs = board.find(query);
+			System.out.println(docs);
 			while (docs.hasNext()) {
 				a = docs.next();
-				s = new Snippet();
 				BasicDBList dbSnippets = (BasicDBList) a.get("snippets");
 				for (int i = 0; i < dbSnippets.size(); i++) {
+					s = new Snippet();
 					BasicDBObject snippetObj = (BasicDBObject) dbSnippets
 							.get(i);
 					BasicDBList dbComments = (BasicDBList) snippetObj
