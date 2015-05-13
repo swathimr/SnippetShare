@@ -1,16 +1,14 @@
 package com.sjsu.snippetshare.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
+import javax.mail.*;
 
 import com.sjsu.snippetshare.aspect.Authorize;
-import com.sjsu.snippetshare.domain.Board;
-import com.sjsu.snippetshare.domain.Comment;
-import com.sjsu.snippetshare.domain.User;
+import com.sjsu.snippetshare.domain.*;
 import com.sjsu.snippetshare.service.BoardHandler;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sjsu.snippetshare.domain.Snippet;
 import com.sjsu.snippetshare.service.SnippetHandler;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,16 +25,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class Snippetcontroller {
     org.springframework.context.ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-/*
-    @RequestMapping(value = "/createSnippet/{boardId}", method = RequestMethod.POST)
-    public String createSnippet(@PathVariable String boardId, @ModelAttribute Snippet snippet, Model model) {
-        Snippet dbSnippet = snippetHandler.addSnippet(boardId, snippet);
-        if (dbSnippet == null) {
-            return "Failed!";
-        }
-        return "Success!";
-    }
-    */
 
     @RequestMapping(value = "/createSnippet/{userId}/{boardId}", method = RequestMethod.POST)
     public String createSnippet(@PathVariable ("userId") String userId, @PathVariable ("boardId") String boardId, @ModelAttribute Snippet snippet,RedirectAttributes redirectAttribute,User user,Board board) {
@@ -140,18 +127,21 @@ public class Snippetcontroller {
                 }
             }
 
-//            for(int i=0; i<userList.size();i++)
-//            System.out.println(userList.get(i));
-            //hand.updateAccessList(boardId, userList);
-            // hand.updateAccessList(boardId, userList);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        //if(!userExists)
-//        {
-//            return the alert
-//        }
+        return "redirect:/getAllSnippets/"+userId+"/"+boardId;
+    }
+
+
+    @RequestMapping(value = "/sendEmail",method = RequestMethod.POST)
+    public String getSnippet(Email email) throws UnsupportedEncodingException{
+        String userId=email.getUserId();
+        String boardId=email.getBoardId();
+        System.out.println("Got snippet hereeeeeeeee::" + email.getSnippetText() + "and email id is::"+email.getEmailId());
+        SnippetHandler snippethndlr = new SnippetHandler();
+        snippethndlr.sendEmail(email.getSnippetText(),email.getEmailId());
         return "redirect:/getAllSnippets/"+userId+"/"+boardId;
     }
 
