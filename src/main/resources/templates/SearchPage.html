@@ -7,49 +7,83 @@
 <title>Snippet Share Search</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
 	href="../static/css/bootstrap.min.css" />
-<link rel="stylesheet" th:href="@{/css/sidebar.css}"
-	href="../static/css/bootstrap.min.css" />
 </head>
-<body>
+<body
+	style="background-image: url('http://www.freebiesgallery.com/wp-content/uploads/2013/08/light-blue-background-3.jpg'); background-size: cover; background-repeat: no-repeat;">
+	<div class="navbar-wrapper">
+		<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+			<div class="container-fluid">
 
-	<div id="wrapper">
-		<!-- Sidebar -->
-		<div id="sidebar-wrapper">
-			<ul class="sidebar-nav">
-				<li class="sidebar-brand"><strong style="color: darkgray;">Search
-						for</strong></li>
-				<li>
-					<form class="navbar-form navbar-left" role="search"
-						action="/searchSnippets" method="GET">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Snippets"
-								style="float: left; width: 126px;" name="snippet" />
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
-				</li>
-				<li>
-					<form class="navbar-form navbar-left" role="search"
-						action="/searchBoards" method="GET">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Boards"
-								style="float: left; width: 126px;" name="board" />
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
-				</li>
-				<li>
-					<form class="navbar-form navbar-left" role="search"
-						action="/searchUsers" method="GET">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Users"
-								style="float: left; width: 126px;" name="user" />
-						</div>
-						<button type="submit" class="btn btn-default">Submit</button>
-					</form>
-				</li>
-			</ul>
-		</div>
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"
+						style="color: white; font-family: 'Poller One', cursive;"> <strong>
+							SnippetShare </strong></a>
+				</div>
+
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#" th:href="@{/SnippetUsersHome/__${userId}__}"
+							style="color: white"><strong>Home</strong></a></li>
+						<li><a href="#"
+							th:href="@{/snippetshare/users/settings/__${userId}__}"
+							style="color: white"><strong>Your Settings</strong></a></li>
+						<li><a href="#" th:href="@{/logout}" style="color: white"><strong>LogOut</strong></a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- container-fluid -->
+		</nav>
 	</div>
+	<!-- end of navbar wrapper -->
+	<!-- <p th:text="'userid ' + ${userId}"/> -->
+	<!--<p th:text="'boardid ' + ${boardId}"/> -->
+	<div class="col-xs-3"
+		style="background-color: #f5f5f5; margin-left: 2%;">
+		<h4>
+			<strong>Search for</strong>
+		</h4>
+		<div class="col-xs-10" style="margin-top: 10%;">
+			<form class="input-group custom-search-form" action="/searchSnippets"
+				method="GET">
+				<input type="text" class="form-control" name="snippet"
+					placeholder="Snippets" /> <span class="input-group-btn">
+					<button class="btn btn-default" type="submit">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</form>
+			<!-- /input-group -->
+		</div>
+		<br />
+		<div class="col-xs-10" style="margin-top: 10%;">
+			<form class="input-group custom-search-form" action="/searchBoards"
+				method="GET">
+				<input type="text" class="form-control" name="board"
+					placeholder="Boards" /> <span class="input-group-btn">
+					<button class="btn btn-default" type="submit">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</form>
+			<!-- /input-group -->
+		</div>
+		<br />
+		<div class="col-xs-10" style="margin-top: 10%; margin-bottom: 10%;">
+			<form class="input-group custom-search-form" action="/searchUsers"
+				method="GET">
+				<input type="text" class="form-control" name="user"
+					placeholder="Users" /> <span class="input-group-btn">
+					<button class="btn btn-default" type="submit">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</span>
+			</form>
+			<!-- /input-group -->
+		</div>
+		<div class="col-xs-1"></div>
+	</div>
+	<div class="container col-xs-7"
+		style="background-color: #f5f5f5; margin-left: 2%; height: 290px;"></div>
 </body>
 </html>
