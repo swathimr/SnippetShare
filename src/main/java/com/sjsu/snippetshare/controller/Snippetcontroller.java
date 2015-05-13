@@ -120,47 +120,39 @@ public class Snippetcontroller {
 
     @RequestMapping(value ="/addUsersToBoard/{boardId}/{userId}",method = RequestMethod.POST)
     public String updateAccessList(@PathVariable(value="boardId") String boardId,
-                                              @PathVariable(value="userId") String userId,
-                                              @RequestParam(value="emailId1") String emailId1,
-                                              @RequestParam(value="emailId2") String emailId2,
-                                              @RequestParam(value="emailId3") String emailId3,
-                                              @RequestParam(value="emailId4") String emailId4,
-                                              @RequestParam(value="emailId5") String emailId5,
-                                                Model model)
+                                   @PathVariable(value="userId") String userId,
+                                   @RequestParam(value="emailId1") String emailId1,
+                                   Model model)
     {
+        boolean userExists = false;
         Authorize authorize = (Authorize) context.getBean("authorizeAspect");
         SnippetHandler hand = (SnippetHandler) context.getBean("snippetHandler");
         System.out.println("addUsersToBoard : board id "+ boardId);
         try {
             ArrayList<String> userList = new ArrayList<String>();
-            if(!emailId1.equals(""))
+            if(!emailId1.equals("") && !emailId1.equals(null))
             {
-                System.out.println("emailId1 is : "+ emailId1);
-                userList.add(emailId1);
+                System.out.println("emailId1 is : " + emailId1);
+                //userList.add(emailId1);
+                if(hand.updateAccessList(boardId, emailId1))
+                {
+                    userExists = true;
+                }
             }
-            if(!emailId2.equals(""))
-            {
-                userList.add(emailId2);
-            }
-            if(!emailId3.equals(""))
-            {
-                userList.add(emailId3);
-            }
-            if(!emailId4.equals(""))
-            {
-                userList.add(emailId4);
-            }
-            if(!emailId5.equals(""))
-            {
-                userList.add(emailId5);
-            }
-            for(int i=0; i<userList.size();i++)
-            System.out.println(userList.get(i));
+
+//            for(int i=0; i<userList.size();i++)
+//            System.out.println(userList.get(i));
             //hand.updateAccessList(boardId, userList);
-            hand.updateAccessList(boardId, userList);
+            // hand.updateAccessList(boardId, userList);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //if(!userExists)
+//        {
+//            return the alert
+//        }
         return "redirect:/getAllSnippets/"+userId+"/"+boardId;
     }
+
 }
