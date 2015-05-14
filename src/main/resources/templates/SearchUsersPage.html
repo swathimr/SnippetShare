@@ -57,7 +57,7 @@
 		</div>
 		<br />
 		<div class="col-xs-10" style="margin-top: 10%;">
-			<form class="input-group custom-search-form" action="/searchBoards"
+			<form class="input-group custom-search-form" th:action="@{/searchBoards/__${userId}__}"
 				method="GET">
 				<input type="text" class="form-control" name="board"
 					placeholder="Boards" /> <span class="input-group-btn">

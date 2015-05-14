@@ -25,12 +25,13 @@ public class SearchHandler {
 	ArrayList<Snippet> snippetList = new ArrayList<Snippet>();
 	ArrayList<User> userList = new ArrayList<User>();
 	ArrayList<Board> boardList = new ArrayList<Board>();
+
 	public ArrayList searchSnippets(String snippet) {
 		try {
 			DBCollection board = MongoFactory.getConnection().getCollection(
 					"Board");
 			BasicDBObject query = new BasicDBObject();
-			Pattern pattern = Pattern.compile(".*" + snippet + ".*");
+			Pattern pattern = Pattern.compile(".*" + snippet + ".*", Pattern.CASE_INSENSITIVE);
 			query.put("snippets.snippetText", pattern);
 			DBCursor docs = board.find(query);
 			System.out.println(docs.toString());
@@ -41,32 +42,37 @@ public class SearchHandler {
 					s = new Snippet();
 					DBObject snippetObj = (BasicDBObject) dbSnippets
 							.get(i);
-					BasicDBList dbComments = (BasicDBList) snippetObj
-							.get("comments");
-					for (int j = 0; j < dbComments.size(); j++) {
-						c = new Comment();
-						DBObject commentObj = (BasicDBObject) dbComments
-								.get(j);
-						String cid = commentObj.get("commentId").toString();
-						String ctext = commentObj.get("text").toString();
-						String coid = commentObj.get("ownerId").toString();
-						String coname = commentObj.get("ownerName").toString();
-						c.setCommentId(cid);
-						c.setText(ctext);
-						c.setOwnerId(coid);
-						c.setOwnerName(coname);
-						commentList.add(c);
+					s = s.makePOJOFromBSON(snippetObj);
+					if(s.getSnippetText().contains(snippet))
+					{
+						BasicDBList dbComments = (BasicDBList) snippetObj.get("comments");
+						for (int j = 0; j < dbComments.size(); j++) {
+							c = new Comment();
+							DBObject commentObj = (BasicDBObject) dbComments
+									.get(j);
+							String cid = commentObj.get("commentId").toString();
+							String ctext = commentObj.get("text").toString();
+							String coid = commentObj.get("ownerId").toString();
+							String coname = commentObj.get("ownerName")
+									.toString();
+							c.setCommentId(cid);
+							c.setText(ctext);
+							c.setOwnerId(coid);
+							c.setOwnerName(coname);
+							commentList.add(c);
+						}
+						String snippetId = snippetObj.get("snippetId")
+								.toString();
+						String snippetName = snippetObj.get("snippetName")
+								.toString();
+						String snippetText = snippetObj.get("snippetText")
+								.toString();
+						s.setSnippetName(snippetName);
+						s.setOwnerId(snippetId);
+						s.setSnippetText(snippetText);
+						s.setComments(commentList);
+						snippetList.add(s);
 					}
-					String snippetId = snippetObj.get("snippetId").toString();
-					String snippetName = snippetObj.get("snippetName")
-							.toString();
-					String snippetText = snippetObj.get("snippetText")
-							.toString();
-					s.setSnippetName(snippetName);
-					s.setOwnerId(snippetId);
-					s.setSnippetText(snippetText);
-					s.setComments(commentList);
-					snippetList.add(s);
 				}
 			}
 			return snippetList;
@@ -81,7 +87,8 @@ public class SearchHandler {
 			DBCollection board = MongoFactory.getConnection().getCollection(
 					"Board");
 			BasicDBObject query = new BasicDBObject();
-			Pattern pattern = Pattern.compile(".*" + boards + ".*");
+			Pattern pattern = Pattern.compile(".*" + boards + ".*",
+					Pattern.CASE_INSENSITIVE);
 			query.put("Name", pattern);
 			DBCursor docs = board.find(query);
 			while (docs.hasNext()) {
@@ -111,7 +118,8 @@ public class SearchHandler {
 			DBCollection board = MongoFactory.getConnection().getCollection(
 					"User");
 			BasicDBObject query = new BasicDBObject();
-			Pattern pattern = Pattern.compile(".*" + users + ".*");
+			Pattern pattern = Pattern.compile(".*" + users + ".*",
+					Pattern.CASE_INSENSITIVE);
 			System.out.println(pattern);
 			query.put("email", pattern);
 			DBCursor docs = board.find(query);

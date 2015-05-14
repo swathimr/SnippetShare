@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,8 +36,9 @@ public class SearchController {
 	List<Snippet> snippetList;
 	List<User> userList;
 	
-	@RequestMapping(value = "/searchPage", method = RequestMethod.GET)
-	public String searchPage() {
+	@RequestMapping(value = "/searchPage/{userId}", method = RequestMethod.GET)
+	public String searchPage(@PathVariable("userId") String userId, Model model) {
+		model.addAttribute("userId",userId);
 		return "SearchPage";
 	}
 		
@@ -55,9 +58,9 @@ public class SearchController {
 		return "SearchSnippetsPage";
 	}
 
-	@RequestMapping(value = "/searchBoards", method = RequestMethod.GET)
+	@RequestMapping(value = "/searchBoards/{userId}", method = RequestMethod.GET)
 	public String searchBoards(Model model,
-			@RequestParam(value = "board") String search) throws Exception {
+			@RequestParam(value = "board") String search, @PathVariable("userId") String userId) throws Exception {
 		SearchHandler searchhandler = new SearchHandler();
 		ArrayList<Board> boardList = searchhandler.searchBoards(search);
 		if (boardList == null) {
@@ -65,6 +68,7 @@ public class SearchController {
 		} 
 		System.out.println("Board List" + boardList.get(0).getBoardName());
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("userId", userId);
 		return "SearchBoardsPage";
 	}
 
