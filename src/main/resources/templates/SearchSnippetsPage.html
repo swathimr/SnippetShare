@@ -89,28 +89,32 @@
 		<h3>
 			<strong>Your Searched Snippets : </strong>
 		</h3>
-		<hr style="border-top: 1px solid darkgrey" />
-		<div class="row">
-			<tr th:each="entry : ${snippetList}">
-				<details style="border-style: dashed; border-color: DarkGrey">
-					&emsp;
-					<summary style="margin-left: 1%; padding-top: 1%">
-						<strong><span
-							th:text="'Snippet Name   :   ' +${entry.snippetName}" /></strong> <span>
-						</span><br />
-					</summary>
-					<p th:text="'Snippet Text  : '+${entry.snippetText}"
-						class="col-md-9" style="margin-left: 2%;" />
-					<strong>&nbsp;Comments </strong>
-					<p th:each="comment: ${entry.comments}" >
-						&emsp; <span
-							th:text="${comment.ownerName} +' : '  +${comment.text}" />
-					</p>
-					<br/>
-				</details>
-				<hr />
-			</tr>
+		<div class="col-xs-1"></div>
+		<div class="col-xs-10">
+			<hr style="border-top: 1px solid darkgrey" />
+			<div class="row">
+				<tr th:each="entry : ${snippetList}">
+					<details style="border-style: dashed; border-color: DarkGrey">
+						&emsp;
+						<summary style="margin-left: 1%; padding-top: 1%;">
+							<strong><span
+								th:text="'Snippet Name   :   ' +${entry.snippetName}" /></strong> <span>
+							</span><br />
+						</summary>
+						<p th:text="'Snippet Text  : '+${entry.snippetText}"
+							class="col-md-9" style="margin-left: 2%; margin-top: 2%;" />
+						<strong>&nbsp;Comments </strong>
+						<p th:each="comment: ${entry.comments}">
+							&emsp; <span
+								th:text="${comment.ownerName} +' : '  +${comment.text}" />
+						</p>
+						<br />
+					</details>
+					<hr />
+				</tr>
+			</div>
 		</div>
+		<div class="col-xs-1"></div>
 	</div>
 
 	<!-- end of  row -->
