@@ -43,7 +43,7 @@ public class SearchHandler {
 					DBObject snippetObj = (BasicDBObject) dbSnippets
 							.get(i);
 					s = s.makePOJOFromBSON(snippetObj);
-					if(s.getSnippetText().contains(snippet))
+					if(s.getSnippetText().toLowerCase().contains(snippet.toLowerCase()))
 					{
 						BasicDBList dbComments = (BasicDBList) snippetObj.get("comments");
 						for (int j = 0; j < dbComments.size(); j++) {
