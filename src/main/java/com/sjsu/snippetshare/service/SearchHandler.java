@@ -27,30 +27,34 @@ public class SearchHandler {
 	ArrayList<Board> boardList = new ArrayList<Board>();
 	public ArrayList searchSnippets(String snippet) {
 		try {
-			c = new Comment();
 			DBCollection board = MongoFactory.getConnection().getCollection(
 					"Board");
 			BasicDBObject query = new BasicDBObject();
 			Pattern pattern = Pattern.compile(".*" + snippet + ".*");
 			query.put("snippets.snippetText", pattern);
 			DBCursor docs = board.find(query);
-			System.out.println(docs);
+			System.out.println(docs.toString());
 			while (docs.hasNext()) {
 				a = docs.next();
 				BasicDBList dbSnippets = (BasicDBList) a.get("snippets");
 				for (int i = 0; i < dbSnippets.size(); i++) {
 					s = new Snippet();
-					BasicDBObject snippetObj = (BasicDBObject) dbSnippets
+					DBObject snippetObj = (BasicDBObject) dbSnippets
 							.get(i);
 					BasicDBList dbComments = (BasicDBList) snippetObj
 							.get("comments");
 					for (int j = 0; j < dbComments.size(); j++) {
-						BasicDBObject commentObj = (BasicDBObject) dbComments
+						c = new Comment();
+						DBObject commentObj = (BasicDBObject) dbComments
 								.get(j);
+						String cid = commentObj.get("commentId").toString();
 						String ctext = commentObj.get("text").toString();
-						String coid = commentObj.get("owner_id").toString();
+						String coid = commentObj.get("ownerId").toString();
+						String coname = commentObj.get("ownerName").toString();
+						c.setCommentId(cid);
 						c.setText(ctext);
 						c.setOwnerId(coid);
+						c.setOwnerName(coname);
 						commentList.add(c);
 					}
 					String snippetId = snippetObj.get("snippetId").toString();
