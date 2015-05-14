@@ -139,8 +139,14 @@
                 <summary style="margin-left:1%;padding-top:1%">
                     <strong><span
                             th:text="'Snippet Name   :   ' +${entry.snippetName}"/></strong> <span>
-						</span><br/>
+						</span><br/><br/>
+                    <div class="row">
                         <p th:text="'Snippet Text  : '+${entry.snippetText}" class="col-md-9" style="margin-left:2%;"/>
+                        <button type="submit" class="btn btn-link" style="color:black;"
+                                onclick="getEmailValues(this);" th:value="${entry.snippetText}">
+                            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                        </button>
+                        </div>
                 </summary>
 
                 <strong>&nbsp;Comments </strong>
