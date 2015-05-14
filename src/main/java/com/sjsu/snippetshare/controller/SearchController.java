@@ -43,8 +43,8 @@ public class SearchController {
 	}
 		
 
-	@RequestMapping(value = "/searchSnippets", method = RequestMethod.GET)
-	public String searchSnippets(Model model, @RequestParam(value = "snippet") String search) {
+	@RequestMapping(value = "/searchSnippets/{userId}", method = RequestMethod.GET)
+	public String searchSnippets(Model model, @PathVariable ("userId") String userId, @RequestParam(value = "snippet") String search) {
 		
 		SearchHandler searchhandler = new SearchHandler();
 		ArrayList<Snippet> snippetList = searchhandler.searchSnippets(search);
@@ -55,6 +55,7 @@ public class SearchController {
 		for (int i = 0; i < snippetList.size(); i++) {
 			System.out.println(snippetList.get(i).toString());
 		}
+		model.addAttribute("userId", userId);
 		return "SearchSnippetsPage";
 	}
 
@@ -72,16 +73,17 @@ public class SearchController {
 		return "SearchBoardsPage";
 	}
 
-	@RequestMapping(value = "/searchUsers", method = RequestMethod.GET)
-	public String searchUsers(Model model,
+	@RequestMapping(value = "/searchUsers/{userId}", method = RequestMethod.GET)
+	public String searchUsers(Model model, @PathVariable ("userId") String userId,
 			@RequestParam(value = "user") String search) throws Exception {
 		SearchHandler searchhandler = new SearchHandler();
 		ArrayList<User> userList = searchhandler.searchUsers(search);
 		if (userList == null) {
 			userList = new ArrayList<User>();
 		}
-		System.out.println("User List" + userList.get(0).getName());
+		System.out.println("User List");
 		model.addAttribute("userList", userList);
+		model.addAttribute("userId", userId);
 		return "SearchUsersPage";
 	}
 }
