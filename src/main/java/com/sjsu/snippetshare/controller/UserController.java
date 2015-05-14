@@ -21,13 +21,13 @@ public class UserController {
 
 	DBCollection coll;
 	BasicDBObject doc;
-	UserHandler userHndlr;
+	UserHandler userHndlr = new UserHandler();
 
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	public String loginUser(@ModelAttribute User user,RedirectAttributes redirectAttribute) throws UnknownHostException
 	{
 		System.out.println("yup in here"+user.getEmail());
-		userHndlr= new UserHandler();
+
 		boolean userVal=userHndlr.checkIfUserExists(user);
 		if(userVal)
 		{
@@ -46,7 +46,6 @@ public class UserController {
 	public String loginFbUser(User user,RedirectAttributes redirectAttribute) throws UnknownHostException
 	{
 		System.out.println("yup in here"+user.getEmail()+"FB name is:::"+user.getName()+user.getPassword());
-		userHndlr= new UserHandler();
 		boolean userVal=userHndlr.checkIfUserExists(user);
 		if(userVal)
 		{
@@ -66,7 +65,6 @@ public class UserController {
 	@RequestMapping(value="/signup",method=RequestMethod.POST)
 	public String createUser(@ModelAttribute User user,RedirectAttributes redirectAttribute) throws UnknownHostException
 	{
-		userHndlr= new UserHandler();
 		boolean userVal=userHndlr.checkIfUserExists(user);
 		if(!userVal)
 		{
@@ -79,7 +77,6 @@ public class UserController {
 
 	@RequestMapping(value = "/settings/{userId}", method=RequestMethod.GET)
 	public String settings(@PathVariable ("userId") String userId, Model model) throws UnknownHostException {
-		userHndlr= new UserHandler();
 		User user = userHndlr.getUser(userId);
 		model.addAttribute("user", user);
 		model.addAttribute("updateUser", new User());
@@ -88,7 +85,6 @@ public class UserController {
 
 	@RequestMapping(value = "/update/{userId}", method = RequestMethod.POST)
 	public String updateUser(@PathVariable ("userId") String userId, @ModelAttribute User updateUser, Model model) throws UnknownHostException {
-		userHndlr= new UserHandler();
 		User user = userHndlr.updateUser(userId, updateUser);
 		model.addAttribute("user", user);
 		model.addAttribute("updateUser", new User());
