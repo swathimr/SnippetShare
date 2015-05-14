@@ -9,6 +9,7 @@ import com.sjsu.snippetshare.aspect.Authorize;
 import com.sjsu.snippetshare.domain.*;
 import com.sjsu.snippetshare.service.BoardHandler;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -136,7 +137,7 @@ public class Snippetcontroller {
 
 
     @RequestMapping(value = "/sendEmail",method = RequestMethod.POST)
-    public String getSnippet(Email email) throws UnsupportedEncodingException{
+    public String getSnippet(com.sjsu.snippetshare.domain.Email email) throws UnsupportedEncodingException{
         String userId=email.getUserId();
         String boardId=email.getBoardId();
         System.out.println("Got snippet hereeeeeeeee::" + email.getSnippetText() + "and email id is::"+email.getEmailId());

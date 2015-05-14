@@ -304,13 +304,9 @@
         boardId = split[0];
         snippetId = split[1];
         userId = split[2];
-        alert("board:::" + boardId + "snippetid:::" + snippetId
-        + "useridd:::" + userId);
         document.getElementById("deleteSnippetForm").action = "/deleteSnippet/"
                 + boardId + '/' + snippetId + '/' + userId;
         console.log("action"
-        + document.getElementById("deleteSnippetForm").action);
-        alert("action"
         + document.getElementById("deleteSnippetForm").action);
         console.log("action"
         + document.getElementById("deleteSnippetForm").action);
