@@ -22,11 +22,7 @@ public class CommentsHandlerTest {
 
     @Test
     public void testGetComment() throws Exception {
-        CommentsHandler commentsHandler = new CommentsHandler();
-        String boardId = "55491bd2b8747d2e080befae";
-        String snippetId = "1";
-        String commentId = "5549ca5f77c8621d2842be9d";
-        commentsHandler.deleteComment(boardId, snippetId, commentId);
+
     }
 
     @Test
@@ -36,7 +32,11 @@ public class CommentsHandlerTest {
 
     @Test
     public void testDeleteComment() throws Exception {
-
+        CommentsHandler commentsHandler = new CommentsHandler();
+        String boardId = "55491bd2b8747d2e080befae";
+        String snippetId = "1";
+        String commentId = "5549ca5f77c8621d2842be9d";
+        commentsHandler.deleteComment(boardId, snippetId, commentId);
     }
 
     @Test
